@@ -316,13 +316,10 @@ button:active {
 #globalHome div div{
   background-color: #e8e6e6 !important;
   border: 1px solid #bdbdbd !important;
-  transform: translateY(0);
   box-shadow: 0 4px 15px rgba(31, 38, 135, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 #globalHome > div,
 #globalHome div div:hover{
-transform: translateY(-5px);
 box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
 }
 .ranged{
