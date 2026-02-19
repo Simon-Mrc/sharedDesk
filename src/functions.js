@@ -1,7 +1,7 @@
 // Will i need to import fs too ?
 //
 //
-
+let array = [];
 export async function initiate(section){
     // OMG First desk creation here
     let desk = document.createElement(`div`);
@@ -76,7 +76,8 @@ export async function createNew(section){
     await quiteSlideLeft(section);
     globalHome.appendChild(desk);
     await slideRight(desk);
-    desk.id = section.id + "1";   
+    desk.id = section.id + "1";
+    return desk;   
 };
 
 // All of functions under this are for animations purpose. Probably need some adjustement tho
@@ -106,12 +107,18 @@ export function quiteSlideLeft(element){
             // ranged there is forcing section to only take little place
             element.classList.add(`ranged`);
             element.classList.remove(`section-exit-minimal`);
+            if(element.classList.contains(`desk-column-large`)){
+                element.classList.remove(`desk-column-large`);
+            }
             resolve();
         }, {once : true})
     })
 }
 export function slideRight(element){
     resetClass(element);
+    if(element.style.display==`none`){
+        element.display=``;
+    }
     return new Promise((resolve)=>{
         element.classList.add(`section-enter`);
         element.addEventListener(`animationend`, ()=>{
@@ -189,13 +196,18 @@ export async function newFolder(x,y,section){
 
     // Need to work on this part. If already been double click you have to retrieve the right div and not create one
     // Probably give a dynamic id to desk and write it somewhere in container property to be able to retrieve it ?
-    container.addEventListener("doubleClick",async ()=>{
-        if(a.classList.includes("exist")){
+    container.addEventListener("dblclick",async ()=>{
+        if(container.dataset.index){
             await quiteSlideLeft(section);
-            await slideRight(````````````);
+            array[container.dataset.index].style.display=``;
+            console.log(array);
+            await slideRight(array[container.dataset.index]);
+            console.log(array);
         }
         else{
-            createNew(section);
+            let newDesk = await createNew(section)
+            array.push(newDesk);
+            container.dataset.index = array.length-1; 
         };  
         }
     )

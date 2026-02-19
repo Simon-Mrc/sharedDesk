@@ -142,8 +142,8 @@ body {
 
 /* Large column class - takes 95% of flex row */
 .desk-column-large {
-  flex: 0 0 99% !important;
-  width: 99% !important;
+  flex: 0 0 90% !important;
+  width: 90% !important;
 }
 .desk-column-small {
   flex: 0 1 auto !important;
