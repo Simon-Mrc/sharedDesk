@@ -29,5 +29,3 @@ quite.addEventListener("click", async ()=>{
  await usable.quiteSlideLeft(displayed);
 });
 
-// Example: You can call this function on a button click
-// Create a button in your HTML and add: onclick="toggleSideBar()"

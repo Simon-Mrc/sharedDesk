@@ -23,3 +23,5 @@ function createFolder{
     push object in json
     
 } 
+
+# frst to do is create file to start.

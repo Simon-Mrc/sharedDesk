@@ -118,24 +118,26 @@ body {
     transform-origin: left;
   }
 }
-
+.exist{
+  opacity: 0.5;
+}
 /* Animation classes */
 .section-exit {
-  animation: slideOutLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .section-enter {
-  animation: slideInLeft 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: slideInLeft 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .section-exit-minimal {
-  animation: slideOutLeftMinimal 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: slideOutLeftMinimal 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   max-width: 2rem !important;
   overflow: hidden;
 }
 
 .section-enter-minimal {
-  animation: slideInLeftMinimal 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: slideInLeftMinimal 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* Large column class - takes 95% of flex row */
@@ -356,7 +358,97 @@ box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
   flex: 1;
   margin: 0;
 }
+/* Icon/item wrapper */
+.icon {
+  position: absolute;
+  display: inline-block; /* Minimal container */
+  transform: translate(-50%, -50%);
+  text-align: center;
+  cursor: pointer;
+}
 
+.icon img {
+  width: 48px;
+  height: 48px;
+  display: block;
+  margin: 0 auto 4px auto;
+}
+
+.icon-label {
+  font-size: 11px;
+  color: #333;
+  display: block;
+  white-space: nowrap;
+}
+
+.icon:hover {
+  transform: translate(-50%, -50%) translateY(-5px); /* Keep centering + hover effect */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+}
+
+/* Image styling */
+.icon img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  display: block; /* Removes inline spacing */
+}
+
+.icon:hover img {
+  transform: scale(1.1);
+}
+
+/* Label/text styling (if you add labels later) */
+.icon-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  word-break: break-word;
+  max-width: 100%;
+}
+.context-menu {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 8px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  
+  /* Remove fixed width - let content decide */
+  width: max-content; /* Auto-fits to button content */
+  min-width: 120px; /* Optional: minimum width */
+  
+  /* Position from top-left corner of click */
+  transform: none; /* No centering transform */
+}
+
+.context-menu-btn {
+  background: transparent;
+  border: none;
+  padding: 10px 16px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  transition: background 0.2s ease;
+  white-space: nowrap; /* Prevents text wrapping */
+  width: 100%; /* Fills container width */
+}
+
+.context-menu-btn:hover {
+  background: #f0f0f0;
+}
+
+.context-menu-btn:active {
+  background: #e0e0e0;
+}
 /* MOBILE STYLING */
 @media (max-width: 768px) {
   body {
