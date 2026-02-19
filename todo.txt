@@ -1,0 +1,25 @@
+function rightClick(){
+    lance choice(){
+
+    return choiceAction}
+
+    createfolder(){
+
+    }
+}
+function createFolder{
+    name(){
+        return name;
+    }
+    getPosition(){
+        return position;
+    }
+    fill object{
+        name : 
+        position : 
+        image :
+    }
+    appenchild object
+    push object in json
+    
+} 
