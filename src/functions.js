@@ -1,3 +1,4 @@
+import { showNamePrompt } from './namePrompt.js';
 // Will i need to import fs too ?
 //
 //
@@ -134,38 +135,47 @@ export function slideRight(element){
 
 // Creation functions for files and folders 
 
-export function newFile(x,y,section){
+export async function newFile(x,y,section){
     // Used to force container to have right style properties to allow positionning on click
     if (section.style.position !== 'relative' && section.style.position !== 'absolute') {
         section.style.position = 'relative';
     }
     section.style.overflow = 'hidden';
     
-    // Box building for image and label
-    let container = document.createElement('div');
-    container.classList.add('icon');
-    container.style.left = x + 'px';
-    container.style.top = y + 'px';
-    
-    // Image getting taken here
-    let img = document.createElement('img');
-    img.src = "../pictures/file.png";
-    
-    // Label : need to add a prompt there
-    let label = document.createElement('span');
-    label.classList.add('icon-label');
-    label.textContent = "labelText";
-    
-    // Attaching img and label to box container
-    container.appendChild(img);
-    container.appendChild(label);
-
-    // Wtf s gonna happen if you double click a file ? Gettin rick rolled?
-    // Just kiding thinking about download option !
-    container.addEventListener("dblclick",()=>{
+    try{
+        let labelName =  await showNamePrompt(x,y,section,"file");
+        if (labelName){
+            // Box building for image and label
+            let container = document.createElement('div');
+            container.classList.add('icon');
+            container.style.left = x + 'px';
+            container.style.top = y + 'px';
+            
+            // Image getting taken here
+            let img = document.createElement('img');
+            img.src = "../pictures/file.png";
+            
+            // Label : need to add a prompt there
+            let label = document.createElement('span');
+            label.classList.add('icon-label');
+            label.textContent = labelName;
+            
+            // Attaching img and label to box container
+            container.appendChild(img);
+            container.appendChild(label);
         
-    })
-    section.appendChild(container);
+            // Wtf s gonna happen if you double click a file ? Gettin rick rolled?
+            // Just kiding thinking about download option !
+            container.addEventListener("dblclick",()=>{
+                
+            })
+            section.appendChild(container);
+
+        }
+
+    }catch (error){
+
+    }
 };
 
 export async function newFolder(x,y,section){
@@ -174,45 +184,52 @@ export async function newFolder(x,y,section){
         section.style.position = 'relative';
     }
     section.style.overflow = 'hidden';
-   
-    // Box for image and label
-    let container = document.createElement('div');
-    container.classList.add('icon');
-    container.style.left = (x+2) + 'px';
-    container.style.top = (y+2) + 'px';
-    
-    // Image for file 
-    let img = document.createElement('img');
-    img.src = "../pictures/folder.jpg";
-    
-    // Label thats gonna be displayed need to work on it
-    let label = document.createElement('span');
-    label.classList.add('icon-label');
-    label.textContent = "labelText";
-    
-    // Attached img and label to container wich is right-positionned
-    container.appendChild(img);
-    container.appendChild(label);
+    try{
+        let folderName = await showNamePrompt(x,y,section,"folder");
+        if (folderName){
+            let container = document.createElement('div');
+            container.classList.add('icon');
+            container.style.left = (x+2) + 'px';
+            container.style.top = (y+2) + 'px';
+            
+            // Image for file 
+            let img = document.createElement('img');
+            img.src = "../pictures/folder.jpg";
+            
+            // Label thats gonna be displayed need to work on it
+            let label = document.createElement('span');
+            label.classList.add('icon-label');
+            label.textContent = folderName;
+            
+            // Attached img and label to container wich is right-positionned
+            container.appendChild(img);
+            container.appendChild(label);
+        
+            // Need to work on this part. If already been double click you have to retrieve the right div and not create one
+            // Probably give a dynamic id to desk and write it somewhere in container property to be able to retrieve it ?
+            container.addEventListener("dblclick",async ()=>{
+                if(container.dataset.index){
+                    await quiteSlideLeft(section);
+                    array[container.dataset.index].style.display=``;
+                    console.log(array);
+                    await slideRight(array[container.dataset.index]);
+                    console.log(array);
+                }
+                else{
+                    let newDesk = await createNew(section)
+                    array.push(newDesk);
+                    container.dataset.index = array.length-1; 
+                };  
+                }
+            )
+            //Final linking the box created to current desk
+            section.appendChild(container);
 
-    // Need to work on this part. If already been double click you have to retrieve the right div and not create one
-    // Probably give a dynamic id to desk and write it somewhere in container property to be able to retrieve it ?
-    container.addEventListener("dblclick",async ()=>{
-        if(container.dataset.index){
-            await quiteSlideLeft(section);
-            array[container.dataset.index].style.display=``;
-            console.log(array);
-            await slideRight(array[container.dataset.index]);
-            console.log(array);
         }
-        else{
-            let newDesk = await createNew(section)
-            array.push(newDesk);
-            container.dataset.index = array.length-1; 
-        };  
-        }
-    )
-    //Final linking the box created to current desk
-    section.appendChild(container);
+    }catch{
+
+    }
+    // Box for image and label
 };
 
 
