@@ -1,0 +1,318 @@
+:root {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: #2c3e50;
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  background-color: #fafafa;
+  color: #2c3e50;
+}
+
+/* Large column class - takes 95% of flex row */
+.desk-column-large {
+  flex: 0 0 90% !important;
+  width: 90% !important;
+}
+.desk-column-small {
+  flex: 0 1 auto !important;
+  width: auto !important;
+  min-width: 0;
+}
+
+/* SIDEBAR STYLING */
+#sideBar {
+  background-color: #ffffff;
+  border: 2px solid #5b7ae5;
+  border-right: 3px solid #5b7ae5;
+  overflow-y: auto;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 10vw;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 12px rgba(91, 122, 229, 0.15);
+  margin: 0;
+}
+
+#sideBar::-webkit-scrollbar {
+  width: 6px;
+}
+
+#sideBar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#sideBar::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border-radius: 3px;
+}
+
+#sideBar::-webkit-scrollbar-thumb:hover {
+  background: #b0b0b0;
+}
+
+#sideBar.expanded {
+  width: 30vw;
+}
+
+#account {
+  padding: 16px;
+  margin: 8px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+
+#desksSide {
+  padding: 16px;
+  margin: 8px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  flex: 1;
+  overflow-y: auto;
+}
+
+#moreStuff {
+  padding: 16px;
+  margin: 8px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+
+/* CENTER DISPLAY STYLING */
+#centerDisplayed {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: #ecebeb;
+  position: relative;
+  margin: 12px;
+  border-radius: 8px;
+  border: 2px solid #e8e8e8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+#centerDisplayed::-webkit-scrollbar {
+  width: 8px;
+}
+
+#centerDisplayed::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#centerDisplayed::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border-radius: 4px;
+}
+
+#centerDisplayed::-webkit-scrollbar-thumb:hover {
+  background: #b0b0b0;
+}
+
+/* Apply style to all children and descendants of centerDisplayed (except form elements) */
+#centerDisplayed > div,
+#centerDisplayed div div {
+  padding: 12px;
+  margin: 2px;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+#settings {
+  padding: 24px;
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  margin: 0;
+}
+
+#globalHome {
+  padding: 24px;
+  background-color: #eeeded;
+  flex: 1;
+  overflow-y:hidden;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  margin: 0;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+#globalHome > div,
+#globalHome div div{
+  background-color: #e9e8e8 !important;
+  border: 1px solid #bdbdbd !important;
+  box-shadow: 0 4px 15px rgba(31, 38, 135, 0.2);
+}
+#globalHome > div,
+#globalHome div div:hover{
+box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
+}
+.ranged{
+  padding: 0px !important;
+  max-width: 2rem !important;
+}
+
+#moreStuffDisplayed {
+  padding: 24px;
+  background-color: #ffffff;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  margin: 0;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Icon/item wrapper */
+
+/* MOBILE STYLING */
+@media (max-width: 768px) {
+  body {
+    flex-direction: row;
+  }
+
+  /* Initially shows in corner on mobile */
+  #sideBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 10vw;
+    height: 100vh;
+    z-index: 100;
+    background-color: #ffffff;
+    border: 2px solid #5b7ae5;
+    box-shadow: 2px 0 12px rgba(91, 122, 229, 0.15);
+    margin: 0;
+  }
+
+  /* When expanded on mobile, takes 70% */
+  #sideBar.expanded {
+    width: 70vw;
+  }
+
+  #centerDisplayed {
+    position: fixed;
+    left: 10vw;
+    top: 0;
+    width: calc(100vw - 10vw);
+    height: 100vh;
+    margin-left: 0;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  #sideBar.expanded ~ #centerDisplayed {
+    left: 70vw;
+    width: calc(100vw - 70vw);
+  }
+
+  #settings {
+    padding: 16px;
+    margin: 0;
+  }
+
+  #globalHome {
+    padding: 16px;
+    margin: 0;
+  }
+
+  #moreStuffDisplayed {
+    padding: 16px;
+    margin: 0;
+  }
+
+  #account, #desksSide, #moreStuff {
+    margin: 4px;
+  }
+}
+
+/* Excalidraw-like visual refinements */
+input, textarea, select {
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+  color: #2c3e50;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #5b7ae5;
+  box-shadow: 0 0 0 3px rgba(91, 122, 229, 0.1);
+}
+
+input::placeholder {
+  color: #a0a0a0;
+}
+
+/* Scrollbar styling for all elements */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b0b0b0;
+}

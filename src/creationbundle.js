@@ -1,4 +1,5 @@
-import { showNamePrompt } from './namePrompt.js';
+import { showNamePrompt, textNeeded } from './namePrompt.js';
+import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateUsers,addContentAndUpdate } from './helperFunctions.js';
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
 import { initiate,createNew } from './functions.js';
 let array = [];

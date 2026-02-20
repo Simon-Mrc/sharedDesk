@@ -1,0 +1,35 @@
+user = {
+    name : ,
+    userName : ,
+    id : ,
+    accountType : ,
+    mail : ,
+    password : ,
+    accountSetting : {
+        need more thinking about that
+    }
+}
+
+desks = {
+    id : ,
+    ownerId : ,
+    accessUserId : ,
+    modifyUserId : ,
+    urlLink : ,
+    accessPassword : ,
+    content : [array filled with paths to recreate environment]
+}
+// desks.content need to be work on thinking about online service
+// recreate environment cannot really be recreated if there is file to download in ?
+
+object{
+    id : ,
+    deskid : ,
+}
+// maybe if files to download is stored i can load them into environment everytime user tries to access chosen desks.id 
+
+// so what i m thinking is i m gonna manually create some of these (3 of each)
+// then i ll implement function like check if you have permission before create a new folder
+// using things like JSON.parse(user1).id for example.
+
+// Am i thinking it the right way ? or did i completly misunderstood what u meant by learning localStorage concept and use
