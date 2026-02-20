@@ -41,3 +41,7 @@ export function addContentAndUpdate(item){
     }
     updateDesks(desks);
 }
+
+// export function currentUserId(){
+//     let userId = getCurrentUser().id;
+// }

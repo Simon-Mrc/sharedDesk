@@ -3,7 +3,7 @@ import './style/animations.css';
 import './style/buttons.css';
 import './style/containers.css';
 import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateUsers,addContentAndUpdate } from './helperFunctions.js';
-import { fakeUsers, desks, loadMockData } from './mock.js';
+import { users, desks, loadMockData } from './mock.js';
 import {localStorageStoreTest, localStorageGetTest} from './localStorageTest.js';
 import { showNamePrompt,textNeeded } from './namePrompt.js';
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
@@ -39,14 +39,21 @@ const displayed = document.getElementById(`test`);
 const buttonExpand = document.getElementById(`btnDesks`);
 const quite = document.getElementById(`quite`);
 buttonExpand.addEventListener("click", ()=>{
-  localStorageStoreTest();
+  let users = JSON.parse(localStorage.getItem("users"));
+  let currentUser = users[0];
+  localStorage.setItem("currentUser",JSON.stringify(currentUser));
 });
 const buttonShrink = document.getElementById(`btnSettings`);
-buttonShrink.addEventListener("click", ()=>{
-  localStorageGetTest();
+buttonShrink.addEventListener("click", ()=>{ 
+  let users = JSON.parse(localStorage.getItem("users"));
+  let currentUser = users[1];
+  localStorage.setItem("currentUser",JSON.stringify(currentUser));
 });
 
 quite.addEventListener("click", ()=>{
+  let users = JSON.parse(localStorage.getItem("users"));
+  let currentUser = users[2];
+  localStorage.setItem("currentUser",JSON.stringify(currentUser));
 
 });
 

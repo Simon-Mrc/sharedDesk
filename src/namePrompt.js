@@ -177,3 +177,72 @@ return new Promise((resolve, reject) => {
     }, 0);
 });
 }
+
+export function passingInfo(question,section){  
+    return new Promise((resolve, reject) => {
+        const existingPrompt = section.querySelector('.name-prompt');
+        if (existingPrompt) {
+            existingPrompt.remove();
+        }
+    
+        let prompt = document.createElement('div');
+        prompt.classList.add('name-prompt');
+        prompt.style.left = '50%';
+        prompt.style.top = '50%';
+        prompt.style.transform = 'translate(-50%, -50%)';
+    
+        let title = document.createElement('div');
+        title.classList.add('prompt-title');
+        title.textContent = question;
+        
+        let buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('prompt-buttons');
+        
+        let createBtn = document.createElement('button');
+        createBtn.classList.add('prompt-btn', 'prompt-btn-create');
+        createBtn.textContent = 'got it';
+        
+        let cancelBtn = document.createElement('button');
+        cancelBtn.classList.add('prompt-btn', 'prompt-btn-cancel');
+        cancelBtn.textContent = 'wanna get RickRolled?';
+        
+        buttonContainer.appendChild(createBtn);
+        buttonContainer.appendChild(cancelBtn);
+        
+        prompt.appendChild(title);
+        prompt.appendChild(buttonContainer);
+        
+        section.appendChild(prompt);
+        // Create button handler - use resolve() instead of callback()
+        createBtn.addEventListener('click', () => {
+            prompt.remove();
+                resolve(); // ← Changed from callback(name)
+            } );
+        // Enter key handler
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                createBtn.click();
+                prompt.remove();
+            }
+        });
+        
+        // Escape key handler
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                prompt.remove();
+                reject('cancelled'); // ← Added reject
+            }
+        });
+        
+        // Close on outside click
+        setTimeout(() => {
+            document.addEventListener('click', function closePrompt(e) {
+                if (!prompt.contains(e.target)) {
+                    prompt.remove();
+                    reject('cancelled'); // ← Added reject
+                    document.removeEventListener('click', closePrompt);
+                }
+            });
+        }, 0);
+    });
+    }

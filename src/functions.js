@@ -1,4 +1,4 @@
-import { showNamePrompt,textNeeded } from './namePrompt.js';
+import { showNamePrompt,textNeeded,passingInfo } from './namePrompt.js';
 import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateUsers,addContentAndUpdate } from './helperFunctions.js';
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
 import { newFile, newFolder,showContextMenu } from './creationbundle.js';
@@ -46,7 +46,7 @@ export async function initiate(section){
             localStorage.setItem("currentDesk", JSON.stringify(currentDesk));
         }
         else{
-
+            await passingInfo("Already picked that name =D", section);
         }
 
     }catch(error){

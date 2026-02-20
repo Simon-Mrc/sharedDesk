@@ -2,7 +2,7 @@
 // FAKE USERS (EXPORT!)
 // ============================================
 
-export const fakeUsers = [
+export const users = [
     {
         name: "Simon Mrc",
         userName: "simon_mrc",
@@ -74,7 +74,7 @@ export const desks = [
 
 // store those data !
 export function loadMockData(){
-    localStorage.setItem("users", JSON.stringify(fakeUsers));
+    localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("desks", JSON.stringify(desks));
-    localStorage.setItem("currentUser", JSON.stringify(fakeUsers[0]));
+    localStorage.setItem("currentUser", JSON.stringify(users[0]));
 }
