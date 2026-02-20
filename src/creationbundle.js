@@ -1,5 +1,5 @@
 import { passingInfo, showNamePrompt, textNeeded } from './namePrompt.js';
-import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateUsers,addContentAndUpdate } from './helperFunctions.js';
+import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateUsers,addContentAndUpdate, createFolder, createFile } from './helperFunctions.js';
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
 import { initiate,createNew } from './functions.js';
 let array = [];
@@ -38,12 +38,16 @@ export async function newFile(x,y,section){
                 container.addEventListener("dblclick",()=>{
                     
                 })
+                let file = createFile(getCurrentUser(),labelName,getCurrentDesk(),x,y);
+                console.log("testing");
+                container.addEventListener("contextmenu",()=>{
+                    // openOption(container);                    
+                })
                 section.appendChild(container);
-    
-            }
-    
-        }catch (error){
-    
+                addContentAndUpdate(file);
+                return container;    
+            }  
+        }catch (error){   
         }
     }
     else{
@@ -95,14 +99,18 @@ export async function newFolder(x,y,section){
                     };  
                     }
                 )
+                let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);
+                console.log("testing");
+                container.addEventListener("contextmenu",()=>{
+                    // openOption(folder);                    
+                })
                 //Final linking the box created to current desk
                 section.appendChild(container);
-    
+                addContentAndUpdate(folder);
+                return folder;    
             }
-        }catch{
-    
+        }catch{    
         }
-        // Box for image and label
     }
     else{
         passingInfo("You don t have permission boy", section);
@@ -117,7 +125,6 @@ export function showContextMenu(x, y, section) {
     if (existingMenu) {
         existingMenu.remove();
     }
-
     // Box creation for button .Starting to repeat myself. 
     // Almost thinking about building a function for creation of html object .JK
     let menu = document.createElement('div');

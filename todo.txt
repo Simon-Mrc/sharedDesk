@@ -6,8 +6,6 @@
 
 // Start work on side bar for account setting options and so on
 
-// Clean up css : separate in 2 or 3 css files ?
-
 // add event listener for right click on existing element :
         - Rename
         - Copy/past
@@ -22,5 +20,3 @@
 // Investigate zip folder download
 
 // Investigate on how to set up an online environement
-
-// Clean up functions.js so that functions have separate files organisation.

@@ -11,7 +11,41 @@ export function createDesk(currentUserid, chosenName, idNumber){
         content: []  // EMPTY
     }
 };
-
+export function createFile(currentUser, chosenName, currentDesk,x,y){
+    return {
+        id: "icon-002",
+        deskId: currentDesk.id,
+        name: chosenName,
+        type: "file",
+        x: x,
+        y: y,
+        accessUserId: [currentUser.id],                      
+        modifyUserId: [currentUser.id],          
+        urlLink: null,
+        accessPassword: null,
+        createdBy: currentUser.id,
+        creatorColor: "#FF5733",
+        fileData: null,
+    }
+};
+export function createFolder(currentUser, chosenName, currentDesk,x,y){
+    console.log('Creating folder:', chosenName, 'for user:', currentUser.id);
+    return {
+            id: "icon-001",
+            deskId: currentDesk.id,
+            name: chosenName,
+            type: "folder",
+            x: x,
+            y: y,
+            accessUserId: [currentUser.id],                      
+            modifyUserId: [currentUser.id],            
+            urlLink: null,
+            accessPassword: null,
+            createdBy: currentUser.id,
+            creatorColor: "#FF5733",
+            children: []  // Empty folder for now
+    }
+};
 export function getCurrentUser(){
     let currentUser = JSON.parse(localStorage.getItem("currentUser"));
     return currentUser;
@@ -33,7 +67,7 @@ export function updateUsers(item){
 export function addContentAndUpdate(item){
     let currentDesk = getCurrentDesk()
     currentDesk.content.push(item);
-    let desks=getAllDesk();
+    let desks=getAllDesks();
     for(let i = 0 ; i < desks.length ; i = i + 1){
         if (desks[i].id == currentDesk.id){
             desks[i] = currentDesk;
@@ -45,3 +79,5 @@ export function addContentAndUpdate(item){
 // export function currentUserId(){
 //     let userId = getCurrentUser().id;
 // }
+
+// export function openOption()

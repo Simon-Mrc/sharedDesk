@@ -10,7 +10,7 @@ import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.j
 import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { initiate,createNew } from './functions.js';
 
-// loadMockData();
+loadMockData();
 // Creation of container for all that s gonna be displayed. Receptacle
 // for first appenchild(desk)
 const globalHome = document.getElementById(`globalHome`);
