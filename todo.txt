@@ -1,27 +1,26 @@
-function rightClick(){
-    lance choice(){
+// add set data for :
+        - path
+        - usernamr
+        - type
+        - 
 
-    return choiceAction}
+// Start work on side bar for account setting options and so on
 
-    createfolder(){
+// Clean up css : separate in 2 or 3 css files ?
 
-    }
-}
-function createFolder{
-    name(){
-        return name;
-    }
-    getPosition(){
-        return position;
-    }
-    fill object{
-        name : 
-        position : 
-        image :
-    }
-    appenchild object
-    push object in json
-    
-} 
+// add event listener for right click on existing element :
+        - Rename
+        - Copy/past
+        - duplicate
+        - erase
+    use function openOption(element);
 
-# frst to do is create file to start.
+// add color based shadow display for different user in case of shared desk 
+
+// add function to load a environement set from generated Json file.
+
+// Investigate zip folder download
+
+// Investigate on how to set up an online environement
+
+// Clean up functions.js so that functions have separate files organisation.
