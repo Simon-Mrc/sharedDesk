@@ -22,3 +22,4 @@ A collaborative workspace manager built with vanilla JavaScript.
 npm install
 npm run dev
 ```
+plz read comments so i don t feel so empty when writing these
