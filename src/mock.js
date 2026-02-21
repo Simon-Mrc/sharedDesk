@@ -253,6 +253,7 @@ export const desks = [
 // Ok now for the fun part. Stringify, then Store, then get it back and parse
 
 // store those data !
+// used at start of pnpm dev to have a set up everytime
 export function loadMockData(){
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("desks", JSON.stringify(desks));

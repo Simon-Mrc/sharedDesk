@@ -5,14 +5,15 @@ import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 
 //
 export async function initiate(section){
-    try{
+    try{ // always think about user experience here
+        // Obvioulsy need the data so we await lazy user to choose name
         let nameChosen = await textNeeded("choose a name for your environment", "Enter a name", section);
         // OMG First desk creation here
         let desk = document.createElement(`div`);
         
         // Need to add listener for right click on every desk creation !
         desk.addEventListener('contextmenu', function(event) {
-            event.preventDefault();
+            event.preventDefault(); // computer interpretating rightclick
             const elementX = event.offsetX;
             const elementY = event.offsetY;
             showContextMenu(elementX,elementY,desk);
@@ -24,7 +25,7 @@ export async function initiate(section){
         // displayed or not it s gonna be usefull for json creation later.
         // there is environment creation . going through all created desk to see if id matches
         let deskid = currentUser.id + '-' + nameChosen;
-        let allDesk = getAllDesks();
+        let allDesk = getAllDesks(); // get all desks from localStorage to check if ID match
         let check = 0 ;
         for (let i = 0 ; i < allDesk.length ; i = i+1){
             if(allDesk[i].id == deskid){
@@ -45,12 +46,13 @@ export async function initiate(section){
             allDesk.push(currentDesk);
             updateDesks(allDesk);
             localStorage.setItem("currentDesk", JSON.stringify(currentDesk)); //updating currentDesk
+            //Must have wrote this before creating some help function i think
         }
-        else{
+        else{ // Lazy user is also not so smart one it seems
             await passingInfo("Already picked that name =D", section);
         }
 
-    }catch(error){
+    }catch(error){ //USERRRRRR
         console.log("unexpected issue");
     }
 };
@@ -64,18 +66,19 @@ export async function createNew(section){
     // button there is needed . Need to work on css tho
     let goBack = document.createElement('button');
     goBack.classList.add('back-button');
-    goBack.innerHTML = `
+    // Yeah it s gross but it s really not interesting creating this from scratch honestly
+    goBack.innerHTML = ` 
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="19" y1="12" x2="5" y2="12"></line>
             <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
     `;
-    goBack.title = "Go Back"; // Tooltip on hover
+    goBack.title = "Go Back"; // GO BACK I SAID
     
     goBack.addEventListener("click",async ()=>{
         await quiteSlideLeft(desk);
         desk.style.display = `none`;
-        await slideRight(section);
+        await slideRight(section); // So nice set up animations
     });
     
     // Each created desk need to have this addEvent add at creation
@@ -95,6 +98,6 @@ export async function createNew(section){
     await quiteSlideLeft(section);
     globalHome.appendChild(desk);
     await slideRight(desk);
-    return desk;   
+    return desk; // In case i ll need it !  
 };
 

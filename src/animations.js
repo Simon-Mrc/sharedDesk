@@ -1,12 +1,13 @@
 
-
-export function resetClass(sectionName){
+// Honestly this was so painfull to set up so it displays nicely
+// Manipulating css class with awefull !important everywhere. Don t go look that up plz
+export function resetClass(sectionName){ //speak for itself tho
     if(sectionName.className != undefined){
         sectionName.className=``;
     }
 }
 export function slideLeft(element) {
-    return new Promise((resolve) => {
+    return new Promise((resolve) => {// want to be able to wait for resolve when called
         resetClass(element);      
         element.classList.add('section-exit');
         element.addEventListener('animationend', () => {
@@ -36,7 +37,7 @@ export function slideRight(element){
     if(element.style.display==`none`){
         element.display=``;
     }
-    return new Promise((resolve)=>{
+    return new Promise((resolve)=>{ //so i ll be able to await for it to end. that s why promise is needed
         element.classList.add(`section-enter`);
         element.addEventListener(`animationend`, ()=>{
             // use is for forcing last one displayed to take 95% of container space 
@@ -45,6 +46,6 @@ export function slideRight(element){
             element.classList.add(`desk-column-large`);
             element.classList.remove(`section-enter`);
             resolve();
-        }, {once : true})
+        }, {once : true}) // if i don t put this my element would keep eventlistener on animationend
     })
 }

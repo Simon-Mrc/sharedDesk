@@ -6,6 +6,7 @@ import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.j
 import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { initiate,createNew } from './functions.js';
 
+// Got lazy building menus. but not enough to build this.
 export function menuWithNButtons(n){
 
-}
+} 

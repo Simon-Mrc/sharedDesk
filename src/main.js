@@ -47,6 +47,7 @@ initiateButton.addEventListener("click", ()=>{
 
 // Those were for testing purposes. Keeping it for now out of pity for them
 // To be fair they really helped me adjust the animations 
+// They now let you choose from different user to test permissions ! feels nice
 const displayed = document.getElementById(`test`);
 const buttonExpand = document.getElementById(`btnDesks`);
 const quite = document.getElementById(`quite`);

@@ -1,18 +1,18 @@
-export function showNamePrompt(x, y, section, type = "file") {
-    // Remove the 'callback' parameter and return a Promise instead
-    return new Promise((resolve, reject) => {
+export function showNamePrompt(x, y, section, type = "file") { // Ok lets go put comment on this !
+    return new Promise((resolve, reject) => { // you want to be able to w8 for it
+        // and you want the script to pause until resolve fullfills
         const existingPrompt = section.querySelector('.name-prompt');
         if (existingPrompt) {
             existingPrompt.remove();
-        }
+        } // Weird case where one exists already. Security mostly doesn t hurt to check
 
         let prompt = document.createElement('div');
         prompt.classList.add('name-prompt');
         prompt.style.left = x + 'px';
-        prompt.style.top = y + 'px';
+        prompt.style.top = y + 'px'; // Slightly off for user experience
 
         let title = document.createElement('div');
-        title.classList.add('prompt-title');
+        title.classList.add('prompt-title'); // Nice emoji right ?
         title.textContent = type === "file" ? "📄 New File" : "📁 New Folder";
         
         let input = document.createElement('input');
@@ -42,15 +42,14 @@ export function showNamePrompt(x, y, section, type = "file") {
         section.appendChild(prompt);
         input.focus();
         
-        // Create button handler - use resolve() instead of callback()
         createBtn.addEventListener('click', () => {
             let name = input.value.trim();
             if (name) {
-                prompt.remove();
-                resolve(name); // ← Changed from callback(name)
+                prompt.remove();//plz
+                resolve(name); //promise remember ??
             } else {
                 input.classList.add('prompt-input-error');
-                setTimeout(() => input.classList.remove('prompt-input-error'), 500);
+                setTimeout(() => input.classList.remove('prompt-input-error'), 500);//design purpose
             }
         });
         
@@ -60,22 +59,22 @@ export function showNamePrompt(x, y, section, type = "file") {
             reject('cancelled'); // ← Added reject
         });
         
-        // Enter key handler
+        // U can press enter
         input.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                createBtn.click();
+                createBtn.click(); //addEventListener triggers here !
             }
         });
         
-        // Escape key handler
+        // u can press escape
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 prompt.remove();
-                reject('cancelled'); // ← Added reject
+                reject('cancelled'); //promise remember ?
             }
         });
         
-        // Close on outside click
+        // Same sht next time an event occurs this will take effect. User experience QL
         setTimeout(() => {
             document.addEventListener('click', function closePrompt(e) {
                 if (!prompt.contains(e.target)) {
@@ -84,11 +83,11 @@ export function showNamePrompt(x, y, section, type = "file") {
                     document.removeEventListener('click', closePrompt);
                 }
             });
-        }, 0);
+        }, 0);//0 set the time it ll take place. 1000 = 1s; 2000=2s ; 0 = .... next event here is the click
     });
 }
 
-export function textNeeded(question,placeholder,section){  
+export function textNeeded(question,placeholder,section){  //almost same sht here not gonna comment sorry ! 
 return new Promise((resolve, reject) => {
     const existingPrompt = section.querySelector('.name-prompt');
     if (existingPrompt) {
@@ -132,45 +131,40 @@ return new Promise((resolve, reject) => {
     section.appendChild(prompt);
     input.focus();
     
-    // Create button handler - use resolve() instead of callback()
     createBtn.addEventListener('click', () => {
         let name = input.value.trim();
         if (name) {
             prompt.remove();
-            resolve(name); // ← Changed from callback(name)
+            resolve(name); 
         } else {
             input.classList.add('prompt-input-error');
             setTimeout(() => input.classList.remove('prompt-input-error'), 500);
         }
     });
     
-    // Cancel button handler - use reject()
     cancelBtn.addEventListener('click', () => {
         prompt.remove();
-        reject('cancelled'); // ← Added reject
+        reject('cancelled'); 
     });
     
-    // Enter key handler
     input.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             createBtn.click();
         }
     });
     
-    // Escape key handler
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             prompt.remove();
-            reject('cancelled'); // ← Added reject
+            reject('cancelled'); 
         }
     });
     
-    // Close on outside click
     setTimeout(() => {
         document.addEventListener('click', function closePrompt(e) {
             if (!prompt.contains(e.target)) {
                 prompt.remove();
-                reject('cancelled'); // ← Added reject
+                reject('cancelled'); 
                 document.removeEventListener('click', closePrompt);
             }
         });
@@ -178,7 +172,7 @@ return new Promise((resolve, reject) => {
 });
 }
 
-export function passingInfo(question,section){  
+export function passingInfo(question,section){  // Getting better at giving name
     return new Promise((resolve, reject) => {
         const existingPrompt = section.querySelector('.name-prompt');
         if (existingPrompt) {
@@ -213,12 +207,12 @@ export function passingInfo(question,section){
         prompt.appendChild(buttonContainer);
         
         section.appendChild(prompt);
-        // Create button handler - use resolve() instead of callback()
+
         createBtn.addEventListener('click', () => {
             prompt.remove();
-                resolve(); // ← Changed from callback(name)
+                resolve(); 
             } );
-        // Enter key handler
+
         input.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 createBtn.click();
@@ -226,23 +220,25 @@ export function passingInfo(question,section){
             }
         });
         
-        // Escape key handler
+
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 prompt.remove();
-                reject('cancelled'); // ← Added reject
+                reject('cancelled'); 
             }
         });
         
-        // Close on outside click
+
         setTimeout(() => {
             document.addEventListener('click', function closePrompt(e) {
                 if (!prompt.contains(e.target)) {
                     prompt.remove();
-                    reject('cancelled'); // ← Added reject
+                    reject('cancelled'); 
                     document.removeEventListener('click', closePrompt);
                 }
             });
         }, 0);
     });
     }
+
+    // End of copy/past hell and typos searching nightmare!

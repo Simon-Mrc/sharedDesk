@@ -5,9 +5,10 @@ addScreenAndUpdate,
 updateCurrentDeskInDesks} from './helperFunctions.js';
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
 import { initiate,createNew } from './functions.js';
+
+// Scope is a pain hopefully localstorage exist. Too lazy to change it to manage changes.
 let array = [];
-export async function newFile(x,y,section){
-    
+export async function newFile(x,y,section){ //Actually async probably not needed there !    
     if(getCurrentDesk().modifyUserId.includes(getCurrentUser().id)){
         // Used to force container to have right style properties to allow positionning on click
         if (section.style.position !== 'relative' && section.style.position !== 'absolute') {
@@ -53,22 +54,20 @@ export async function newFile(x,y,section){
 
                 // OMG if it works I AM A FREAKING GENIOUS. This is for saving file data into folder he s beeen created into !
                 section.appendChild(container);
-                let checkCondition=0;
-                
-                if(!section.dataset.id){
-                    
-                    addContentAndUpdate(file);
+                let checkCondition=0; //Useless not deleting it tho What u gonna do about that              
+                if(!section.dataset.id){// if section doesnt have dataset.id it means it doesn t came from a folder                  
+                    addContentAndUpdate(file); // So it the main desk basically
                 }
-                else{
-                    
-                    for(let i = 0 ; i < getCurrentDesk().content.length; i = i + 1){
-                        
+                else{// i have to match to witch folder it came from
+                    // They have the same unique id (giver to folder at creation and given to section)
+                    // via folder on creation 
+                    for(let i = 0 ; i < getCurrentDesk().content.length; i = i + 1){ // looping through durrentdeskcontent
                         if(getCurrentDesk().content[i].id ==  section.dataset.id){
-                            
-                            let currentDeck = getCurrentDesk()
-                            currentDeck.content[i].children.push(file);
-                            updateCurrentDesk(currentDeck);
-                            updateCurrentDeskInDesks(currentDeck);    
+                            //found the match !!
+                            let currentDeck = getCurrentDesk() // get current desk
+                            currentDeck.content[i].children.push(file);//update it with file inside right folder
+                            updateCurrentDesk(currentDeck);//save current deck in local storage
+                            updateCurrentDeskInDesks(currentDeck);//save updated desk in all desks data     
                         }
                     }
                 }
@@ -79,21 +78,21 @@ export async function newFile(x,y,section){
         }
     }
     else{
-        passingInfo("You don t have permission boy", section);
+        passingInfo("You don t have permission boy", section);//DENIED
     }
 };
 
-export async function newFolder(x,y,section){
-    if(getCurrentDesk().modifyUserId.includes(getCurrentUser().id)){
+export async function newFolder(x,y,section){// many wait needed
+    if(getCurrentDesk().modifyUserId.includes(getCurrentUser().id)){// do you have the right bro ?
 
         // Used to force container to have right style properties to allow positionning on click
         if (section.style.position !== 'relative' && section.style.position !== 'absolute') {
             section.style.position = 'relative';
         }
         section.style.overflow = 'hidden';
-        try{
+        try{//obvioulsy awaiting there because you need data to follow script flow
             let folderName = await showNamePrompt(x,y,section,"folder");
-            if (folderName){
+            if (folderName){// in cas something went wrong in shownameprompt fuction
                 let container = document.createElement('div');
                 container.classList.add('icon');
                 container.style.left = (x+2) + 'px';
@@ -116,27 +115,27 @@ export async function newFolder(x,y,section){
                 // Probably give a dynamic id to desk and write it somewhere in container property to be able to retrieve it ?
                 container.addEventListener("dblclick",async ()=>{
                     let securityCheck = 0;
-                    if (folder.accessPassword){
-                        let pswrd = await textNeeded('what is the password?','Try to guess mthfckr',section);
+                // Little trick there ! i can use folder here before creation. I could have put it before but i find it fun to leeave it there.
+                    if (folder.accessPassword){ 
+                        let pswrd = await textNeeded('what is the password?','Try to guess mthfckr',section);//await really needed there
                         if(pswrd === folder.accessPassword){
-                            passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen
-                        }
+                            passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen still not solved tho
+                        }                                        // to lazy to create a specific display function just for this
                         else{
                             passingInfo('u re out buddy',section);
-                            securityCheck = 1;
+                            securityCheck = 1; // security check is locked in 
                         }
                     }
-                    if(securityCheck === 0){
-
-                        if(container.dataset.index){
-                            await quiteSlideLeft(section);
-                            array[container.dataset.index].style.display=``;
-                            await slideRight(array[container.dataset.index]);
+                    if(securityCheck === 0){// U can come in my man ! Just choosin what i ll display you there
+                    // array is full of div representing all my created screen displayed
+                        if(container.dataset.index){ // i stored dataset in container representing folder
+                            await quiteSlideLeft(section);// then i just linked it to a specific index in DOM array
+                            array[container.dataset.index].style.display=``; // Big brain thinking there
+                            await slideRight(array[container.dataset.index]); // Await everywhere for smooth animations
                         }
                         else{
-
-                            let newDesk = await createNew(section);
-                            newDesk.dataset.id = folder.id;
+                            let newDesk = await createNew(section);// await needed there because i need result in later script
+                            newDesk.dataset.id = folder.id; // starting from here actually 
                             addScreenAndUpdate({id : folder.id})
                             array.push(newDesk);
                             container.dataset.index = array.length-1; 
@@ -144,24 +143,23 @@ export async function newFolder(x,y,section){
                     }
                     }
                 )
-                let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);
-                
-                container.addEventListener("contextmenu",async (e)=>{
-                    e.preventDefault();
-                    e.stopPropagation();
-                    await openOption(folder,section,label,container);
-
+                //Amazing to see that i can create folder element here. So beautiful
+                let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);          
+                container.addEventListener("contextmenu",/*async*/ (e)=>{
+                    e.preventDefault(); // rightclicking interprated by computer
+                    e.stopPropagation();// rightclicking interpretader elsewhere from container
+                    /*await*/ openOption(folder,section,label,container); //async and await obviously not needed but i like the colours so considering keeping it
                 })
                 //Final linking the box created to current desk
                 section.appendChild(container);
                 addContentAndUpdate(folder);
-                return folder;    
+                return folder; // Always return something right ! well obviously this one s gonna be usefull 
             }
-        }catch{    
+        }catch{ // Nice user experience
         console.log('gonna fix it later. i ve got much more to do u know')}
     }
     else{
-        passingInfo("You don t have permission boy", section);
+        passingInfo("You don t have permission boy", section); //DENIED
     }
 };
 
@@ -185,7 +183,7 @@ export function showContextMenu(x, y, section) {
     button1.classList.add('context-menu-btn');
     button1.textContent = 'New File';
     button1.addEventListener('click', () => {      
-        newFile(x, y, section);
+        newFile(x, y, section); // no await here because you want menu to be removed instantly
         menu.remove(); // plz don t forget that line .... 
     });
     
@@ -194,7 +192,7 @@ export function showContextMenu(x, y, section) {
     button2.classList.add('context-menu-btn'); // All these freaking css class currently going mad manipulated these.
     button2.textContent = 'New Folder';
     button2.addEventListener('click', () => {   
-        newFolder(x,y,section);
+        newFolder(x,y,section);// no await here because you want menu to be removed instantly
         menu.remove(); // You really don t want to forget this one
     });
     
@@ -207,8 +205,11 @@ export function showContextMenu(x, y, section) {
     // Didn t happen to me obviously tho . certainly not lost an hour of my life consoleloggin everything on this.
     section.appendChild(menu);
     
-    // Really need to investigate this part because it obviously works fine
-    // But i don t fully understand why yet.
+    // SOOOO follow script flow. if i don t put this at the end script will interpret
+    // my click simultanously with content appearing. So disapear immediatly
+    // that s why you set timeout. 0 means script will take effect at the next 
+    // event (in our case clicking)
+    // Again nice user experience
     setTimeout(() => {
         document.addEventListener('click', function closeMenu(e) {
             if (!menu.contains(e.target)) {

@@ -1,13 +1,12 @@
 import { textNeeded } from "./namePrompt";
-
+//those functions speak for themselves
 export function createDesk(currentUserid, chosenName, idNumber){
-    console.log('Creating desk:', chosenName, 'for user:', currentUserid);
     return {
         id: idNumber,
         name: chosenName,
         ownerId: currentUserid,
-        accessUserId: [currentUserid],                      // No one can view
-        modifyUserId: [currentUserid],            // Only Bob can edit
+        accessUserId: [currentUserid],                      
+        modifyUserId: [currentUserid],            
         urlLink: null,
         accessPassword: null,
         content: []  // EMPTY
@@ -15,9 +14,9 @@ export function createDesk(currentUserid, chosenName, idNumber){
 };
 export function createFile(currentUser, chosenName, currentDesk,x,y){
     return {
-        id: Date.now(),
-        deskId: currentDesk.id,
-        name: chosenName,
+        id: Date.now(), // So smart OMG. i started with currentDesk.content.lenght
+        deskId: currentDesk.id,//felt like a genious
+        name: chosenName,// until i deleted a file and had mental breakdown
         type: "file",
         x: x,
         y: y,
@@ -33,10 +32,10 @@ export function createFile(currentUser, chosenName, currentDesk,x,y){
 export function createFolder(currentUser, chosenName, currentDesk,x,y){
     console.log('Creating folder:', chosenName, 'for user:', currentUser.id);
     return {
-            id: Date.now(),
+            id: Date.now(),//same story as files
             deskId: currentDesk.id,
             name: chosenName,
-            type: "folder",
+            type: "folder",//You don t say ??
             x: x,
             y: y,
             accessUserId: [currentUser.id],                      
@@ -45,9 +44,12 @@ export function createFolder(currentUser, chosenName, currentDesk,x,y){
             accessPassword: null,
             createdBy: currentUser.id,
             creatorColor: "#FF5733",
-            children: []  // Empty folder for now 
+            children: []  // This one was hard to solve tho !
     }
 };
+
+// LOOK AT ALL THOSE JSON UPDATE AND GET BUNDLE
+// maybe redundant ones. lazy ass me wrote function without checking if existing
 export function getCurrentUser(){
     let currentUser = JSON.parse(localStorage.getItem("currentUser"));
     return currentUser;
@@ -64,6 +66,7 @@ export function getAllDesks(){
     let allDesk = JSON.parse(localStorage.getItem("desks"));
     return allDesk || [];
 }
+// THIS ONE ..... ISN T IT JUST currentDesk.content .... i wrote i keeep !
 export function getAllItemCurrentDesk(){
     let allItem = [];
     for(let i = 0 ; i< getCurrentDesk().content.length ; i = i + 1){
@@ -137,6 +140,7 @@ export function updateCurrentDeskInDesks(item){ // could be usefull ?
     }
     updateDesks(desks);
 }
+//This one is usefull !!! Used to be able to replace my array const !
 export function addScreenAndUpdate(screen){
     let screens = JSON.parse(localStorage.getItem('screens'));
     screens.push(screen);
@@ -179,9 +183,12 @@ export function openOption(object, section,label,container){
         buttonContainer.appendChild(cancelBtn);
         optionMenu.appendChild(buttonContainer);
         section.appendChild(optionMenu);
-        renameBtn.addEventListener('click', async (e) => {
+        //BORING PART ENDS
+        // LITTLE MORE INTERESTING HERE
+        renameBtn.addEventListener('click', async (e) => {// Obviously gonna need to wait
+            // Gotta admit textNeeded isn t great naming but IDC
               try{ let name = await textNeeded("choose a new name","choose a new name",section);
-                if (name) {
+                if (name) { //change name function and update in LS
                     optionMenu.remove();
                     object.name = name;
                     label.textContent = name;
@@ -190,15 +197,16 @@ export function openOption(object, section,label,container){
                     modifyContentAndUpdate(object);
                     resolve(name); 
                 }
-             else {
+             else {//Stupid user not even able to pick a name
                 input.classList.add('prompt-input-error');
                 setTimeout(() => input.classList.remove('prompt-input-error'), 500);
             }}catch{
-                reject();
+                reject();//And don t come back
             };
         })
+
         setPasswordBtn.addEventListener('click', async (e)=>{
-            try{
+            try{ //i ll stop commentary there you got the idea
                 let newPsw = await textNeeded("Set a password", "Don t be genereic", section);
                 object.accessPassword = newPsw;
                 modifyContentAndUpdate(object);
