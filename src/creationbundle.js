@@ -46,7 +46,7 @@ export async function newFile(x,y,section){
                 let file = createFile(getCurrentUser(),labelName,getCurrentDesk(),x,y);
                 
                 container.addEventListener("contextmenu",async(e)=>{
-                    e.preventDefault(); // ✅ Prevent browser menu!
+                    e.preventDefault(); // Prevent browser menu!
                     e.stopPropagation();// Prevent interpretation of addevent listeners to current displayed screen.
                     await openOption(file,section,label,container);                    
                 })
@@ -119,10 +119,10 @@ export async function newFolder(x,y,section){
                     if (folder.accessPassword){
                         let pswrd = await textNeeded('what is the password?','Try to guess mthfckr',section);
                         if(pswrd === folder.accessPassword){
-                            passingInfo('u re in',section); // need to solve some issues with box stayin on screen 
+                            passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen
                         }
                         else{
-                            passingInfo('u re out',section);
+                            passingInfo('u re out buddy',section);
                             securityCheck = 1;
                         }
                     }
@@ -158,7 +158,7 @@ export async function newFolder(x,y,section){
                 return folder;    
             }
         }catch{    
-        }
+        console.log('gonna fix it later. i ve got much more to do u know')}
     }
     else{
         passingInfo("You don t have permission boy", section);

@@ -1,6 +1,6 @@
-// ============================================
-// FAKE USERS (EXPORT!)
-// ============================================
+// ===SO WELL BUILT THO================<3=========================
+// FAKE USERS (EXPORT!) NOTHING TO SEE THERE ! STAY TOO LONG AND GET RICKROLLED I VE WARNED YOU!!!
+// ======<3============OMG FAKE DATAS===================<3=======
 
 export const users = [
     {
@@ -61,11 +61,191 @@ export const desks = [
         id: "desk-003",
         name: "Bob's Private Workspace",
         ownerId: "user-003",
-        accessUserId: [],                      // No one can view
-        modifyUserId: ["user-003"],            // Only Bob can edit
+        accessUserId: ["user-003"],
+        modifyUserId: ["user-003"],
         urlLink: null,
         accessPassword: null,
-        content: []  // EMPTY
+        content: [
+            {
+                id: 1, name: "readme.txt", type: "file",
+                deskId: "desk-003", x: 100, y: 100,
+                accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                urlLink: null, accessPassword: null,
+                createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+            },
+            {
+                id: 2, name: "notes.txt", type: "file",
+                deskId: "desk-003", x: 200, y: 100,
+                accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                urlLink: null, accessPassword: null,
+                createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+            },
+            {
+                id: 3, name: "Projects", type: "folder",
+                deskId: "desk-003", x: 300, y: 100,
+                accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                urlLink: null, accessPassword: null,
+                createdBy: "user-003", creatorColor: "#FF5733",
+                children: [
+                    {
+                        id: 4, name: "overview.txt", type: "file",
+                        deskId: "desk-003", x: 100, y: 100,
+                        accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                        urlLink: null, accessPassword: null,
+                        createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+                    },
+                    {
+                        id: 5, name: "WebApp", type: "folder",
+                        deskId: "desk-003", x: 200, y: 100,
+                        accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                        urlLink: null, accessPassword: null,
+                        createdBy: "user-003", creatorColor: "#FF5733",
+                        children: [
+                            {
+                                id: 6, name: "index.html", type: "file",
+                                deskId: "desk-003", x: 100, y: 100,
+                                accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                urlLink: null, accessPassword: null,
+                                createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+                            },
+                            {
+                                id: 7, name: "style.css", type: "file",
+                                deskId: "desk-003", x: 200, y: 100,
+                                accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                urlLink: null, accessPassword: null,
+                                createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+                            },
+                            {
+                                id: 8, name: "Components", type: "folder",
+                                deskId: "desk-003", x: 300, y: 100,
+                                accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                urlLink: null, accessPassword: null,
+                                createdBy: "user-003", creatorColor: "#FF5733",
+                                children: [
+                                    {
+                                        id: 9, name: "header.js", type: "file",
+                                        deskId: "desk-003", x: 100, y: 100,
+                                        accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                        urlLink: null, accessPassword: null,
+                                        createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+                                    },
+                                    {
+                                        id: 10, name: "footer.js", type: "file",
+                                        deskId: "desk-003", x: 200, y: 100,
+                                        accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                        urlLink: null, accessPassword: null,
+                                        createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+                                    },
+                                    {
+                                        id: 11, name: "Buttons", type: "folder",
+                                        deskId: "desk-003", x: 300, y: 100,
+                                        accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                        urlLink: null, accessPassword: null,
+                                        createdBy: "user-003", creatorColor: "#FF5733",
+                                        children: [
+                                            {
+                                                id: 12, name: "primary.js", type: "file",
+                                                deskId: "desk-003", x: 100, y: 100,
+                                                accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                                urlLink: null, accessPassword: null,
+                                                createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+                                            },
+                                            {
+                                                id: 13, name: "Styles", type: "folder",
+                                                deskId: "desk-003", x: 200, y: 100,
+                                                accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                                urlLink: null, accessPassword: null,
+                                                createdBy: "user-003", creatorColor: "#FF5733",
+                                                children: [
+                                                    {
+                                                        id: 14, name: "colors.css", type: "file",
+                                                        deskId: "desk-003", x: 100, y: 100,
+                                                        accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                                        urlLink: null, accessPassword: null,
+                                                        createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+                                                    },
+                                                    {
+                                                        id: 15, name: "Themes", type: "folder",
+                                                        deskId: "desk-003", x: 200, y: 100,
+                                                        accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                                        urlLink: null, accessPassword: null,
+                                                        createdBy: "user-003", creatorColor: "#FF5733",
+                                                        children: [
+                                                            {
+                                                                id: 16, name: "dark.css", type: "file",
+                                                                deskId: "desk-003", x: 100, y: 100,
+                                                                accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                                                urlLink: null, accessPassword: null,
+                                                                createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+                                                            },
+                                                            {
+                                                                id: 17, name: "Variants", type: "folder",
+                                                                deskId: "desk-003", x: 200, y: 100,
+                                                                accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                                                urlLink: null, accessPassword: null,
+                                                                createdBy: "user-003", creatorColor: "#FF5733",
+                                                                children: [
+                                                                    {
+                                                                        id: 18, name: "light.css", type: "file",
+                                                                        deskId: "desk-003", x: 100, y: 100,
+                                                                        accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                                                        urlLink: null, accessPassword: null,
+                                                                        createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+                                                                    },
+                                                                    {
+                                                                        id: 19, name: "Overrides", type: "folder",
+                                                                        deskId: "desk-003", x: 200, y: 100,
+                                                                        accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                                                        urlLink: null, accessPassword: null,
+                                                                        createdBy: "user-003", creatorColor: "#FF5733",
+                                                                        children: [
+                                                                            {
+                                                                                id: 20, name: "custom.css", type: "file",
+                                                                                deskId: "desk-003", x: 100, y: 100,
+                                                                                accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                                                                urlLink: null, accessPassword: null,
+                                                                                createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+                                                                            },
+                                                                            {
+                                                                                id: 21, name: "Final", type: "folder",
+                                                                                deskId: "desk-003", x: 200, y: 100,
+                                                                                accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                                                                urlLink: null, accessPassword: null,
+                                                                                createdBy: "user-003", creatorColor: "#FF5733",
+                                                                                children: [
+                                                                                    {
+                                                                                        id: 22, name: "final.css", type: "file",
+                                                                                        deskId: "desk-003", x: 100, y: 100,
+                                                                                        accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                                                                        urlLink: null, accessPassword: null,
+                                                                                        createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+                                                                                    },
+                                                                                    {
+                                                                                        id: 23, name: "deepest.txt", type: "file",
+                                                                                        deskId: "desk-003", x: 200, y: 100,
+                                                                                        accessUserId: ["user-003"], modifyUserId: ["user-003"],
+                                                                                        urlLink: null, accessPassword: null,
+                                                                                        createdBy: "user-003", creatorColor: "#FF5733", fileData: null
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 ];
 
@@ -77,4 +257,5 @@ export function loadMockData(){
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("desks", JSON.stringify(desks));
     localStorage.setItem("currentUser", JSON.stringify(users[0]));
+    localStorage.setItem("currentDesk", JSON.stringify(desks[2]));
 }

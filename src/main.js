@@ -9,14 +9,24 @@ import { showNamePrompt,textNeeded } from './namePrompt.js';
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
 import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { initiate,createNew } from './functions.js';
+import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
 
+// Testing purpose ! don t look at desk 3 btw
 loadMockData();
+
+// Displaying all my shame. But it feels good.
+const treeBtn = document.getElementById('showTree');
+treeBtn.addEventListener('click', displayTree);
+
+
+// This can surely be optimized but i want it to be global scope ...
+// already took me too much brain cells and time to figure out how to manage data
 let screens = {id : 0};
 localStorage.setItem('screens', JSON.stringify(screens));
+
 // Creation of container for all that s gonna be displayed. Receptacle
 // for first appenchild(desk)
 const globalHome = document.getElementById(`globalHome`);
-
 
 // Function to toggle sidebar expansion, basically just css class changing function
 // nice animation tho
