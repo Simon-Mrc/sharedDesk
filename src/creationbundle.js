@@ -7,6 +7,7 @@ import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.j
 import { initiate,createNew } from './functions.js';
 let array = [];
 export async function newFile(x,y,section){
+    
     if(getCurrentDesk().modifyUserId.includes(getCurrentUser().id)){
         // Used to force container to have right style properties to allow positionning on click
         if (section.style.position !== 'relative' && section.style.position !== 'absolute') {
@@ -43,7 +44,7 @@ export async function newFile(x,y,section){
                     
                 })
                 let file = createFile(getCurrentUser(),labelName,getCurrentDesk(),x,y);
-                console.log("testing");
+                
                 container.addEventListener("contextmenu",async(e)=>{
                     e.preventDefault(); // ✅ Prevent browser menu!
                     e.stopPropagation();// Prevent interpretation of addevent listeners to current displayed screen.
@@ -52,17 +53,26 @@ export async function newFile(x,y,section){
 
                 // OMG if it works I AM A FREAKING GENIOUS. This is for saving file data into folder he s beeen created into !
                 section.appendChild(container);
-                for(i = 0 ; i < getCurrentDesk().content.length; i = i + 1){
-
-                    if(getCurrentDesk().content[i] ===  section.dataset.id){
-                        getCurrentDesk().content[i].children.push(file);
-                        updateCurrentDesk();
-                        updateCurrentDeskInDesks(getCurrentDesk());    
-                    }
-                    else{
-                        addContentAndUpdate(file);
+                let checkCondition=0;
+                
+                if(!section.dataset.id){
+                    
+                    addContentAndUpdate(file);
+                }
+                else{
+                    
+                    for(let i = 0 ; i < getCurrentDesk().content.length; i = i + 1){
+                        
+                        if(getCurrentDesk().content[i].id ==  section.dataset.id){
+                            
+                            let currentDeck = getCurrentDesk()
+                            currentDeck.content[i].children.push(file);
+                            updateCurrentDesk(currentDeck);
+                            updateCurrentDeskInDesks(currentDeck);    
+                        }
                     }
                 }
+                
                 return [container,label];    
             }  
         }catch (error){   
@@ -124,6 +134,7 @@ export async function newFolder(x,y,section){
                             await slideRight(array[container.dataset.index]);
                         }
                         else{
+
                             let newDesk = await createNew(section);
                             newDesk.dataset.id = folder.id;
                             addScreenAndUpdate({id : folder.id})
@@ -134,7 +145,7 @@ export async function newFolder(x,y,section){
                     }
                 )
                 let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);
-                console.log("testing");
+                
                 container.addEventListener("contextmenu",async (e)=>{
                     e.preventDefault();
                     e.stopPropagation();
