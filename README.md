@@ -15,10 +15,11 @@ A collaborative workspace manager built with vanilla JavaScript.
 - Vite
 
 ## Status
-🚧 Work in progress - Day 2 of development
+🚧 Work in progress - dev started on 18/02/2026 (french convention what u gonna do about it)
 
 ## Run Locally
 ```bash
 npm install
 npm run dev
 ```
+plz read comments so i don t feel so empty when writing these
