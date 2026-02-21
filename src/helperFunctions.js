@@ -137,6 +137,11 @@ export function updateCurrentDeskInDesks(item){ // could be usefull ?
     }
     updateDesks(desks);
 }
+export function addScreenAndUpdate(screen){
+    let screens = JSON.parse(localStorage.getItem('screens'));
+    screens.push(screen);
+    localStorage.setItem('screens',JSON.stringify(screens));
+}
 
 // speak for itself. Button creation there
 export function openOption(object, section,label,container){

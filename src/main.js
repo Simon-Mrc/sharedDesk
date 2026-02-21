@@ -11,6 +11,8 @@ import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { initiate,createNew } from './functions.js';
 
 loadMockData();
+let screens = {id : 0};
+localStorage.setItem('screens', JSON.stringify(screens));
 // Creation of container for all that s gonna be displayed. Receptacle
 // for first appenchild(desk)
 const globalHome = document.getElementById(`globalHome`);

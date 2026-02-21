@@ -1,6 +1,8 @@
 import { passingInfo, showNamePrompt, textNeeded } from './namePrompt.js';
 import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateUsers,
-addContentAndUpdate, createFolder, createFile, updateCurrentDesk, openOption } from './helperFunctions.js';
+addContentAndUpdate, createFolder, createFile, updateCurrentDesk, openOption, 
+addScreenAndUpdate,
+updateCurrentDeskInDesks} from './helperFunctions.js';
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
 import { initiate,createNew } from './functions.js';
 let array = [];
@@ -47,8 +49,20 @@ export async function newFile(x,y,section){
                     e.stopPropagation();// Prevent interpretation of addevent listeners to current displayed screen.
                     await openOption(file,section,label,container);                    
                 })
+
+                // OMG if it works I AM A FREAKING GENIOUS. This is for saving file data into folder he s beeen created into !
                 section.appendChild(container);
-                addContentAndUpdate(file);
+                for(i = 0 ; i < getCurrentDesk().content.length; i = i + 1){
+
+                    if(getCurrentDesk().content[i] ===  section.dataset.id){
+                        getCurrentDesk().content[i].children.push(file);
+                        updateCurrentDesk();
+                        updateCurrentDeskInDesks(getCurrentDesk());    
+                    }
+                    else{
+                        addContentAndUpdate(file);
+                    }
+                }
                 return [container,label];    
             }  
         }catch (error){   
@@ -110,7 +124,9 @@ export async function newFolder(x,y,section){
                             await slideRight(array[container.dataset.index]);
                         }
                         else{
-                            let newDesk = await createNew(section)
+                            let newDesk = await createNew(section);
+                            newDesk.dataset.id = folder.id;
+                            addScreenAndUpdate({id : folder.id})
                             array.push(newDesk);
                             container.dataset.index = array.length-1; 
                         };  
