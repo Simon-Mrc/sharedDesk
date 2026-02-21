@@ -61,3 +61,9 @@ then reinject into localstorage.
 
 function as password , rename, delete and so on are not hard to build with this kind of well structured archi
 not to brag tho but i feel proud for my first real project.
+
+
+FCK just noticed that tree doesn t get displayed the way i want it to be . But i swear it s structured as it should (like a computer)
+go look into localStorage.getItem('currentDesk') in browser console as you create your environnement ! i suggest you then parse it to a stringify this 
+with node or anything to have a better displayed and view on how it s done !
+will try to have this adjust by tomorrow !
