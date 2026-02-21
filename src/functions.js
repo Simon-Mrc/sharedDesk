@@ -22,6 +22,7 @@ export async function initiate(section){
         console.log(currentUser.id);
         // Need to add header on every desk 
         // displayed or not it s gonna be usefull for json creation later.
+        // there is environment creation . going through all created desk to see if id matches
         let deskid = currentUser.id + '-' + nameChosen;
         let allDesk = getAllDesks();
         let check = 0 ;
@@ -43,7 +44,7 @@ export async function initiate(section){
             await slideRight(desk);
             allDesk.push(currentDesk);
             updateDesks(allDesk);
-            localStorage.setItem("currentDesk", JSON.stringify(currentDesk));
+            localStorage.setItem("currentDesk", JSON.stringify(currentDesk)); //updating currentDesk
         }
         else{
             await passingInfo("Already picked that name =D", section);

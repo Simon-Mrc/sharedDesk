@@ -15,7 +15,7 @@ export function createDesk(currentUserid, chosenName, idNumber){
 };
 export function createFile(currentUser, chosenName, currentDesk,x,y){
     return {
-        id: "icon-002",
+        id: currentDesk.content.length,
         deskId: currentDesk.id,
         name: chosenName,
         type: "file",
@@ -33,7 +33,7 @@ export function createFile(currentUser, chosenName, currentDesk,x,y){
 export function createFolder(currentUser, chosenName, currentDesk,x,y){
     console.log('Creating folder:', chosenName, 'for user:', currentUser.id);
     return {
-            id: "icon-001",
+            id: currentDesk.content.length,
             deskId: currentDesk.id,
             name: chosenName,
             type: "folder",
@@ -45,12 +45,16 @@ export function createFolder(currentUser, chosenName, currentDesk,x,y){
             accessPassword: null,
             createdBy: currentUser.id,
             creatorColor: "#FF5733",
-            children: []  // Empty folder for now
+            children: []  // Empty folder for now 
     }
 };
 export function getCurrentUser(){
     let currentUser = JSON.parse(localStorage.getItem("currentUser"));
     return currentUser;
+};
+export function getAllUsers(){
+    let allUsers = JSON.parse(localStorage.getItem("users"));
+    return allUsers;
 };
 export function getCurrentDesk(){
     let currentDesk = JSON.parse(localStorage.getItem("currentDesk"));
@@ -59,6 +63,13 @@ export function getCurrentDesk(){
 export function getAllDesks(){
     let allDesk = JSON.parse(localStorage.getItem("desks"));
     return allDesk || [];
+}
+export function getAllItemCurrentDesk(){
+    let allItem = [];
+    for(let i = 0 ; i< getCurrentDesk().content.length ; i = i + 1){
+        allItem.push(getCurrentDesk().content[i]); 
+    } 
+    return allItem;
 }
 export function updateDesks(item){
     localStorage.setItem("desks",JSON.stringify(item));
@@ -69,9 +80,16 @@ export function updateCurrentDesk(item){
 export function updateUsers(item){
     localStorage.setItem("users",JSON.stringify(item));
 }
-export function addContentAndUpdate(item){
-    let currentDesk = getCurrentDesk()
-    currentDesk.content.push(item);
+export function updateCurrentUser(item){
+    localStorage.setItem('currentUser', JSON.stringify(item));
+}
+export function modifyContentAndUpdate(item){  // this one modify and update currentDesk in localStorage
+    let currentDesk = getCurrentDesk();
+    for(let i = 0 ; i < getAllItemCurrentDesk().length ; i = i + 1){
+        if(item.id == getAllItemCurrentDesk()[i].id){
+           currentDesk.content[i] = item;
+        }
+    }
     let desks=getAllDesks();
     for(let i = 0 ; i < desks.length ; i = i + 1){
         if (desks[i].id == currentDesk.id){
@@ -80,10 +98,37 @@ export function addContentAndUpdate(item){
     }
     updateDesks(desks);
     updateCurrentDesk(currentDesk);
+}
+export function addContentAndUpdate(item){ // Modify desks and currentdesk in LS
+    let currentDesk = getCurrentDesk()
+    if(item!=null){
+        currentDesk.content.push(item);
+    }
+    let desks=getAllDesks();
+    for(let i = 0 ; i < desks.length ; i = i + 1){
+        if (desks[i].id == currentDesk.id){
+            desks[i] = currentDesk;
+        }
+    }
+    updateDesks(desks);
+    updateCurrentDesk(currentDesk);
+}
+export function removeAndUpdate(item){
 
 }
+export function updateCurrentDeskInDesks(item){ // could be usefull ?
+    let desks=getAllDesks();
+    for(let i = 0 ; i < desks.length ; i = i + 1){
+        if (desks[i].id == item.id){
+            desks[i] = item;
+        }
+    }
+    updateDesks(desks);
+}
+
+// speak for itself. Button creation there
 export function openOption(object, section,label,container){
-    new Promise((resolve, reject) => {  
+    return new Promise((resolve, reject) => {  
         let optionMenu = document.createElement('div');
         optionMenu.classList.add('option-menu');
         optionMenu.style.position = 'absolute'
@@ -125,6 +170,7 @@ export function openOption(object, section,label,container){
                     label.textContent = name;
                     //update object.name in localStorage
                     // update currentDesk and desks in local Storage
+                    modifyContentAndUpdate(object);
                     resolve(name); 
                 }
              else {
@@ -138,7 +184,7 @@ export function openOption(object, section,label,container){
             try{
                 let newPsw = await textNeeded("Set a password", "Don t be genereic", section);
                 object.accessPassword = newPsw;
-                    // updates in local storage
+                modifyContentAndUpdate(object);
                 optionMenu.remove();
                 resolve();
             }catch{}
@@ -146,11 +192,11 @@ export function openOption(object, section,label,container){
         deleteBtn.addEventListener('click', ()=>{
             optionMenu.remove();
             container.remove();
-                //update in local storage                
+            modifyContentAndUpdate(object);     
             resolve();
         })
         cancelBtn.addEventListener('click', ()=>{
-            openOption.remove()
+            optionMenu.remove()
             resolve();
         })
         /////////////NEED TO ADD SETTING THERE !!//////////
@@ -164,8 +210,8 @@ export function openOption(object, section,label,container){
                     reject('cancelled'); // ← Added reject
                     document.removeEventListener('click', closeOptionMenu);
                 }
-            }, 0);
-        });
+            });
+        }, 0);
         });
     }
 
