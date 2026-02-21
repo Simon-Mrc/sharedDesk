@@ -1,18 +1,4 @@
-// add set data for :
-        - path
-        - usernamr
-        - type
-        - 
-
-// Start work on side bar for account setting options and so on
-
-// add event listener for right click on existing element :
-        - Rename
-        - Copy/past
-        - duplicate
-        - erase
-    use function openOption(element);
-
+// Start work on side bar for account setting options and so o
 // add color based shadow display for different user in case of shared desk 
 
 // add function to load a environement set from generated Json file.
