@@ -44,7 +44,7 @@ export async function newFile(x,y,section){
                 console.log("testing");
                 container.addEventListener("contextmenu",async(e)=>{
                     e.preventDefault(); // ✅ Prevent browser menu!
-                    e.stopPropagation();
+                    e.stopPropagation();// Prevent interpretation of addevent listeners to current displayed screen.
                     await openOption(file,section,label,container);                    
                 })
                 section.appendChild(container);
@@ -91,22 +91,39 @@ export async function newFolder(x,y,section){
                 // Need to work on this part. If already been double click you have to retrieve the right div and not create one
                 // Probably give a dynamic id to desk and write it somewhere in container property to be able to retrieve it ?
                 container.addEventListener("dblclick",async ()=>{
-                    if(container.dataset.index){
-                        await quiteSlideLeft(section);
-                        array[container.dataset.index].style.display=``;
-                        await slideRight(array[container.dataset.index]);
+                    let securityCheck = 0;
+                    if (folder.accessPassword){
+                        let pswrd = await textNeeded('what is the password?','Try to guess mthfckr',section);
+                        if(pswrd === folder.accessPassword){
+                            passingInfo('u re in',section); // need to solve some issues with box stayin on screen 
+                        }
+                        else{
+                            passingInfo('u re out',section);
+                            securityCheck = 1;
+                        }
                     }
-                    else{
-                        let newDesk = await createNew(section)
-                        array.push(newDesk);
-                        container.dataset.index = array.length-1; 
-                    };  
+                    if(securityCheck === 0){
+
+                        if(container.dataset.index){
+                            await quiteSlideLeft(section);
+                            array[container.dataset.index].style.display=``;
+                            await slideRight(array[container.dataset.index]);
+                        }
+                        else{
+                            let newDesk = await createNew(section)
+                            array.push(newDesk);
+                            container.dataset.index = array.length-1; 
+                        };  
+                    }
                     }
                 )
                 let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);
                 console.log("testing");
-                container.addEventListener("contextmenu",()=>{
-                    // openOption(folder);                    
+                container.addEventListener("contextmenu",async (e)=>{
+                    e.preventDefault();
+                    e.stopPropagation();
+                    await openOption(folder,section,label,container);
+
                 })
                 //Final linking the box created to current desk
                 section.appendChild(container);

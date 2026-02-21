@@ -132,23 +132,31 @@ export function openOption(object, section,label,container){
                 setTimeout(() => input.classList.remove('prompt-input-error'), 500);
             }}catch{
                 reject();
-            };})
-            setPasswordBtn.addEventListener('click', async (e)=>{
-                try{
-                    let newPsw = await textNeeded("Set a password", "Don t be genereic", section);
-                    object.accessPassword = newPsw;
+            };
+        })
+        setPasswordBtn.addEventListener('click', async (e)=>{
+            try{
+                let newPsw = await textNeeded("Set a password", "Don t be genereic", section);
+                object.accessPassword = newPsw;
                     // updates in local storage
-                    optionMenu.remove();
-                    resolve();
-                }catch{}
-            })
-            deleteBtn.addEventListener('click', ()=>{
                 optionMenu.remove();
-                container.remove();
-                //update in local storage
                 resolve();
-            })
-        });
+            }catch{}
+        })
+        deleteBtn.addEventListener('click', ()=>{
+            optionMenu.remove();
+            container.remove();
+                //update in local storage                
+            resolve();
+        })
+        cancelBtn.addEventListener('click', ()=>{
+            openOption.remove()
+            resolve();
+        })
+        /////////////NEED TO ADD SETTING THERE !!//////////
+        //////////// NEED TO ADD DUPLICATE //////////////////
+        //////////// LOVE CAPSLOCK ///////////////////:
+        ///////////WHERE IS THE NEXT RICKROLLED TRAP????/////////
         setTimeout(() => {
             document.addEventListener('click', function closeOptionMenu(e) {
                 if (!optionMenu.contains(e.target)) {
@@ -158,5 +166,7 @@ export function openOption(object, section,label,container){
                 }
             }, 0);
         });
+        });
     }
+
 
