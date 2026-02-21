@@ -15,7 +15,7 @@ export function createDesk(currentUserid, chosenName, idNumber){
 };
 export function createFile(currentUser, chosenName, currentDesk,x,y){
     return {
-        id: currentDesk.content.length,
+        id: Date.now(),
         deskId: currentDesk.id,
         name: chosenName,
         type: "file",
@@ -33,7 +33,7 @@ export function createFile(currentUser, chosenName, currentDesk,x,y){
 export function createFolder(currentUser, chosenName, currentDesk,x,y){
     console.log('Creating folder:', chosenName, 'for user:', currentUser.id);
     return {
-            id: currentDesk.content.length,
+            id: Date.now(),
             deskId: currentDesk.id,
             name: chosenName,
             type: "folder",
@@ -90,6 +90,18 @@ export function modifyContentAndUpdate(item){  // this one modify and update cur
            currentDesk.content[i] = item;
         }
     }
+    let desks=getAllDesks();
+    for(let i = 0 ; i < desks.length ; i = i + 1){
+        if (desks[i].id == currentDesk.id){
+            desks[i] = currentDesk;
+        }
+    }
+    updateDesks(desks);
+    updateCurrentDesk(currentDesk);
+}
+export function deleteContentAndUpdate(item){  // this one delete and update currentDesk in localStorage
+    let currentDesk = getCurrentDesk();
+    currentDesk.content = currentDesk.content.filter(h => h.id!=item.id);
     let desks=getAllDesks();
     for(let i = 0 ; i < desks.length ; i = i + 1){
         if (desks[i].id == currentDesk.id){
