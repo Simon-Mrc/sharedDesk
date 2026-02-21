@@ -1,5 +1,6 @@
 import { passingInfo, showNamePrompt, textNeeded } from './namePrompt.js';
-import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateUsers,addContentAndUpdate, createFolder, createFile } from './helperFunctions.js';
+import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateUsers,
+addContentAndUpdate, createFolder, createFile, updateCurrentDesk, openOption } from './helperFunctions.js';
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
 import { initiate,createNew } from './functions.js';
 let array = [];
@@ -17,6 +18,7 @@ export async function newFile(x,y,section){
                 // Box building for image and label
                 let container = document.createElement('div');
                 container.classList.add('icon');
+                container.style.position = 'absolute';
                 container.style.left = x + 'px';
                 container.style.top = y + 'px';
                 
@@ -40,12 +42,14 @@ export async function newFile(x,y,section){
                 })
                 let file = createFile(getCurrentUser(),labelName,getCurrentDesk(),x,y);
                 console.log("testing");
-                container.addEventListener("contextmenu",()=>{
-                    // openOption(container);                    
+                container.addEventListener("contextmenu",async(e)=>{
+                    e.preventDefault(); // ✅ Prevent browser menu!
+                    e.stopPropagation();
+                    await openOption(file,section,label,container);                    
                 })
                 section.appendChild(container);
                 addContentAndUpdate(file);
-                return container;    
+                return [container,label];    
             }  
         }catch (error){   
         }
