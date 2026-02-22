@@ -1,0 +1,6 @@
+FIXE DUP BTN with recursive so it get stored into local storage.
+
+Think about starting set up you have to build each time 
+you change environment without affecting local storage data
+
+For now coffee, cigarett and maybe some fresh air. Who am i kidding just coffee and smoke
