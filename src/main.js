@@ -75,8 +75,8 @@ let desk1=document.getElementById("desk1");
 let desk2=document.getElementById("desk2");
 
 desk1.addEventListener("click",()=>{
-  recreateDesk(JSON.parse(localStorage.getItem('desks'))[2]);
+  recreateDesk(JSON.parse(localStorage.getItem('desks'))[1]);
 })
 desk2.addEventListener("click",()=>{
-  recreateDesk(JSON.parse(localStorage.getItem('desks'))[1]);
+  recreateDesk(JSON.parse(localStorage.getItem('desks'))[0]);
 })

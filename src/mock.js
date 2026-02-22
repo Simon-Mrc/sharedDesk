@@ -38,24 +38,331 @@ export const users = [
 
 export const desks = [
     {
-        id: "desk-001",
-        name: "Simon's Personal Workspace",
-        ownerId: "user-001",
-        accessUserId: ["user-002"],           // Alice can view
-        modifyUserId: ["user-001"],           // Only Simon can edit
+        id: "desk-004",
+        name: "Alice's Chaos Workspace",
+        ownerId: "user-002",
+        accessUserId: ["user-001", "user-002", "user-003"],
+        modifyUserId: ["user-002"],
         urlLink: null,
         accessPassword: null,
-        content: []  // EMPTY - you'll add items manually
-    },
-    {
-        id: "desk-002",
-        name: "Team Collaboration Space",
-        ownerId: "user-002",
-        accessUserId: ["user-001", "user-003"],  // Simon and Bob can view
-        modifyUserId: ["user-001", "user-002"],  // Simon and Alice can edit
-        urlLink: "https://shareddesk.com/share/abc123",
-        accessPassword: "team2024",
-        content: []  // EMPTY
+        content: [
+            // ROOT FILES
+            {
+                id: 100, name: "todo.txt", type: "file",
+                deskId: "desk-004", x: 50, y: 50,
+                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                urlLink: null, accessPassword: null,
+                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+            },
+            {
+                id: 101, name: "budget.xlsx", type: "file",
+                deskId: "desk-004", x: 150, y: 50,
+                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                urlLink: null, accessPassword: null,
+                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+            },
+            {
+                id: 102, name: "meeting-notes.txt", type: "file",
+                deskId: "desk-004", x: 250, y: 50,
+                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                urlLink: null, accessPassword: null,
+                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+            },
+    
+            // BRANCH 1 - Design (wide, 3 levels deep with multiple children at each level)
+            {
+                id: 200, name: "Design", type: "folder",
+                deskId: "desk-004", x: 50, y: 150,
+                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                urlLink: null, accessPassword: null,
+                createdBy: "user-002", creatorColor: "#33FF57",
+                children: [
+                    {
+                        id: 201, name: "brief.txt", type: "file",
+                        deskId: "desk-004", x: 50, y: 50,
+                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                        urlLink: null, accessPassword: null,
+                        createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                    },
+                    {
+                        id: 202, name: "mockups.txt", type: "file",
+                        deskId: "desk-004", x: 150, y: 50,
+                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                        urlLink: null, accessPassword: null,
+                        createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                    },
+                    {
+                        id: 203, name: "Assets", type: "folder",
+                        deskId: "desk-004", x: 250, y: 50,
+                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                        urlLink: null, accessPassword: null,
+                        createdBy: "user-002", creatorColor: "#33FF57",
+                        children: [
+                            {
+                                id: 204, name: "logo.png", type: "file",
+                                deskId: "desk-004", x: 50, y: 50,
+                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                urlLink: null, accessPassword: null,
+                                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                            },
+                            {
+                                id: 205, name: "banner.png", type: "file",
+                                deskId: "desk-004", x: 150, y: 50,
+                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                urlLink: null, accessPassword: null,
+                                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                            },
+                            {
+                                id: 206, name: "Icons", type: "folder",
+                                deskId: "desk-004", x: 250, y: 50,
+                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                urlLink: null, accessPassword: null,
+                                createdBy: "user-002", creatorColor: "#33FF57",
+                                children: [
+                                    {
+                                        id: 207, name: "home.svg", type: "file",
+                                        deskId: "desk-004", x: 50, y: 50,
+                                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                        urlLink: null, accessPassword: null,
+                                        createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                                    },
+                                    {
+                                        id: 208, name: "settings.svg", type: "file",
+                                        deskId: "desk-004", x: 150, y: 50,
+                                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                        urlLink: null, accessPassword: null,
+                                        createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                                    },
+                                    {
+                                        id: 209, name: "Animated", type: "folder",
+                                        deskId: "desk-004", x: 250, y: 50,
+                                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                        urlLink: null, accessPassword: null,
+                                        createdBy: "user-002", creatorColor: "#33FF57",
+                                        children: [
+                                            {
+                                                id: 210, name: "spinner.svg", type: "file",
+                                                deskId: "desk-004", x: 50, y: 50,
+                                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                                urlLink: null, accessPassword: null,
+                                                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                                            },
+                                            {
+                                                id: 211, name: "loader.svg", type: "file",
+                                                deskId: "desk-004", x: 150, y: 50,
+                                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                                urlLink: null, accessPassword: null,
+                                                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: 212, name: "Fonts", type: "folder",
+                        deskId: "desk-004", x: 350, y: 50,
+                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                        urlLink: null, accessPassword: null,
+                        createdBy: "user-002", creatorColor: "#33FF57",
+                        children: [
+                            {
+                                id: 213, name: "primary.ttf", type: "file",
+                                deskId: "desk-004", x: 50, y: 50,
+                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                urlLink: null, accessPassword: null,
+                                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                            },
+                            {
+                                id: 214, name: "fallback.ttf", type: "file",
+                                deskId: "desk-004", x: 150, y: 50,
+                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                urlLink: null, accessPassword: null,
+                                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                            }
+                        ]
+                    }
+                ]
+            },
+    
+            // BRANCH 2 - Backend (deep single chain, 6 levels)
+            {
+                id: 300, name: "Backend", type: "folder",
+                deskId: "desk-004", x: 200, y: 150,
+                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                urlLink: null, accessPassword: null,
+                createdBy: "user-002", creatorColor: "#33FF57",
+                children: [
+                    {
+                        id: 301, name: "server.js", type: "file",
+                        deskId: "desk-004", x: 50, y: 50,
+                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                        urlLink: null, accessPassword: null,
+                        createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                    },
+                    {
+                        id: 302, name: "API", type: "folder",
+                        deskId: "desk-004", x: 150, y: 50,
+                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                        urlLink: null, accessPassword: null,
+                        createdBy: "user-002", creatorColor: "#33FF57",
+                        children: [
+                            {
+                                id: 303, name: "routes.js", type: "file",
+                                deskId: "desk-004", x: 50, y: 50,
+                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                urlLink: null, accessPassword: null,
+                                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                            },
+                            {
+                                id: 304, name: "Auth", type: "folder",
+                                deskId: "desk-004", x: 150, y: 50,
+                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                urlLink: null, accessPassword: null,
+                                createdBy: "user-002", creatorColor: "#33FF57",
+                                children: [
+                                    {
+                                        id: 305, name: "login.js", type: "file",
+                                        deskId: "desk-004", x: 50, y: 50,
+                                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                        urlLink: null, accessPassword: null,
+                                        createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                                    },
+                                    {
+                                        id: 306, name: "register.js", type: "file",
+                                        deskId: "desk-004", x: 150, y: 50,
+                                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                        urlLink: null, accessPassword: null,
+                                        createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                                    },
+                                    {
+                                        id: 307, name: "Middleware", type: "folder",
+                                        deskId: "desk-004", x: 250, y: 50,
+                                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                        urlLink: null, accessPassword: null,
+                                        createdBy: "user-002", creatorColor: "#33FF57",
+                                        children: [
+                                            {
+                                                id: 308, name: "checkToken.js", type: "file",
+                                                deskId: "desk-004", x: 50, y: 50,
+                                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                                urlLink: null, accessPassword: null,
+                                                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                                            },
+                                            {
+                                                id: 309, name: "rateLimit.js", type: "file",
+                                                deskId: "desk-004", x: 150, y: 50,
+                                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                                urlLink: null, accessPassword: null,
+                                                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                                            },
+                                            {
+                                                id: 310, name: "Guards", type: "folder",
+                                                deskId: "desk-004", x: 250, y: 50,
+                                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                                urlLink: null, accessPassword: null,
+                                                createdBy: "user-002", creatorColor: "#33FF57",
+                                                children: [
+                                                    {
+                                                        id: 311, name: "adminGuard.js", type: "file",
+                                                        deskId: "desk-004", x: 50, y: 50,
+                                                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                                        urlLink: null, accessPassword: null,
+                                                        createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                                                    },
+                                                    {
+                                                        id: 312, name: "Deep", type: "folder",
+                                                        deskId: "desk-004", x: 150, y: 50,
+                                                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                                        urlLink: null, accessPassword: null,
+                                                        createdBy: "user-002", creatorColor: "#33FF57",
+                                                        children: [
+                                                            {
+                                                                id: 313, name: "Deeper", type: "folder",
+                                                                deskId: "desk-004", x: 50, y: 50,
+                                                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                                                urlLink: null, accessPassword: null,
+                                                                createdBy: "user-002", creatorColor: "#33FF57",
+                                                                children: [
+                                                                    {
+                                                                        id: 314, name: "Deepest", type: "folder",
+                                                                        deskId: "desk-004", x: 50, y: 50,
+                                                                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                                                        urlLink: null, accessPassword: null,
+                                                                        createdBy: "user-002", creatorColor: "#33FF57",
+                                                                        children: [
+                                                                            {
+                                                                                id: 315, name: "youFoundMe.txt", type: "file",
+                                                                                deskId: "desk-004", x: 50, y: 50,
+                                                                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                                                                urlLink: null, accessPassword: null,
+                                                                                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                                                                            },
+                                                                            {
+                                                                                id: 316, name: "rickroll.txt", type: "file",
+                                                                                deskId: "desk-004", x: 150, y: 50,
+                                                                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                                                                urlLink: null, accessPassword: null,
+                                                                                createdBy: "user-002", creatorColor: "#33FF57", fileData: null
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+    
+            // BRANCH 3 - Archive (wide and flat, lots of files at root)
+            {
+                id: 400, name: "Archive", type: "folder",
+                deskId: "desk-004", x: 350, y: 150,
+                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                urlLink: null, accessPassword: null,
+                createdBy: "user-002", creatorColor: "#33FF57",
+                children: [
+                    { id: 401, name: "2021.txt", type: "file", deskId: "desk-004", x: 50, y: 50, accessUserId: ["user-002"], modifyUserId: ["user-002"], urlLink: null, accessPassword: null, createdBy: "user-002", creatorColor: "#33FF57", fileData: null },
+                    { id: 402, name: "2022.txt", type: "file", deskId: "desk-004", x: 150, y: 50, accessUserId: ["user-002"], modifyUserId: ["user-002"], urlLink: null, accessPassword: null, createdBy: "user-002", creatorColor: "#33FF57", fileData: null },
+                    { id: 403, name: "2023.txt", type: "file", deskId: "desk-004", x: 250, y: 50, accessUserId: ["user-002"], modifyUserId: ["user-002"], urlLink: null, accessPassword: null, createdBy: "user-002", creatorColor: "#33FF57", fileData: null },
+                    { id: 404, name: "2024.txt", type: "file", deskId: "desk-004", x: 350, y: 50, accessUserId: ["user-002"], modifyUserId: ["user-002"], urlLink: null, accessPassword: null, createdBy: "user-002", creatorColor: "#33FF57", fileData: null },
+                    { id: 405, name: "2025.txt", type: "file", deskId: "desk-004", x: 450, y: 50, accessUserId: ["user-002"], modifyUserId: ["user-002"], urlLink: null, accessPassword: null, createdBy: "user-002", creatorColor: "#33FF57", fileData: null },
+                    {
+                        id: 406, name: "OldProjects", type: "folder",
+                        deskId: "desk-004", x: 550, y: 50,
+                        accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                        urlLink: null, accessPassword: null,
+                        createdBy: "user-002", creatorColor: "#33FF57",
+                        children: [
+                            { id: 407, name: "project-alpha.txt", type: "file", deskId: "desk-004", x: 50, y: 50, accessUserId: ["user-002"], modifyUserId: ["user-002"], urlLink: null, accessPassword: null, createdBy: "user-002", creatorColor: "#33FF57", fileData: null },
+                            { id: 408, name: "project-beta.txt", type: "file", deskId: "desk-004", x: 150, y: 50, accessUserId: ["user-002"], modifyUserId: ["user-002"], urlLink: null, accessPassword: null, createdBy: "user-002", creatorColor: "#33FF57", fileData: null },
+                            { id: 409, name: "project-gamma.txt", type: "file", deskId: "desk-004", x: 250, y: 50, accessUserId: ["user-002"], modifyUserId: ["user-002"], urlLink: null, accessPassword: null, createdBy: "user-002", creatorColor: "#33FF57", fileData: null },
+                            {
+                                id: 410, name: "Deprecated", type: "folder",
+                                deskId: "desk-004", x: 350, y: 50,
+                                accessUserId: ["user-002"], modifyUserId: ["user-002"],
+                                urlLink: null, accessPassword: null,
+                                createdBy: "user-002", creatorColor: "#33FF57",
+                                children: [
+                                    { id: 411, name: "old-api.js", type: "file", deskId: "desk-004", x: 50, y: 50, accessUserId: ["user-002"], modifyUserId: ["user-002"], urlLink: null, accessPassword: null, createdBy: "user-002", creatorColor: "#33FF57", fileData: null },
+                                    { id: 412, name: "legacy.js", type: "file", deskId: "desk-004", x: 150, y: 50, accessUserId: ["user-002"], modifyUserId: ["user-002"], urlLink: null, accessPassword: null, createdBy: "user-002", creatorColor: "#33FF57", fileData: null },
+                                    { id: 413, name: "dont-touch.js", type: "file", deskId: "desk-004", x: 250, y: 50, accessUserId: ["user-002"], modifyUserId: ["user-002"], urlLink: null, accessPassword: null, createdBy: "user-002", creatorColor: "#33FF57", fileData: null }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     },
     {
         id: "desk-003",
