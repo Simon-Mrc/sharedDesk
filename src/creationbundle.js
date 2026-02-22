@@ -6,7 +6,7 @@ updateCurrentDeskInDesks} from './helperFunctions.js';
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
 import { initiate,createNew } from './functions.js';
 import { searchIdandPushAndUpdate } from './helperFunctions.js';
-
+import { displayTree } from './tree.js';
 // Scope is a pain hopefully localstorage exist. Too lazy to change it to manage changes.
 let array = [];
 export async function newFile(x,y,section){ //Actually async probably not needed there !    
@@ -76,7 +76,7 @@ export async function newFile(x,y,section){ //Actually async probably not needed
                     let currentDesk = getCurrentDesk();
                     searchIdandPushAndUpdate(currentDesk,currentDesk.content,file,section.dataset.id)
                     }
-                        
+                    displayTree();     
                 return [container,label];    
                 }         
             }catch (error){
@@ -173,6 +173,7 @@ export async function newFolder(x,y,section){// many wait needed
                     searchIdandPushAndUpdate(currentDesk,currentDesk.content,folder,section.dataset.id)
 
                 }
+                displayTree()
                 return folder; // Always return something right ! well obviously this one s gonna be usefull 
             }
         // }catch{ // Nice user experience

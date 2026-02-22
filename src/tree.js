@@ -28,20 +28,19 @@ export function displayTree() {
 
   let display = document.createElement('div');
   display.style.cssText = `
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #1e1e1e;
-      color: #d4d4d4;
-      border: 2px solid #5b7ae5;
-      border-radius: 8px;
-      padding: 24px;
-      z-index: 9999;
-      max-height: 80vh;
-      max-width: 80vw;
-      overflow: auto;
-  `;
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  border: 2px solid #5b7ae5;
+  border-radius: 8px;
+  padding: 24px;
+  z-index: 9999;
+  max-height: 30vh;
+  max-width: 30vw;
+  overflow: auto;
+`;
 
   let closeBtn = document.createElement('button');
   closeBtn.textContent = '❌ Close';
