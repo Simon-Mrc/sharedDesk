@@ -1,7 +1,9 @@
 import { quiteSlideLeft, slideRight } from "./animations";
 import { array, showContextMenu } from "./creationbundle";
 import { createNew } from "./functions";
-import { getCurrentUser, getAllDesks, createDesk, updateDesks, addContentAndUpdate, createFile, getCurrentDesk, openOption, searchIdandPushAndUpdate, addScreenAndUpdate, createFolder } from "./helperFunctions";
+import { getCurrentUser, getAllDesks, createDesk, updateDesks, addContentAndUpdate,
+createFile, getCurrentDesk, openOption, searchIdandPushAndUpdate, addScreenAndUpdate,
+createFolder } from "./helperFunctions";
 import { textNeeded, passingInfo, showNamePrompt } from "./namePrompt";
 import { displayTree } from "./tree";
 

@@ -242,17 +242,17 @@ export function openOption(object, section,label,container){
             resolve();
         })
         /////////////NEED TO ADD SETTING THERE !!//////////
-        
+
         //////////// NEED TO ADD DUPLICATE //////DONNNEEEEE////////////
         duplicateBtn.addEventListener("click", ()=>{
             if(object.type == "file"){
-                let currentUser = getCurrentUser();
-                let currentDesk = getCurrentDesk();
-                let dupFile = createFile(currentUser,object.name,currentDesk,object.x,object.y);
-                dupFile.accessUserId = object.accessUserId;
-                dupFile.modifyUserId = object.modifyUserId;
+                // let currentUser = getCurrentUser();
+                // let currentDesk = getCurrentDesk();
+                // let dupFile = createFile(currentUser,object.name,currentDesk,object.x,object.y);
+                // dupFile.accessUserId = object.accessUserId;
+                // dupFile.modifyUserId = object.modifyUserId;
     // got to add the other char there but first i ll try to see if my function works
-
+                let dupFile = object; // I M SO FCKIN STUPID SOMETIMES
 
                 let container = document.createElement('div');
                 container.classList.add('icon');
