@@ -21,7 +21,7 @@ treeBtn.addEventListener('click', displayTree);
 
 // This can surely be optimized but i want it to be global scope ...
 // already took me too much brain cells and time to figure out how to manage data
-let screens = {id : 0};
+let screens = [{id : 0}];
 localStorage.setItem('screens', JSON.stringify(screens));
 
 // Creation of container for all that s gonna be displayed. Receptacle

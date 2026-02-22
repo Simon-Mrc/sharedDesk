@@ -142,7 +142,7 @@ export function updateCurrentDeskInDesks(item){ // could be usefull ?
 }
 //This one is usefull !!! Used to be able to replace my array const !
 export function addScreenAndUpdate(screen){
-    let screens = JSON.parse(localStorage.getItem('screens'));
+    let screens = JSON.parse(localStorage.getItem('screens')) || [];
     screens.push(screen);
     localStorage.setItem('screens',JSON.stringify(screens));
 }

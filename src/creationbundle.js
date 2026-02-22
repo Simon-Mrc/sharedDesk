@@ -96,7 +96,7 @@ export async function newFolder(x,y,section){// many wait needed
             section.style.position = 'relative';
         }
         section.style.overflow = 'hidden';
-        try{//obvioulsy awaiting there because you need data to follow script flow
+        // try{//obvioulsy awaiting there because you need data to follow script flow
             let folderName = await showNamePrompt(x,y,section,"folder");
             if (folderName){// in cas something went wrong in shownameprompt fuction
                 let container = document.createElement('div');
@@ -116,13 +116,19 @@ export async function newFolder(x,y,section){// many wait needed
                 // Attached img and label to container wich is right-positionned
                 container.appendChild(img);
                 container.appendChild(label);
+                let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);
+                        let newDesk = await createNew(section);// await needed there because i need result in later script
+                        newDesk.dataset.id = folder.id; // starting from here actually 
+                        addScreenAndUpdate({id : folder.id})
+                        array.push(newDesk);
+                        container.dataset.index = array.length-1;     
             
                 // Need to work on this part. If already been double click you have to retrieve the right div and not create one
                 // Probably give a dynamic id to desk and write it somewhere in container property to be able to retrieve it ?
                 container.addEventListener("dblclick",async ()=>{
                     let securityCheck = 0;
                 // Little trick there ! i can use folder here before creation. I could have put it before but i find it fun to leeave it there.
-                    if (folder.accessPassword){ 
+                if (folder.accessPassword){ 
                         let pswrd = await textNeeded('what is the password?','Try to guess mthfckr',section);//await really needed there
                         if(pswrd === folder.accessPassword){
                             passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen still not solved tho
@@ -132,6 +138,7 @@ export async function newFolder(x,y,section){// many wait needed
                             securityCheck = 1; // security check is locked in 
                         }
                     }
+                    
                     if(securityCheck === 0){// U can come in my man ! Just choosin what i ll display you there
                     // array is full of div representing all my created screen displayed
                         if(container.dataset.index){ // i stored dataset in container representing folder
@@ -139,18 +146,18 @@ export async function newFolder(x,y,section){// many wait needed
                             array[container.dataset.index].style.display=``; // Big brain thinking there
                             await slideRight(array[container.dataset.index]); // Await everywhere for smooth animations
                         }
-                        else{
-                            let newDesk = await createNew(section);// await needed there because i need result in later script
-                            newDesk.dataset.id = folder.id; // starting from here actually 
-                            addScreenAndUpdate({id : folder.id})
-                            array.push(newDesk);
-                            container.dataset.index = array.length-1; 
-                        };  
+                        // else{
+                        //     let newDesk = await createNew(section);// await needed there because i need result in later script
+                        //     newDesk.dataset.id = folder.id; // starting from here actually 
+                        //     addScreenAndUpdate({id : folder.id})
+                        //     array.push(newDesk);
+                        //     container.dataset.index = array.length-1; 
+                        // };  
                     }
                     }
                 )
                 //Amazing to see that i can create folder element here. So beautiful
-                let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);          
+                // let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);          
                 container.addEventListener("contextmenu",/*async*/ (e)=>{
                     e.preventDefault(); // rightclicking interprated by computer
                     e.stopPropagation();// rightclicking interpretader elsewhere from container
@@ -158,11 +165,18 @@ export async function newFolder(x,y,section){// many wait needed
                 })
                 //Final linking the box created to current desk
                 section.appendChild(container);
-                addContentAndUpdate(folder);
+                if(!section.dataset.id){
+                    addContentAndUpdate(folder);
+                }
+                else{
+                    let currentDesk = getCurrentDesk();
+                    searchIdandPushAndUpdate(currentDesk,currentDesk.content,folder,section.dataset.id)
+
+                }
                 return folder; // Always return something right ! well obviously this one s gonna be usefull 
             }
-        }catch{ // Nice user experience
-        console.log('gonna fix it later. i ve got much more to do u know')}
+        // }catch{ // Nice user experience
+        // console.log('gonna fix it later. i ve got much more to do u know')}
     }
     else{
         passingInfo("You don t have permission boy", section); //DENIED

@@ -95,9 +95,11 @@ export async function createNew(section){
 
     // making old disappear before linking new desk to main display
     // Fashion choice. Fashion matters
-    await quiteSlideLeft(section);
+    // await quiteSlideLeft(section);
+    desk.style.display = 'none';
     globalHome.appendChild(desk);
-    await slideRight(desk);
+
+    // await slideRight(desk);
     return desk; // In case i ll need it !  
 };
 

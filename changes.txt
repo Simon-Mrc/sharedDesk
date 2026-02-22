@@ -1,0 +1,15 @@
+OKKKKKK SOOOOO i did spend few hours working on recursive function
+to go through all currentDesk content depths and find right id to push files into
+
+Problems was (first of all very brain demanding and try error)
+and .. not working with folder because i created my code so that openning a folder
+is the action that create and give id to section he is creating
+
+So to store folder data into currentDesk data i didn t have any id to compare to 
+to be able to store it into it s right parent
+
+So i had to change script order for my section to be created at same time as folder
+had to manage animations Too
+encountered some issues like put a return in commentaries ...
+long story short it was a great morning. learned a lot
+folder and files get stored as soon as they re created.
