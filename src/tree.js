@@ -4,7 +4,7 @@ import { getCurrentDesk } from "./helperFunctions";
 // Fun part was building all architecture from scratch
 // Anyway thanks to chat gpt we now have a visual =D
 
-
+// ACTUALLY it seems i would greatly learn with this and it might also solve my data managment issu.
 export function displayTree() {
   let currentDesk = getCurrentDesk();
 

@@ -277,4 +277,16 @@ export function openOption(object, section,label,container){
         });
     }
 
-
+    export function searchIdandPushAndUpdate(currentDesk,objects,needStorage,targetID){
+        objects.forEach(object => {
+            if (object.id == targetID){
+                object.children.push(needStorage);
+                updateCurrentDesk(currentDesk);
+                updateCurrentDeskInDesks(currentDesk);
+                return;
+            }
+            if (object.type == "folder"){
+                searchIdandPushAndUpdate(currentDesk,object.children, needStorage,targetID);  
+            };
+        });
+    }

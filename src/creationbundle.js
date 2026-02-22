@@ -5,6 +5,7 @@ addScreenAndUpdate,
 updateCurrentDeskInDesks} from './helperFunctions.js';
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
 import { initiate,createNew } from './functions.js';
+import { searchIdandPushAndUpdate } from './helperFunctions.js';
 
 // Scope is a pain hopefully localstorage exist. Too lazy to change it to manage changes.
 let array = [];
@@ -61,21 +62,26 @@ export async function newFile(x,y,section){ //Actually async probably not needed
                 else{// i have to match to witch folder it came from
                     // They have the same unique id (giver to folder at creation and given to section)
                     // via folder on creation 
-                    for(let i = 0 ; i < getCurrentDesk().content.length; i = i + 1){ // looping through durrentdeskcontent
-                        if(getCurrentDesk().content[i].id ==  section.dataset.id){
-                            //found the match !!
-                            let currentDeck = getCurrentDesk() // get current desk
-                            currentDeck.content[i].children.push(file);//update it with file inside right folder
-                            updateCurrentDesk(currentDeck);//save current deck in local storage
-                            updateCurrentDeskInDesks(currentDeck);//save updated desk in all desks data     
-                        }
+                    // for(let i = 0 ; i < getCurrentDesk().content.length; i = i + 1){ // looping through durrentdeskcontent
+                    //     if(getCurrentDesk().content[i].id ==  section.dataset.id){
+                    //         //found the match !!
+                    //         let currentDeck = getCurrentDesk() // get current desk
+                    //         currentDeck.content[i].children.push(file);//update it with file inside right folder
+                    //         updateCurrentDesk(currentDeck);//save current deck in local storage
+                    //         updateCurrentDeskInDesks(currentDeck);//save updated desk in all desks data     
+                    //     }
+                    // }
+                    // gonna run a few test with this one . Spent 1 hour on this! My first recursive call
+                    // Learned a frking lot i love it ! very quite tricky tho
+                    let currentDesk = getCurrentDesk();
+                    searchIdandPushAndUpdate(currentDesk,currentDesk.content,file,section.dataset.id)
                     }
-                }
-                
+                        
                 return [container,label];    
-            }  
-        }catch (error){   
-        }
+                }         
+            }catch (error){
+
+            }
     }
     else{
         passingInfo("You don t have permission boy", section);//DENIED
