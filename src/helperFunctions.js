@@ -92,19 +92,21 @@ export function updateCurrentUser(item){
 }
 export function modifyContentAndUpdate(item){  // this one modify and update currentDesk in localStorage
     let currentDesk = getCurrentDesk();
-    for(let i = 0 ; i < getAllItemCurrentDesk().length ; i = i + 1){
-        if(item.id == getAllItemCurrentDesk()[i].id){
-           currentDesk.content[i] = item;
-        }////////////////////////////////ABSOLUTE MUST CHANGE THE QUICKER THE BETTER //////////////
+    let currentDeskContent = currentDesk.content;
+    function recursiveMod(currentDeskContent,item){
+        currentDeskContent.forEach(stuff => {
+            if(stuff.id == item.id){
+                Object.assign(stuff , item); // Just learn this one and this is freaking magic
+                return;
+            }
+            else if(stuff.type == "folder"){
+                recursiveMod(stuff.children)
+            }           
+        });
     }
-    let desks=getAllDesks();
-    for(let i = 0 ; i < desks.length ; i = i + 1){
-        if (desks[i].id == currentDesk.id){
-            desks[i] = currentDesk;
-        }
-    }
-    updateDesks(desks);
+    recursiveMod(currentDeskContent,item);
     updateCurrentDesk(currentDesk);
+    updateCurrentDeskInDesks(currentDesk);
 }
 export function deleteContentAndUpdate(item){  // this one delete and update currentDesk in localStorage
     let currentDesk = getCurrentDesk();
@@ -369,7 +371,7 @@ export function openOption(object, section,label,container){
         }, 0);
     });
 }
-     // this one i never used and never going to i think !
+// Ok so this is recursive file datastorage function 
 export function searchIdandPushAndUpdate(currentDesk,objects,needStorage,targetID){
     objects.forEach(object => {
         if (object.id == targetID){

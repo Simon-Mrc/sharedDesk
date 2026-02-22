@@ -66,7 +66,7 @@ export async function newFile(x,y,section){ //Actually async probably not needed
                 // Learned a frking lot i love it ! very quite tricky tho
                 // i have to match to witch folder it came from
                 else{
-                    let currentDesk = getCurrentDesk();
+                    let currentDesk = getCurrentDesk(); // Ok so this is recursive file datastorage function !
                     searchIdandPushAndUpdate(currentDesk,currentDesk.content,file,section.dataset.id)
                     }
                     displayTree();     
@@ -113,7 +113,7 @@ export async function newFolder(x,y,section){// many wait needed
                         let newDesk = await createNew(section);// await needed there because i need result in later script
                         newDesk.dataset.id = folder.id; // starting from here actually 
                         addScreenAndUpdate({id : folder.id})
-                        array.push(newDesk);
+                        array.push(newDesk); // filling array with DOM Section identified by dataset and using index to display right section 
                         container.dataset.index = array.length-1;     
             
                 // Need to work on this part. If already been double click you have to retrieve the right div and not create one
