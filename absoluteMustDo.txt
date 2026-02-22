@@ -4,3 +4,6 @@ Think about starting set up you have to build each time
 you change environment without affecting local storage data
 
 For now coffee, cigarett and maybe some fresh air. Who am i kidding just coffee and smoke
+
+if folder created on top of go back button u can t press it ... need to add a move option.
+Add edvent listener with something like Stayclicked ? need to look into this

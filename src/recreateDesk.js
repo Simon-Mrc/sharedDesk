@@ -179,7 +179,7 @@ export async function recreateSection(section){
             <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
     `;
-    goBack.title = "Go Back"; // GO BACK I SAID
+    goBack.title = "Go Back"; // GO BACK I  SAID
     goBack.addEventListener("click",async ()=>{
         await quiteSlideLeft(desk);
         desk.style.display = `none`;
