@@ -258,5 +258,5 @@ export function loadMockData(){
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("desks", JSON.stringify(desks));
     localStorage.setItem("currentUser", JSON.stringify(users[0]));
-    localStorage.setItem("currentDesk", JSON.stringify(desks[2]));
+    localStorage.setItem("currentDesk", JSON.stringify(desks[1]));
 }
