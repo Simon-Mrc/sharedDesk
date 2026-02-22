@@ -106,17 +106,21 @@ export function modifyContentAndUpdate(item){  // this one modify and update cur
 export function deleteContentAndUpdate(item){  // this one delete and update currentDesk in localStorage
     let currentDesk = getCurrentDesk();
     let currentDeskContent = currentDesk.content;
-    function recursiveDelete(currentDesk,currentDeskContent){
-        currentDeskContent.forEach((content,index) => {
-            if(content.id == item.id){
-                currentDeskContent.splice(index,1);
+    //
+    // Very interesting here. Since i splice i change length of what i going through !
+    // So i have to do it backward !! This is a trick to remember !!
+    function recursiveDelete(currentDeskContent){
+        for(let i = currentDeskContent.length-1 ; i>=0 ; i = i - 1){
+                if(currentDeskContent[i].id == item.id){
+                currentDeskContent.splice(i,1);
             }
-            else if (content.type == "folder"){
-                recursiveDelete(currentDesk,content.children);
+            else if (currentDeskContent[i].type == "folder"){
+                recursiveDelete(currentDeskContent[i].children);
             }
-        });
+        };
     }
-    recursiveDelete(currentDesk,currentDeskContent);
+    recursiveDelete(currentDeskContent);
+    updateCurrentDesk(currentDesk);
     let desks=getAllDesks();
     for(let i = 0 ; i < desks.length ; i = i + 1){
         if (desks[i].id == currentDesk.id){
@@ -124,7 +128,6 @@ export function deleteContentAndUpdate(item){  // this one delete and update cur
         }
     }
     updateDesks(desks);
-    updateCurrentDesk(currentDesk);
     displayTree();
 }
 export function addContentAndUpdate(item){ // Modify desks and currentdesk in LS
@@ -230,7 +233,7 @@ export function openOption(object, section,label,container){
         deleteBtn.addEventListener('click', ()=>{
             optionMenu.remove();
             container.remove();
-            modifyContentAndUpdate(object);     
+            deleteContentAndUpdate(object);     
             resolve();
         })
         cancelBtn.addEventListener('click', ()=>{
