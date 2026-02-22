@@ -5,43 +5,41 @@ import { getCurrentUser, getAllDesks, createDesk, updateDesks, addContentAndUpda
 import { textNeeded, passingInfo, showNamePrompt } from "./namePrompt";
 import { displayTree } from "./tree";
 
-export async function recreateDesk(deskContent){
+export async function recreateDesk(deskGiven){
     // Initialisation !
-    let section = document.getElementById(`globalHome`);
-    let desk = document.createElement(`div`);
-    let nameChosen = desk.name 
-        desk.addEventListener('contextmenu', function(event) {
+    let desk = document.getElementById(`globalHome`);
+    let section = document.createElement(`div`);
+    // Initiate ? need to store it somewhere ? for navigation purpose ?
+        section.addEventListener('contextmenu', function(event) {
             event.preventDefault(); 
             const elementX = event.offsetX;
             const elementY = event.offsetY;
             showContextMenu(elementX,elementY,desk);
         });            
-        let deskid = desk.id;
-        let currentDesk = createDesk(currentUser.id, nameChosen, deskid);
-        section.appendChild(desk);
-        desk.classList.add(`desk-column-large`);
+        desk.appendChild(section);
+        section.classList.add(`desk-column-large`);
             
         await new Promise(resolve => requestAnimationFrame(resolve));
         await slideRight(desk);
-        localStorage.setItem("currentDesk", JSON.stringify(currentDesk)); 
+        localStorage.setItem("currentDesk", JSON.stringify(deskGiven)); 
      
     // RECURSIVE FUN PART STARTS HERE
-    async function recursiveDesk(deskContent, section){ // ← section as parameter! ✅
+    async function recursiveDesk(deskContent, section){
         for(let content of deskContent){
             if(content.type == "file"){
-                recreateByFile(content, section);  // ← pass section! ✅
+                recreateByFile(content, section);  
             }
             else if(content.type == "folder"){
-                let newSection = await recreateSection(section); // ← creates section, returns it!
-                recreateByFolder(content, section, newSection);  // ← pass both! ✅
+                let newSectionBis =  await recreateByFolder(content, section);  
                 if(content.children.length > 0){
-                    await recursiveDesk(content.children, newSection); // ← go deeper with newSection! ✅
+                    let newSection = newSectionBis;
+                    await recursiveDesk(content.children, newSection); 
                 }
             }
         }
     }
-
-    await recursiveDesk(deskContent, deskContent); // ← start with deskElement as first section! ✅
+    let deskContent = deskGiven.content;
+    await recursiveDesk(deskContent, section); 
 }
 
 export function recreateByFile(createdFile,section){
@@ -158,9 +156,11 @@ export async function recreateByFolder(createdFolder,section){
             })
                 //Final linking the box created to current desk
             section.appendChild(container);
+
                 
             displayTree()
-                 // Always return something right ! well obviously this one s gonna be usefull 
+            return newDesk;
+            // Always return something right ! well obviously this one s gonna be usefull 
 }
         // }catch{ // Nice user experience
         // console.log('gonna fix it later. i ve got much more to do u know')}

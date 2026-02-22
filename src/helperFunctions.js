@@ -242,7 +242,8 @@ export function openOption(object, section,label,container){
             resolve();
         })
         /////////////NEED TO ADD SETTING THERE !!//////////
-        //////////// NEED TO ADD DUPLICATE //////////////////
+        
+        //////////// NEED TO ADD DUPLICATE //////DONNNEEEEE////////////
         duplicateBtn.addEventListener("click", ()=>{
             if(object.type == "file"){
                 let currentUser = getCurrentUser();
