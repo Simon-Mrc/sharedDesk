@@ -1,3 +1,10 @@
+#1 !!! BREAKING NEWS !!!!
+Actually not a genious at all. Constructed architecture doesn t work.
+looking for matching id to store created data only in first layer of depth in current desk content
+need to think about how to solve this issue
+will do some side work until i figure it out. Going to build duplicate function because it looks fun.
+
+
 // Start work on side bar for account setting options and so o
 // add color based shadow display for different user in case of shared desk 
 
