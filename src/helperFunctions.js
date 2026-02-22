@@ -1,4 +1,6 @@
-import { textNeeded } from "./namePrompt";
+import { quiteSlideLeft, slideRight } from "./animations";
+import { array } from "./creationbundle";
+import { passingInfo, textNeeded } from "./namePrompt";
 import { displayTree } from "./tree";
 //those functions speak for themselves
 export function createDesk(currentUserid, chosenName, idNumber){
@@ -244,7 +246,23 @@ export function openOption(object, section,label,container){
         /////////////NEED TO ADD SETTING THERE !!//////////
 
         //////////// NEED TO ADD DUPLICATE //////DONNNEEEEE////////////
+
         duplicateBtn.addEventListener("click", ()=>{
+            function recursiveDup(currentDeskContent){
+                currentDeskContent.forEach(stuff => {
+                    if(stuff.type == "folder"){
+        
+                        if(stuff.id == section.dataset.id){
+                            stuff.children.push(dupFile);
+                            return;
+                        }
+                        else{
+                            recursiveDup(stuff.children);
+                        }           
+                    }
+                })
+            }
+            let dupFile = {...object, id: Date.now()};
             if(object.type == "file"){
                 // let currentUser = getCurrentUser();
                 // let currentDesk = getCurrentDesk();
@@ -252,7 +270,7 @@ export function openOption(object, section,label,container){
                 // dupFile.accessUserId = object.accessUserId;
                 // dupFile.modifyUserId = object.modifyUserId;
     // got to add the other char there but first i ll try to see if my function works
-                let dupFile = object; // I M SO FCKIN STUPID SOMETIMES
+    ; // I M SO FCKIN STUPID SOMETIMES
 
                 let container = document.createElement('div');
                 container.classList.add('icon');
@@ -273,6 +291,86 @@ export function openOption(object, section,label,container){
                     e.stopPropagation();// Prevent interpretation of addevent listeners to current displayed screen.
                     await openOption(dupFile,section,label,container);                    
                 })
+                // recursive dups for localStorageManagment
+        
+                
+                let currentDesk = getCurrentDesk();
+                let currentDeskContent = currentDesk.content;
+                if(!section.dataset.id){
+                    currentDeskContent.push(dupFile);
+                } else {
+                    recursiveDup(currentDeskContent);
+                }
+                updateCurrentDesk(currentDesk);
+                updateCurrentDeskInDesks(currentDesk);
+
+                section.appendChild(container);
+                optionMenu.remove();
+                resolve();
+            }
+            else{
+                 // I M SO FCKIN STUPID SOMETIMES
+
+                let container = document.createElement('div');
+                container.classList.add('icon');
+                container.style.left = (object.x+130) + 'px';
+                container.style.top = (object.y+30) + 'px';
+                let img = document.createElement('img');
+                img.src = "../pictures/folder.jpg";
+                let label = document.createElement('span');
+                label.classList.add('icon-label');
+                label.textContent = object.name;
+                container.appendChild(img);
+                container.appendChild(label);
+                container.addEventListener("dblclick",async ()=>{
+        let securityCheck = 0;
+                // Little trick there ! i can use folder here before creation. I could have put it before but i find it fun to leeave it there.
+        if (folder.accessPassword){ 
+            let pswrd = await textNeeded('what is the password?','Try to guess mthfckr',section);//await really needed there
+            if(pswrd === folder.accessPassword){
+                passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen still not solved tho
+            }                                        // to lazy to create a specific display function just for this
+            else{
+                passingInfo('u re out buddy',section);
+                securityCheck = 1; // security check is locked in 
+                }
+            }
+            if(securityCheck === 0){// U can come in my man ! Just choosin what i ll display you there
+                    // array is full of div representing all my created screen displayed
+                if(container.dataset.index){ // i stored dataset in container representing folder
+                await quiteSlideLeft(section);// then i just linked it to a specific index in DOM array
+                array[container.dataset.index].style.display=``; // Big brain thinking there
+                await slideRight(array[container.dataset.index]); // Await everywhere for smooth animations
+                }
+            }})
+            
+                        // else{
+                        //     let newDesk = await createNew(section);// await needed there because i need result in later script
+                        //     newDesk.dataset.id = folder.id; // starting from here actually 
+                        //     addScreenAndUpdate({id : folder.id})
+                        //     array.push(newDesk);
+                        //     container.dataset.index = array.length-1; 
+                        // };  
+        
+            
+    
+                container.addEventListener("contextmenu",async(e)=>{
+                    e.preventDefault(); // Prevent browser menu!
+                    e.stopPropagation();// Prevent interpretation of addevent listeners to current displayed screen.
+                    await openOption(dupFile,section,label,container);                    
+                })
+
+            
+                let currentDesk = getCurrentDesk();
+                let currentDeskContent = currentDesk.content;
+                if(!section.dataset.id){
+                    currentDeskContent.push(dupFile);
+                } else {
+                    recursiveDup(currentDeskContent);
+                }
+                updateCurrentDesk(currentDesk);
+                updateCurrentDeskInDesks(currentDesk);
+
                 section.appendChild(container);
                 optionMenu.remove();
                 resolve();
@@ -294,6 +392,7 @@ export function openOption(object, section,label,container){
         }, 0);
         });
     }
+    
 
     export function searchIdandPushAndUpdate(currentDesk,objects,needStorage,targetID){
         objects.forEach(object => {
