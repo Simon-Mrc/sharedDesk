@@ -12,6 +12,8 @@ import { initiate,createNew } from './functions.js';
 import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
 import { recreateDesk } from './recreateDesk.js';
 
+
+// Really need to set up a starting state to reset beetween each switching environment.
 // Testing purpose ! don t look at desk 3 btw
 loadMockData();
 

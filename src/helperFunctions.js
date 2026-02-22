@@ -95,7 +95,7 @@ export function modifyContentAndUpdate(item){  // this one modify and update cur
     for(let i = 0 ; i < getAllItemCurrentDesk().length ; i = i + 1){
         if(item.id == getAllItemCurrentDesk()[i].id){
            currentDesk.content[i] = item;
-        }
+        }////////////////////////////////ABSOLUTE MUST CHANGE THE QUICKER THE BETTER //////////////
     }
     let desks=getAllDesks();
     for(let i = 0 ; i < desks.length ; i = i + 1){
@@ -137,8 +137,8 @@ export function addContentAndUpdate(item){ // Modify desks and currentdesk in LS
     let currentDesk = getCurrentDesk()
     if(item!=null){
         currentDesk.content.push(item);
-    }
-    let desks=getAllDesks();
+    } // I actually have to check if i still use this one because it won t work anymore
+    let desks=getAllDesks(); // I need it to be recursive to put in children from folder
     for(let i = 0 ; i < desks.length ; i = i + 1){
         if (desks[i].id == currentDesk.id){
             desks[i] = currentDesk;
@@ -147,11 +147,9 @@ export function addContentAndUpdate(item){ // Modify desks and currentdesk in LS
     updateDesks(desks);
     updateCurrentDesk(currentDesk);
 }
-export function removeAndUpdate(item){
 
-}
 export function updateCurrentDeskInDesks(item){ // could be usefull ?
-    let desks=getAllDesks();
+    let desks=getAllDesks();// Funny to see it 's one of the most usefull tho
     for(let i = 0 ; i < desks.length ; i = i + 1){
         if (desks[i].id == item.id){
             desks[i] = item;
@@ -160,7 +158,7 @@ export function updateCurrentDeskInDesks(item){ // could be usefull ?
     updateDesks(desks);
 }
 //This one is usefull !!! Used to be able to replace my array const !
-export function addScreenAndUpdate(screen){
+export function addScreenAndUpdate(screen){ // I really need to focus on this to built a proper start set up
     let screens = JSON.parse(localStorage.getItem('screens')) || [];
     screens.push(screen);
     localStorage.setItem('screens',JSON.stringify(screens));
@@ -228,18 +226,18 @@ export function openOption(object, section,label,container){
             try{ //i ll stop commentary there you got the idea
                 let newPsw = await textNeeded("Set a password", "Don t be genereic", section);
                 object.accessPassword = newPsw;
-                modifyContentAndUpdate(object);
-                optionMenu.remove();
+                modifyContentAndUpdate(object); // ok i need to work on that function Right now it s not recursive
+                optionMenu.remove();// so not storing data as it should
                 resolve();
             }catch{}
         })
         deleteBtn.addEventListener('click', ()=>{
             optionMenu.remove();
             container.remove();
-            deleteContentAndUpdate(object);     
+            deleteContentAndUpdate(object); // this one has been made recursive !    
             resolve();
         })
-        cancelBtn.addEventListener('click', ()=>{
+        cancelBtn.addEventListener('click', ()=>{ //Recursive ? just kidding
             optionMenu.remove()
             resolve();
         })
@@ -248,13 +246,16 @@ export function openOption(object, section,label,container){
         //////////// NEED TO ADD DUPLICATE //////DONNNEEEEE////////////
 
         duplicateBtn.addEventListener("click", ()=>{
+            let dupFile = {...object, id: Date.now()}; // i wrote let dupFile=object but it creates just another pointer to same object
+            // and you don t want 2 items with same ID anyway
+    // You actually have to define function here because you use dupfile and it has to be in 
+    //function from addEventListener 
             function recursiveDup(currentDeskContent){
                 currentDeskContent.forEach(stuff => {
-                    if(stuff.type == "folder"){
-        
-                        if(stuff.id == section.dataset.id){
-                            stuff.children.push(dupFile);
-                            return;
+                    if(stuff.type == "folder"){ // files don t have children 
+                        if(stuff.id == section.dataset.id){ // ok so i built environment such as section dataset.id 
+                            stuff.children.push(dupFile);// is matching the id of folder it comes from
+                            return;// so as soon as there is a match you found your parent.
                         }
                         else{
                             recursiveDup(stuff.children);
@@ -262,16 +263,9 @@ export function openOption(object, section,label,container){
                     }
                 })
             }
-            let dupFile = {...object, id: Date.now()};
+            // so i have to remember that duping function is scope limited now cannot use outside
+            // eventlistener function
             if(object.type == "file"){
-                // let currentUser = getCurrentUser();
-                // let currentDesk = getCurrentDesk();
-                // let dupFile = createFile(currentUser,object.name,currentDesk,object.x,object.y);
-                // dupFile.accessUserId = object.accessUserId;
-                // dupFile.modifyUserId = object.modifyUserId;
-    // got to add the other char there but first i ll try to see if my function works
-    ; // I M SO FCKIN STUPID SOMETIMES
-
                 let container = document.createElement('div');
                 container.classList.add('icon');
                 container.style.left = (object.x+130) + 'px';
@@ -284,26 +278,24 @@ export function openOption(object, section,label,container){
                 container.appendChild(img);
                 container.appendChild(label);
                 container.addEventListener("dblclick",()=>{
-
+// still have to find something to put here
                 });
                 container.addEventListener("contextmenu",async(e)=>{
                     e.preventDefault(); // Prevent browser menu!
                     e.stopPropagation();// Prevent interpretation of addevent listeners to current displayed screen.
                     await openOption(dupFile,section,label,container);                    
                 })
-                // recursive dups for localStorageManagment
-        
-                
-                let currentDesk = getCurrentDesk();
+                // recursive dups for localStorageManagment               
+                let currentDesk = getCurrentDesk();// number 1 you get 
                 let currentDeskContent = currentDesk.content;
-                if(!section.dataset.id){
-                    currentDeskContent.push(dupFile);
+                if(!section.dataset.id){ // just here for homesection case. 
+                    currentDeskContent.push(dupFile);// Only section that doesn t have dataset.id
                 } else {
                     recursiveDup(currentDeskContent);
                 }
-                updateCurrentDesk(currentDesk);
+                // number 2 you change
+                updateCurrentDesk(currentDesk); // number 3 you update in datastorage !
                 updateCurrentDeskInDesks(currentDesk);
-
                 section.appendChild(container);
                 optionMenu.remove();
                 resolve();
@@ -323,44 +315,32 @@ export function openOption(object, section,label,container){
                 container.appendChild(img);
                 container.appendChild(label);
                 container.addEventListener("dblclick",async ()=>{
-        let securityCheck = 0;
+                let securityCheck = 0;
                 // Little trick there ! i can use folder here before creation. I could have put it before but i find it fun to leeave it there.
-        if (folder.accessPassword){ 
-            let pswrd = await textNeeded('what is the password?','Try to guess mthfckr',section);//await really needed there
-            if(pswrd === folder.accessPassword){
-                passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen still not solved tho
-            }                                        // to lazy to create a specific display function just for this
-            else{
-                passingInfo('u re out buddy',section);
-                securityCheck = 1; // security check is locked in 
-                }
-            }
-            if(securityCheck === 0){// U can come in my man ! Just choosin what i ll display you there
+                if (folder.accessPassword){ 
+                    let pswrd = await textNeeded('what is the password?','Try to guess mthfckr',section);//await really needed there
+                        if(pswrd === folder.accessPassword){
+                            passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen still not solved tho
+                        }                                        // to lazy to create a specific display function just for this
+                        else{
+                            passingInfo('u re out buddy',section);
+                            securityCheck = 1; // security check is locked in 
+                        }
+                    }
+                if(securityCheck === 0){// U can come in my man ! Just choosin what i ll display you there
                     // array is full of div representing all my created screen displayed
                 if(container.dataset.index){ // i stored dataset in container representing folder
                 await quiteSlideLeft(section);// then i just linked it to a specific index in DOM array
                 array[container.dataset.index].style.display=``; // Big brain thinking there
                 await slideRight(array[container.dataset.index]); // Await everywhere for smooth animations
                 }
-            }})
-            
-                        // else{
-                        //     let newDesk = await createNew(section);// await needed there because i need result in later script
-                        //     newDesk.dataset.id = folder.id; // starting from here actually 
-                        //     addScreenAndUpdate({id : folder.id})
-                        //     array.push(newDesk);
-                        //     container.dataset.index = array.length-1; 
-                        // };  
-        
-            
-    
+            }
+        })        
                 container.addEventListener("contextmenu",async(e)=>{
                     e.preventDefault(); // Prevent browser menu!
                     e.stopPropagation();// Prevent interpretation of addevent listeners to current displayed screen.
                     await openOption(dupFile,section,label,container);                    
-                })
-
-            
+                })           
                 let currentDesk = getCurrentDesk();
                 let currentDeskContent = currentDesk.content;
                 if(!section.dataset.id){
@@ -375,9 +355,6 @@ export function openOption(object, section,label,container){
                 optionMenu.remove();
                 resolve();
             }
-
-
-
         })
         //////////// LOVE CAPSLOCK ///////////////////:
         ///////////WHERE IS THE NEXT RICKROLLED TRAP????/////////
@@ -390,20 +367,20 @@ export function openOption(object, section,label,container){
                 }
             });
         }, 0);
-        });
-    }
-    
+    });
+}
+     // this one i never used and never going to i think !
+export function searchIdandPushAndUpdate(currentDesk,objects,needStorage,targetID){
+    objects.forEach(object => {
+        if (object.id == targetID){
+            object.children.push(needStorage);
+            updateCurrentDesk(currentDesk);
+            updateCurrentDeskInDesks(currentDesk);
+            return;
+        }
+        if (object.type == "folder"){
+            searchIdandPushAndUpdate(currentDesk,object.children, needStorage,targetID);  
+        };
+    });
+}
 
-    export function searchIdandPushAndUpdate(currentDesk,objects,needStorage,targetID){
-        objects.forEach(object => {
-            if (object.id == targetID){
-                object.children.push(needStorage);
-                updateCurrentDesk(currentDesk);
-                updateCurrentDeskInDesks(currentDesk);
-                return;
-            }
-            if (object.type == "folder"){
-                searchIdandPushAndUpdate(currentDesk,object.children, needStorage,targetID);  
-            };
-        });
-    }

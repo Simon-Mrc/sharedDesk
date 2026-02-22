@@ -1,4 +1,4 @@
-FIXE DUP BTN with recursive so it get stored into local storage.
+#1 Check modifyandupdate function because i don t think i made it recursive and it s gonna cause major issu!!
 
 Think about starting set up you have to build each time 
 you change environment without affecting local storage data

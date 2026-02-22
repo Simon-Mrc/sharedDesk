@@ -59,20 +59,13 @@ export async function newFile(x,y,section){ //Actually async probably not needed
                 if(!section.dataset.id){// if section doesnt have dataset.id it means it doesn t came from a folder                  
                     addContentAndUpdate(file); // So it the main desk basically
                 }
-                else{// i have to match to witch folder it came from
-                    // They have the same unique id (giver to folder at creation and given to section)
-                    // via folder on creation 
-                    // for(let i = 0 ; i < getCurrentDesk().content.length; i = i + 1){ // looping through durrentdeskcontent
-                    //     if(getCurrentDesk().content[i].id ==  section.dataset.id){
-                    //         //found the match !!
-                    //         let currentDeck = getCurrentDesk() // get current desk
-                    //         currentDeck.content[i].children.push(file);//update it with file inside right folder
-                    //         updateCurrentDesk(currentDeck);//save current deck in local storage
-                    //         updateCurrentDeskInDesks(currentDeck);//save updated desk in all desks data     
-                    //     }
-                    // }
-                    // gonna run a few test with this one . Spent 1 hour on this! My first recursive call
-                    // Learned a frking lot i love it ! very quite tricky tho
+                // They have the same unique id (given to folder at creation and given to section)
+                // via folder on creation 
+                
+                // gonna run a few test with this one . Spent 1 hour on this! My first recursive call
+                // Learned a frking lot i love it ! very quite tricky tho
+                // i have to match to witch folder it came from
+                else{
                     let currentDesk = getCurrentDesk();
                     searchIdandPushAndUpdate(currentDesk,currentDesk.content,file,section.dataset.id)
                     }
@@ -145,17 +138,11 @@ export async function newFolder(x,y,section){// many wait needed
                             await quiteSlideLeft(section);// then i just linked it to a specific index in DOM array
                             array[container.dataset.index].style.display=``; // Big brain thinking there
                             await slideRight(array[container.dataset.index]); // Await everywhere for smooth animations
-                        }
-                        // else{
-                        //     let newDesk = await createNew(section);// await needed there because i need result in later script
-                        //     newDesk.dataset.id = folder.id; // starting from here actually 
-                        //     addScreenAndUpdate({id : folder.id})
-                        //     array.push(newDesk);
-                        //     container.dataset.index = array.length-1; 
-                        // };  
+                        }                       
                     }
-                    }
-                )
+                    
+                })
+                
                 //Amazing to see that i can create folder element here. So beautiful
                 // let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);          
                 container.addEventListener("contextmenu",/*async*/ (e)=>{
