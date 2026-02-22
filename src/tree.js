@@ -1,3 +1,4 @@
+import './style/style.css';
 import { getCurrentDesk } from "./helperFunctions";
 // Got to admit i was very too lazy building this myself.
 // It s not the fun part !! 
@@ -7,6 +8,8 @@ import { getCurrentDesk } from "./helperFunctions";
 // ACTUALLY it seems i would greatly learn with this and it might also solve my data managment issu.
 export function displayTree() {
   let currentDesk = getCurrentDesk();
+  let treeEx = document.querySelector(".existingTree");
+  if (treeEx) treeEx.remove();
 
   function buildTree(items, prefix = '') {
       let result = '';
@@ -41,6 +44,7 @@ export function displayTree() {
   max-width: 30vw;
   overflow: auto;
 `;
+display.classList.add("existingTree");
 
   let closeBtn = document.createElement('button');
   closeBtn.textContent = '❌ Close';
