@@ -8,7 +8,7 @@ import { initiate,createNew } from './functions.js';
 import { searchIdandPushAndUpdate } from './helperFunctions.js';
 import { displayTree } from './tree.js';
 // Scope is a pain hopefully localstorage exist. Too lazy to change it to manage changes.
-let array = [];
+export let array = [];
 export async function newFile(x,y,section){ //Actually async probably not needed there !    
     if(getCurrentDesk().modifyUserId.includes(getCurrentUser().id)){
         // Used to force container to have right style properties to allow positionning on click

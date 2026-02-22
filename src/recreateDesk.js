@@ -1,14 +1,15 @@
-import { slideRight } from "./animations";
-import { showContextMenu } from "./creationbundle";
-import { getCurrentUser, getAllDesks, createDesk, updateDesks, addContentAndUpdate, createFile, getCurrentDesk, openOption, searchIdandPushAndUpdate } from "./helperFunctions";
+import { quiteSlideLeft, slideRight } from "./animations";
+import { array, showContextMenu } from "./creationbundle";
+import { createNew } from "./functions";
+import { getCurrentUser, getAllDesks, createDesk, updateDesks, addContentAndUpdate, createFile, getCurrentDesk, openOption, searchIdandPushAndUpdate, addScreenAndUpdate, createFolder } from "./helperFunctions";
 import { textNeeded, passingInfo, showNamePrompt } from "./namePrompt";
 import { displayTree } from "./tree";
 
-export async function recreateDesk(recreatedDesk, deskContent){
+export async function recreateDesk(deskContent){
     // Initialisation !
     let section = document.getElementById(`globalHome`);
-        let nameChosen = desk.name 
-        let desk = document.createElement(`div`);
+    let desk = document.createElement(`div`);
+    let nameChosen = desk.name 
         desk.addEventListener('contextmenu', function(event) {
             event.preventDefault(); 
             const elementX = event.offsetX;
@@ -25,23 +26,25 @@ export async function recreateDesk(recreatedDesk, deskContent){
         localStorage.setItem("currentDesk", JSON.stringify(currentDesk)); 
      
     // RECURSIVE FUN PART STARTS HERE
-    function recursiveDesk(recreatedDesk, deskContent){
-        deskContent.forEach(content => {
+    async function recursiveDesk(deskContent, section){ // ← section as parameter! ✅
+        for(let content of deskContent){
             if(content.type == "file"){
-                recreateByFile();
+                recreateByFile(content, section);  // ← pass section! ✅
             }
-            else if (content.children.length ==0){
-                recreateByFolder();
-                recreateSection();
+            else if(content.type == "folder"){
+                let newSection = await recreateSection(section); // ← creates section, returns it!
+                recreateByFolder(content, section, newSection);  // ← pass both! ✅
+                if(content.children.length > 0){
+                    await recursiveDesk(content.children, newSection); // ← go deeper with newSection! ✅
+                }
             }
-            else{
-                recursiveDesk(desk ,content.children);
-            }           
-        });
+        }
     }
+
+    await recursiveDesk(deskContent, deskContent); // ← start with deskElement as first section! ✅
 }
 
-export function recreateByFile(createdFile){
+export function recreateByFile(createdFile,section){
         if (section.style.position !== 'relative' && section.style.position !== 'absolute') {
             section.style.position = 'relative';
         }
@@ -80,11 +83,89 @@ export function recreateByFile(createdFile){
                 })
 
                 // OMG if it works I AM A FREAKING GENIOUS. This is for saving file data into folder he s beeen created into !
-                section.appendChild(container);                
-}
-export function recreateByFolder(){
+                section.appendChild(container); 
 
 }
+export async function recreateByFolder(createdFolder,section){
+        // Used to force container to have right style properties to allow positionning on click
+    if (section.style.position !== 'relative' && section.style.position !== 'absolute') {
+            section.style.position = 'relative';
+    }
+    section.style.overflow = 'hidden';
+    // try{//obvioulsy awaiting there because you need data to follow script flow
+    
+    let container = document.createElement('div');
+    container.classList.add('icon');
+    container.style.left = createdFolder.x + 'px';
+    container.style.top = createdFolder.y + 'px';
+                
+                // Image for file 
+    let img = document.createElement('img');
+    img.src = "../pictures/folder.jpg";
+                
+                // Label thats gonna be displayed need to work on it
+    let label = document.createElement('span');
+    label.classList.add('icon-label');
+    label.textContent = createdFolder.name;
+                
+                // Attached img and label to container wich is right-positionned
+    container.appendChild(img);
+    container.appendChild(label);
+    let folder = createdFolder;
+    let newDesk = await createNew(section);// await needed there because i need result in later script
+    newDesk.dataset.id = folder.id; // starting from here actually 
+    addScreenAndUpdate({id : folder.id})
+    array.push(newDesk);
+    container.dataset.index = array.length-1;     
+
+    
+    container.addEventListener("dblclick",async ()=>{
+        let securityCheck = 0;
+                // Little trick there ! i can use folder here before creation. I could have put it before but i find it fun to leeave it there.
+        if (folder.accessPassword){ 
+            let pswrd = await textNeeded('what is the password?','Try to guess mthfckr',section);//await really needed there
+            if(pswrd === folder.accessPassword){
+                passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen still not solved tho
+            }                                        // to lazy to create a specific display function just for this
+            else{
+                passingInfo('u re out buddy',section);
+                securityCheck = 1; // security check is locked in 
+                }
+            }
+            if(securityCheck === 0){// U can come in my man ! Just choosin what i ll display you there
+                    // array is full of div representing all my created screen displayed
+                if(container.dataset.index){ // i stored dataset in container representing folder
+                await quiteSlideLeft(section);// then i just linked it to a specific index in DOM array
+                array[container.dataset.index].style.display=``; // Big brain thinking there
+                await slideRight(array[container.dataset.index]); // Await everywhere for smooth animations
+            }
+                        // else{
+                        //     let newDesk = await createNew(section);// await needed there because i need result in later script
+                        //     newDesk.dataset.id = folder.id; // starting from here actually 
+                        //     addScreenAndUpdate({id : folder.id})
+                        //     array.push(newDesk);
+                        //     container.dataset.index = array.length-1; 
+                        // };  
+        }
+    }
+         )
+                //Amazing to see that i can create folder element here. So beautiful
+                // let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);          
+        container.addEventListener("contextmenu",/*async*/ (e)=>{
+            e.preventDefault(); // rightclicking interprated by computer
+            e.stopPropagation();// rightclicking interpretader elsewhere from container
+  /*await*/ openOption(folder,section,label,container); //async and await obviously not needed but i like the colours so considering keeping it
+            })
+                //Final linking the box created to current desk
+            section.appendChild(container);
+                
+            displayTree()
+                 // Always return something right ! well obviously this one s gonna be usefull 
+}
+        // }catch{ // Nice user experience
+        // console.log('gonna fix it later. i ve got much more to do u know')}
+
+
 export async function recreateSection(section){
     let desk = document.createElement(`div`);
     desk.classList.add(`desk-column-large`);
@@ -110,5 +191,6 @@ export async function recreateSection(section){
     });
     desk.appendChild(goBack);
     desk.style.display = 'none';
-    globalHome.appendChild(desk);
+    section.appendChild(desk);
+return desk;
 };

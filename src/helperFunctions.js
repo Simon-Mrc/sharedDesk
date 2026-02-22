@@ -28,6 +28,7 @@ export function createFile(currentUser, chosenName, currentDesk,x,y){
         createdBy: currentUser.id,
         creatorColor: "#FF5733",
         fileData: null,
+        children: []
     }
 };
 export function createFolder(currentUser, chosenName, currentDesk,x,y){
