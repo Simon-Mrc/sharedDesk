@@ -11,8 +11,10 @@ import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { initiate,createNew } from './functions.js';
 import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
 import { recreateDesk } from './recreateDesk.js';
+import { createUserAndUpdate } from './manager.js';
+import { clearState } from './manager.js';
 
-
+clearState();
 // Really need to set up a starting state to reset beetween each switching environment.
 // Testing purpose ! don t look at desk 3 btw
 loadMockData();
@@ -64,6 +66,7 @@ buttonShrink.addEventListener("click", ()=>{
   let users = JSON.parse(localStorage.getItem("users"));
   let currentUser = users[1];
   localStorage.setItem("currentUser",JSON.stringify(currentUser));
+  createUserAndUpdate(globalHome)
 });
 
 quite.addEventListener("click", ()=>{

@@ -51,6 +51,18 @@ export function createFolder(currentUser, chosenName, currentDesk,x,y){
             children: []  // This one was hard to solve tho !
     }
 };
+export function createUser(name,userName,mail,password){
+    return{
+        name: name,
+        userName: userName,
+        id: mail,
+        accountType: "",
+        mail: mail,
+        password: password,  
+        desks : [],
+        userColor: "#FF5733"
+    }
+}
 
 // LOOK AT ALL THOSE JSON UPDATE AND GET BUNDLE
 // maybe redundant ones. lazy ass me wrote function without checking if existing
@@ -100,7 +112,7 @@ export function modifyContentAndUpdate(item){  // this one modify and update cur
                 return;
             }
             else if(stuff.type == "folder"){
-                recursiveMod(stuff.children)
+                recursiveMod(stuff.children,item)
             }           
         });
     }

@@ -10,6 +10,7 @@ export const users = [
         accountType: "premium",
         mail: "simon@shareddesk.com",
         password: "test123",  // Plaintext for testing only!
+        desks : [],
         userColor: "#FF5733"
     },
     {
