@@ -32,7 +32,7 @@ localStorage.setItem('screens', JSON.stringify(screens));
 
 // Creation of container for all that s gonna be displayed. Receptacle
 // for first appenchild(desk)
-const globalHome = document.getElementById(`globalHome`);
+export const globalHome = document.getElementById(`globalHome`);
 
 // Function to toggle sidebar expansion, basically just css class changing function
 // nice animation tho

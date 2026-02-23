@@ -12,7 +12,7 @@ export const users = [
         password: "test123",  // Plaintext for testing only!
         desksId : ["desk-004","desk-003" ],
         // friendList : [], // 
-        // notifications : ,
+        // notif : ,
         userColor: "#FF5733"
     },
     {

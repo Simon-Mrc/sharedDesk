@@ -1,8 +1,9 @@
-import { passingInfo, textNeeded } from './namePrompt.js';
-import { getAllDesks, getAllUsers, createUser, updateCurrentDesk, getCurrentUser, updateCurrentUser, updateCurrentUserInUsers } from './helperFunctions.js';
+import { acceptOrDenied, passingInfo, textNeeded } from './namePrompt.js';
+import { getAllDesks, getAllUsers, createUser, updateCurrentDesk, getCurrentUser, updateCurrentUser, updateCurrentUserInUsers, updateAllUsers } from './helperFunctions.js';
 import { array } from './creationbundle.js';
 import { recreateDesk } from './recreateDesk.js';
 import { displayTree } from './tree.js';
+import { globalHome } from './main.js';
 
 export function clearStateInStorage(){
     let wipe = document.getElementById('globalHome');
@@ -143,5 +144,24 @@ export function addFriend(targetFriend){
 export function sendFriendRequest(targetFriend){
     let currentUser = getCurrentUser();
     let allUsers = getAllUsers();
+    for(i = 0 ; i < allUsers.length ; i = i + 1){
+        if (allUsers[i].id == targetFriend.id){
+            allUsers[i].notif.push(currentUser.id);
+        }
+    }
+    updateAllUsers(allUsers);
+}
 
+export async function showNotif(){
+    let currentUser = getCurrentUser();
+    if(currentUser.friendList[0] != undefined){
+        await acceptOrDenied("will you take me as a friend ?", globalHome,addFriend(currentUser.friendList[0]), deleteNotif());
+    }    
+}
+
+export function deleteNotif(){
+    let currentUser = getCurrentUser();
+    currentUser.friendList.splice(0,1);
+    updateCurrentUser();
+    updateCurrentUserInUsers();
 }

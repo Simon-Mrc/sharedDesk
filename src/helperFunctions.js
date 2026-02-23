@@ -98,7 +98,7 @@ export function updateDesks(item){
 export function updateCurrentDesk(item){
     localStorage.setItem("currentDesk", JSON.stringify(item));
 }
-export function updateUsers(item){
+export function updateAllUsers(item){
     localStorage.setItem("users",JSON.stringify(item));
 }
 export function updateCurrentUser(item){
