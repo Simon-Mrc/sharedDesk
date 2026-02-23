@@ -5,12 +5,12 @@
 export const users = [
     {
         name: "Simon Mrc",
-        userName: "simon_mrc",
+        userName: "SimonMrc",
         id: "user-001",
         accountType: "premium",
         mail: "simon@shareddesk.com",
         password: "test123",  // Plaintext for testing only!
-        desks : [],
+        desksId : ["desk-004","desk-003" ],
         userColor: "#FF5733"
     },
     {

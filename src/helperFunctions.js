@@ -59,7 +59,7 @@ export function createUser(name,userName,mail,password){
         accountType: "",
         mail: mail,
         password: password,  
-        desks : [],
+        desksId : [],
         userColor: "#FF5733"
     }
 }

@@ -1,27 +1,27 @@
-import { passingInfo, showNamePrompt, textNeeded } from './namePrompt.js';
-import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateUsers,
-addContentAndUpdate, createFolder, createFile, updateCurrentDesk, openOption, 
-addScreenAndUpdate,
-updateCurrentDeskInDesks} from './helperFunctions.js';
-import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
-import { initiate,createNew } from './functions.js';
-import { searchIdandPushAndUpdate } from './helperFunctions.js';
-import { displayTree } from './tree.js';
+import { passingInfo, textNeeded } from './namePrompt.js';
+import { getAllDesks, getAllUsers, createUser } from './helperFunctions.js';
 import { array } from './creationbundle.js';
-import { createUser } from './helperFunctions.js';
+import { recreateDesk } from './recreateDesk.js';
 
-export function clearState(){
-    // 1. Wipe the DOM
+export function clearStateInStorage(){
     let wipe = document.getElementById('globalHome');
     wipe.innerHTML=``;
     array.length = 0; // by doin so i empty the array without breaking reference and contain it to this scope
     localStorage.setItem(`screens`,JSON.stringify([{id : 0}]));
 }
+export function clearStateInHtml(){
+    let allThatClear = document.querySelectorAll(`.needEmpty`);
+    allThatClear.forEach(element => {
+        element.innerHTML=``;
+    });
+}
 export function switchDesk(deskGiven){
-    clearState() ;    // BYE BYE
+    clearStateInStorage() ;    // BYE BYE
     localStorage.setItem(`currentDesk`, JSON.stringify(deskGiven));  
     recreateDesk(deskGiven);  // HELLO
 }
+
+// This one create user, store in LS Set currentUser and load userState starting point
 export async function createUserAndUpdate(section){
     try{
         let name = await textNeeded( "Choose a name","Don t be generic tho",section);
@@ -33,7 +33,61 @@ export async function createUserAndUpdate(section){
         users.push(newUser);
         localStorage.setItem('users',JSON.stringify(users));
         localStorage.setItem('currentUser',JSON.stringify(newUser));
+        loadState(newUser);
     }catch(error){
         console.log(error);
     }
+}
+export function findDeskById(deskId){
+    let allDesks = getAllDesks();
+    let searchedDesk = {};
+    allDesks.forEach(desk => {
+        if(desk.id == deskId){
+            Object.assign(searchedDesk,desk);
+        }        
+    });
+    return searchedDesk
+}
+
+// Carefull there you need full user object for function // not just id
+export function loadState(user){ // Here user.desks is actually ids ! not the full desk
+    clearStateInStorage(); // thought it would be better for storage managment.
+    clearStateInHtml();
+    user.desksId.forEach(deskid => { // did the change at beginning for more lisibility
+        let deskbtn = document.createElement('button')
+        let fullDesk = {};
+        Object.assign(fullDesk,findDeskById(deskid))
+        deskbtn.addEventListener("click",()=>{
+            switchDesk(fullDesk);
+        })
+        deskbtn.innerText = fullDesk.name;
+        document.getElementById("myDesks").appendChild(deskbtn);
+    });
+
+}
+
+export async function logging(section){
+    try{
+        let users = getAllUsers();
+        let userName = await textNeeded( "Whats your name already ?","I don t recall you",section);
+        let check = 0;
+        let currentUser = {};
+        users.forEach(user => {
+            if(user.name == userName){
+                check = 1;
+                Object.assign(currentUser,user);
+            }
+        });
+        if(check ==1){
+            let pswrd = await textNeeded( "What the password","don t remember ? what a shame",section);
+            if(pswrd == currentUser.password){
+                passingInfo("Welcome Back", section);
+                loadState(currentUser);
+                localStorage.setItem('currentUser',JSON.stringify(currentUser));
+            }
+
+        }
+
+
+    }catch(error){console.log(error)} 
 }

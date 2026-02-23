@@ -11,13 +11,14 @@ import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { initiate,createNew } from './functions.js';
 import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
 import { recreateDesk } from './recreateDesk.js';
-import { createUserAndUpdate } from './manager.js';
-import { clearState } from './manager.js';
+import { clearStateInHtml, clearStateInStorage, createUserAndUpdate } from './manager.js';
 
-clearState();
+clearStateInHtml();
+clearStateInStorage();
 // Really need to set up a starting state to reset beetween each switching environment.
 // Testing purpose ! don t look at desk 3 btw
-loadMockData();
+
+// loadMockData();   //////////MOCK DATA HERE////////////////////
 
 // Displaying all my shame. But it feels good.
 const treeBtn = document.getElementById('showTree');

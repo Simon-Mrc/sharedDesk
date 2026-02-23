@@ -318,3 +318,6 @@ input::placeholder {
 ::-webkit-scrollbar-thumb:hover {
   background: #b0b0b0;
 }
+.needEmpty{
+  font-style: normal;
+}
