@@ -1,5 +1,5 @@
 import { showNamePrompt,textNeeded,passingInfo } from './namePrompt.js';
-import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateUsers,addContentAndUpdate } from './helperFunctions.js';
+import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateAllUsers,addContentAndUpdate } from './helperFunctions.js';
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
 import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { clearStateInHtml, clearStateInStorage } from './manager.js';

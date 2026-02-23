@@ -276,6 +276,11 @@ export function passingInfo(question,section){  // Getting better at giving name
                 prompt.remove();
                     resolve(accept()); 
                 } );
+                
+                cancelBtn.addEventListener('click', () => {
+                    prompt.remove();
+                    reject(denied()); 
+                    } );
     
             document.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {

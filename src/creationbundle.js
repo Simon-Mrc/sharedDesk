@@ -1,5 +1,5 @@
 import { passingInfo, showNamePrompt, textNeeded } from './namePrompt.js';
-import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateUsers,
+import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateAllUsers,
 addContentAndUpdate, createFolder, createFile, updateCurrentDesk, openOption, 
 addScreenAndUpdate,
 updateCurrentDeskInDesks} from './helperFunctions.js';

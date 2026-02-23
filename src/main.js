@@ -2,7 +2,7 @@ import './style/style.css';
 import './style/animations.css';
 import './style/buttons.css';
 import './style/containers.css';
-import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateUsers,addContentAndUpdate } from './helperFunctions.js';
+import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateAllUsers,addContentAndUpdate } from './helperFunctions.js';
 import { users, desks, loadMockData } from './mock.js';
 import {localStorageStoreTest, localStorageGetTest} from './localStorageTest.js';
 import { showNamePrompt,textNeeded } from './namePrompt.js';
@@ -11,7 +11,7 @@ import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { initiate,createNew } from './functions.js';
 import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
 import { recreateDesk } from './recreateDesk.js';
-import { clearStateInHtml, clearStateInStorage, createUserAndUpdate, logging, savingDesk } from './manager.js';
+import { clearStateInHtml, clearStateInStorage, createUserAndUpdate, logging, savingDesk, showNotif } from './manager.js';
 
 clearStateInHtml();
 clearStateInStorage();
@@ -87,4 +87,10 @@ desk1.addEventListener("click",()=>{
 })
 desk2.addEventListener("click",()=>{
   savingDesk(JSON.parse(localStorage.getItem('currentDesk')));
+})
+let notif=document.getElementById("notif");
+notif.textContent = "Notif";
+
+notif.addEventListener("click",()=>{
+ showNotif();
 })

@@ -9,10 +9,10 @@ export const users = [
         id: "user-001",
         accountType: "premium",
         mail: "simon@shareddesk.com",
-        password: "test123",  // Plaintext for testing only!
+        password: "test123",  
         desksId : ["desk-004","desk-003" ],
-        // friendList : [], // 
-        // notif : ,
+        friendList : [],  
+        notif : ["user-002"],
         userColor: "#FF5733"
     },
     {

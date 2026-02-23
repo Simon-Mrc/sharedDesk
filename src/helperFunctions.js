@@ -60,8 +60,8 @@ export function createUser(name,userName,mail,password){
         mail: mail,
         password: password,  
         desksId : [],
-        // friendList : [], // 
-        // notifications : ,
+        friendList : [],  
+        notifications : [],
         userColor: "#FF5733"
     }
 }

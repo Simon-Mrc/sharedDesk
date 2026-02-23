@@ -134,17 +134,18 @@ export function changeUser(targetUser){
     loadState(targetUser);
 }
 
-export function addFriend(targetFriend){
+export function addFriend(targetFriendId){
     let currentUser = getCurrentUser()
-    currentUser.friendList.push(targetFriend.id);
-    updateCurrentUser();
+    currentUser.friendList.push(targetFriendId);
+    currentUser.notif.splice(0,1);
+    updateCurrentUser(currentUser);
     updateCurrentUserInUsers(currentUser);
 }
 
 export function sendFriendRequest(targetFriend){
     let currentUser = getCurrentUser();
     let allUsers = getAllUsers();
-    for(i = 0 ; i < allUsers.length ; i = i + 1){
+    for(let i = 0 ; i < allUsers.length ; i = i + 1){
         if (allUsers[i].id == targetFriend.id){
             allUsers[i].notif.push(currentUser.id);
         }
@@ -154,14 +155,16 @@ export function sendFriendRequest(targetFriend){
 
 export async function showNotif(){
     let currentUser = getCurrentUser();
-    if(currentUser.friendList[0] != undefined){
-        await acceptOrDenied("will you take me as a friend ?", globalHome,addFriend(currentUser.friendList[0]), deleteNotif());
+    if(currentUser.notif[0] != undefined){
+        await acceptOrDenied("will you take me as a friend ?", globalHome,
+            () => addFriend(currentUser.notif[0]),
+            () => deleteNotif())
     }    
 }
 
 export function deleteNotif(){
     let currentUser = getCurrentUser();
-    currentUser.friendList.splice(0,1);
-    updateCurrentUser();
-    updateCurrentUserInUsers();
+    currentUser.notif.splice(0,1);
+    updateCurrentUser(currentUser);
+    updateCurrentUserInUsers(currentUser);
 }
