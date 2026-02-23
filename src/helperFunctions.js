@@ -28,7 +28,7 @@ export function createFile(currentUser, chosenName, currentDesk,x,y){
         urlLink: null,
         accessPassword: null,
         createdBy: currentUser.id,
-        creatorColor: "#FF5733",
+        creatorColor: currentUser.userColor,
         fileData: null,
         children: []
     }
@@ -47,7 +47,7 @@ export function createFolder(currentUser, chosenName, currentDesk,x,y){
             urlLink: null,
             accessPassword: null,
             createdBy: currentUser.id,
-            creatorColor: "#FF5733",
+            creatorColor: currentUser.userColor,
             children: []  // This one was hard to solve tho !
     }
 };
@@ -60,6 +60,8 @@ export function createUser(name,userName,mail,password){
         mail: mail,
         password: password,  
         desksId : [],
+        // friendList : [], // 
+        // notifications : ,
         userColor: "#FF5733"
     }
 }
@@ -101,6 +103,15 @@ export function updateUsers(item){
 }
 export function updateCurrentUser(item){
     localStorage.setItem('currentUser', JSON.stringify(item));
+}
+export function updateCurrentUserInUsers(currentUser){
+    let allUsers = getAllUsers();
+    for(let i = 0 ; i < allUsers.length ; i = i + 1){
+        if(allUsers[i].id == currentUser.id){
+            Object.assign(allUsers[i],currentUser); 
+        }
+    }
+    localStorage.setItem('users',JSON.stringify(allUsers));
 }
 export function modifyContentAndUpdate(item){  // this one modify and update currentDesk in localStorage
     let currentDesk = getCurrentDesk();

@@ -1,7 +1,8 @@
 import { passingInfo, textNeeded } from './namePrompt.js';
-import { getAllDesks, getAllUsers, createUser } from './helperFunctions.js';
+import { getAllDesks, getAllUsers, createUser, updateCurrentDesk, getCurrentUser, updateCurrentUser, updateCurrentUserInUsers } from './helperFunctions.js';
 import { array } from './creationbundle.js';
 import { recreateDesk } from './recreateDesk.js';
+import { displayTree } from './tree.js';
 
 export function clearStateInStorage(){
     let wipe = document.getElementById('globalHome');
@@ -20,6 +21,7 @@ export function switchDesk(deskGiven){
     clearStateInStorage() ;    // BYE BYE
     localStorage.setItem(`currentDesk`, JSON.stringify(deskGiven));  
     recreateDesk(deskGiven);  // HELLO
+    displayTree();
 }
 
 // This one create user, store in LS Set currentUser and load userState starting point
@@ -103,14 +105,43 @@ export async function logging(section){
 }
 
 export function savingDesk(currentDesk){
-    let deskbtn = document.createElement('button')
-    let fullDesk = {};
-    Object.assign(fullDesk,currentDesk);
-    deskbtn.addEventListener("click",()=>{
-        switchDesk(fullDesk);
-    })
-    deskbtn.textContent = currentDesk.name;
-    document.getElementById(`myDesks`).appendChild(deskbtn);
+    if(document.getElementById(currentDesk.id)){
+        let fullDesk = {};
+        let cleanBtn = document.getElementById(currentDesk.id).cloneNode(true); // ✅ copies element, no listeners!
+        document.getElementById(currentDesk.id).replaceWith(cleanBtn);          // ✅ swaps it in DOM!
+        Object.assign(fullDesk,currentDesk);
+        cleanBtn.addEventListener("click",()=>{
+            switchDesk(fullDesk);
+        })
+    }
+    else{
+        let deskbtn = document.createElement('button')
+        let fullDesk = {};
+        Object.assign(fullDesk,currentDesk);
+        deskbtn.addEventListener("click",()=>{
+            switchDesk(fullDesk);
+        })
+        deskbtn.textContent = currentDesk.name;
+        deskbtn.id = currentDesk.id;
+        document.getElementById(`myDesks`).appendChild(deskbtn);
+    }
 }
 
-// export function 
+// Again we need full targetUser object for this function
+export function changeUser(targetUser){
+    localStorage.setItem('currentUser', JSON.stringify(targetUser));
+    loadState(targetUser);
+}
+
+export function addFriend(targetFriend){
+    let currentUser = getCurrentUser()
+    currentUser.friendList.push(targetFriend.id);
+    updateCurrentUser();
+    updateCurrentUserInUsers(currentUser);
+}
+
+export function sendFriendRequest(targetFriend){
+    let currentUser = getCurrentUser();
+    let allUsers = getAllUsers();
+
+}

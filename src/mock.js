@@ -11,6 +11,8 @@ export const users = [
         mail: "simon@shareddesk.com",
         password: "test123",  // Plaintext for testing only!
         desksId : ["desk-004","desk-003" ],
+        // friendList : [], // 
+        // notifications : ,
         userColor: "#FF5733"
     },
     {

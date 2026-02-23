@@ -1,5 +1,7 @@
 #1 drag and move files and folders for organisation
     (recursive fun for updatings datas =D)
+// ok i just look upon how to do it. It looks fcking boring as hell. //
+// Want to write it myself but not brave enough atm !//
 
 #2 All buttons and account setting and managment from buttonList.txt
 
@@ -9,6 +11,7 @@
 
 
 ///// IMPORTANT /// TO KEEP WHEN YOU FEEL BORED //////
-///// create recursive functions to modify all content color //
+ in fact i ll probably just create a fake css class 
+ querryselectorAll then change color of container shadow.
 /// must be displayed differently for different user //
 /// Very interesting to think on how to do it  ! ////

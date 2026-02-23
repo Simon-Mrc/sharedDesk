@@ -1,9 +1,10 @@
 ## create new account // function ready
-## change account
-## account settings
-## Invite friends 
-## Invite notifications
+## change account // Function ready 
+## Add friend // Function done (but it ll be use to accept friend request)
+## Invite friends // 
+## Invite notifications 
 ## Invite friends in current desk
+## account settings
 
 
 
