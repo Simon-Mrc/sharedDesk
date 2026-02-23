@@ -1,0 +1,9 @@
+## create new account // function ready
+## change account
+## account settings
+## Invite friends 
+## Invite notifications
+## Invite friends in current desk
+
+
+

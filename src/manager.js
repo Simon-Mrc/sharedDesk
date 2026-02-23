@@ -98,9 +98,19 @@ export async function logging(section){
                 loadState(currentUser);
                 console.log("test2");
             }
-
         }
-
-
     }catch(error){console.log(error)} 
 }
+
+export function savingDesk(currentDesk){
+    let deskbtn = document.createElement('button')
+    let fullDesk = {};
+    Object.assign(fullDesk,currentDesk);
+    deskbtn.addEventListener("click",()=>{
+        switchDesk(fullDesk);
+    })
+    deskbtn.textContent = currentDesk.name;
+    document.getElementById(`myDesks`).appendChild(deskbtn);
+}
+
+// export function 

@@ -1,9 +1,14 @@
-#1 Check modifyandupdate function because i don t think i made it recursive and it s gonna cause major issu!!
+#1 drag and move files and folders for organisation
+    (recursive fun for updatings datas =D)
 
-Think about starting set up you have to build each time 
-you change environment without affecting local storage data
+#2 All buttons and account setting and managment from buttonList.txt
 
-For now coffee, cigarett and maybe some fresh air. Who am i kidding just coffee and smoke
+#3 Search bar for id, name, and specs (maybe search for specific item wich return own desk that contains it ?)
 
-if folder created on top of go back button u can t press it ... need to add a move option.
-Add edvent listener with something like Stayclicked ? need to look into this
+#4 Set account preferencies like color !
+
+
+///// IMPORTANT /// TO KEEP WHEN YOU FEEL BORED //////
+///// create recursive functions to modify all content color //
+/// must be displayed differently for different user //
+/// Very interesting to think on how to do it  ! ////

@@ -11,7 +11,7 @@ import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { initiate,createNew } from './functions.js';
 import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
 import { recreateDesk } from './recreateDesk.js';
-import { clearStateInHtml, clearStateInStorage, createUserAndUpdate, logging } from './manager.js';
+import { clearStateInHtml, clearStateInStorage, createUserAndUpdate, logging, savingDesk } from './manager.js';
 
 clearStateInHtml();
 clearStateInStorage();
@@ -80,10 +80,11 @@ quite.addEventListener("click", ()=>{
 
 let desk1=document.getElementById("desk1");
 let desk2=document.getElementById("desk2");
+desk2.textContent = "savedesk";
 
 desk1.addEventListener("click",()=>{
   recreateDesk(JSON.parse(localStorage.getItem('desks'))[1]);
 })
 desk2.addEventListener("click",()=>{
-  recreateDesk(JSON.parse(localStorage.getItem('desks'))[0]);
+  savingDesk(JSON.parse(localStorage.getItem('currentDesk')));
 })
