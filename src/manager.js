@@ -16,6 +16,7 @@ export function clearStateInHtml(){
     });
 }
 export function switchDesk(deskGiven){
+    clearStateInHtml();
     clearStateInStorage() ;    // BYE BYE
     localStorage.setItem(`currentDesk`, JSON.stringify(deskGiven));  
     recreateDesk(deskGiven);  // HELLO
@@ -51,18 +52,28 @@ export function findDeskById(deskId){
 
 // Carefull there you need full user object for function // not just id
 export function loadState(user){ // Here user.desks is actually ids ! not the full desk
+    console.log("test3");
     clearStateInStorage(); // thought it would be better for storage managment.
     clearStateInHtml();
-    user.desksId.forEach(deskid => { // did the change at beginning for more lisibility
-        let deskbtn = document.createElement('button')
-        let fullDesk = {};
-        Object.assign(fullDesk,findDeskById(deskid))
-        deskbtn.addEventListener("click",()=>{
-            switchDesk(fullDesk);
-        })
-        deskbtn.innerText = fullDesk.name;
-        document.getElementById("myDesks").appendChild(deskbtn);
-    });
+    let allUserDesks = user.desksId;
+    console.log(user);
+    if(allUserDesks == undefined){
+        console.log("test desks");
+        return;
+    }
+    else{
+        allUserDesks.forEach(deskid => { // did the change at beginning for more lisibility
+            console.log("testloop");
+            let deskbtn = document.createElement('button')
+            let fullDesk = {};
+            Object.assign(fullDesk,findDeskById(deskid))
+            deskbtn.addEventListener("click",()=>{
+                switchDesk(fullDesk);
+            })
+            deskbtn.innerText = fullDesk.name;
+            document.getElementById("myDesks").appendChild(deskbtn);
+        });
+    }
 
 }
 
@@ -82,8 +93,10 @@ export async function logging(section){
             let pswrd = await textNeeded( "What the password","don t remember ? what a shame",section);
             if(pswrd == currentUser.password){
                 passingInfo("Welcome Back", section);
-                loadState(currentUser);
                 localStorage.setItem('currentUser',JSON.stringify(currentUser));
+                console.log("test1");
+                loadState(currentUser);
+                console.log("test2");
             }
 
         }

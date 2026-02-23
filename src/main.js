@@ -11,14 +11,14 @@ import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { initiate,createNew } from './functions.js';
 import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
 import { recreateDesk } from './recreateDesk.js';
-import { clearStateInHtml, clearStateInStorage, createUserAndUpdate } from './manager.js';
+import { clearStateInHtml, clearStateInStorage, createUserAndUpdate, logging } from './manager.js';
 
 clearStateInHtml();
 clearStateInStorage();
 // Really need to set up a starting state to reset beetween each switching environment.
 // Testing purpose ! don t look at desk 3 btw
 
-// loadMockData();   //////////MOCK DATA HERE////////////////////
+loadMockData();   //////////MOCK DATA HERE////////////////////
 
 // Displaying all my shame. But it feels good.
 const treeBtn = document.getElementById('showTree');
@@ -63,11 +63,12 @@ buttonExpand.addEventListener("click", ()=>{
   localStorage.setItem("currentUser",JSON.stringify(currentUser));
 });
 const buttonShrink = document.getElementById(`btnSettings`);
+buttonShrink.textContent = "logging test";
 buttonShrink.addEventListener("click", ()=>{ 
   let users = JSON.parse(localStorage.getItem("users"));
   let currentUser = users[1];
   localStorage.setItem("currentUser",JSON.stringify(currentUser));
-  createUserAndUpdate(globalHome)
+  logging(globalHome);
 });
 
 quite.addEventListener("click", ()=>{

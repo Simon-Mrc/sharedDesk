@@ -20,6 +20,7 @@ export const users = [
         accountType: "free",
         mail: "alice@shareddesk.com",
         password: "test456",
+        desksId : [],
         userColor: "#33FF57"
     },
     {
@@ -29,6 +30,7 @@ export const users = [
         accountType: "premium",
         mail: "bob@shareddesk.com",
         password: "test789",
+        desksId : [],
         userColor: "#3357FF"
     }
 ];

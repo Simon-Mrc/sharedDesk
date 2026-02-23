@@ -213,22 +213,13 @@ export function passingInfo(question,section){  // Getting better at giving name
                 resolve(); 
             } );
 
-        input.addEventListener('keypress', (e) => {
+        document.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 createBtn.click();
                 prompt.remove();
             }
-        });
-        
-
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                prompt.remove();
-                reject('cancelled'); 
-            }
-        });
-        
-
+        },{once : true});
+             
         setTimeout(() => {
             document.addEventListener('click', function closePrompt(e) {
                 if (!prompt.contains(e.target)) {
