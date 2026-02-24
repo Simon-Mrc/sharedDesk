@@ -12,21 +12,46 @@
     <div id = "sideBar">
       <button id="toggleSideBar">Toggle Sidebar</button>
       <div id = "deskSideBar">
-        <button id="initiate">Initiate</button>
       </div>
       <div id = "moreStuff">
-      </div>     
+        <button id="logInLogOut">Login Logout</button>
+        <button id="createUserBtn">CreateUser</button>
+        <button id="initiate">Initiate Desk</button>
+        <button id="saveCurrent">Save Desk</button>
+      </div>   
       <div>
-        <div id = "desksSide">
-          <h3> MY DESKS</h3>
-          <div id="myDesks" style="display: flex; flex-direction: column;">
-
+        <div id = "desksSide" style="display: flex; flex-direction: column;">
+          <div style="display: flex; flex-direction: row;">
+            <h3> MY DESKS</h3>
+            <button id="changeColorBtn">TempChangeColor</button>
+          </div>
+          <div id="myDesks" style="display: flex; flex-direction: columns;">
+            <div style="display: flex; flex-direction: row;" >
+              <input id = "searchInDesk" placeholder="Search for a desk or folder or file or love">
+              <button id="searchInDeskbtn">search</button>
+            </div>
           </div>       
         </div>
+      </div>  
+      <div id = "searchBarFriendandDesk">
+        <div id = "divNightmare">
+          <div id="sub1" style="display: flex; flex-direction: raw;">
+            <input id="searchFriend" placeholder="Search for a friend">
+            <button id="searchFriendbtn">search</button>
+          </div>
+          <div id="sub2">
+            <input id="searchDesk" placeholder="Search for a desk">
+            <button id="searchDeskbtn">search</button>
+          </div>
+        </div>
+        <div id = "result">
+
+        </div>
       </div>
-      <div>
-      </div>
-      <div id = "desksSide">
+      
+
+
+      <div id = "searchFriend">
         <h3> Test section</h3>
         <button id="desk1">LoadDesK1</button>
         <button id="desk2">LoaDdesk2</button>

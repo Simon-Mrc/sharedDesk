@@ -11,14 +11,16 @@ import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { initiate,createNew } from './functions.js';
 import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
 import { recreateDesk } from './recreateDesk.js';
-import { clearStateInHtml, clearStateInStorage, createUserAndUpdate, logging, savingDesk, showNotif } from './manager.js';
+import { changeItemsColor, clearStateInHtml, clearStateInStorage, createUserAndUpdate, logging, savingDesk, showNotif } from './manager.js';
 
 clearStateInHtml();
 clearStateInStorage();
+// loadMockData();   //////////MOCK DATA HERE////////////////////
+
+
 // Really need to set up a starting state to reset beetween each switching environment.
 // Testing purpose ! don t look at desk 3 btw
 
-loadMockData();   //////////MOCK DATA HERE////////////////////
 
 // Displaying all my shame. But it feels good.
 const treeBtn = document.getElementById('showTree');
@@ -94,3 +96,13 @@ notif.textContent = "Notif";
 notif.addEventListener("click",()=>{
  showNotif();
 })
+
+const changeColorBtn = document.getElementById("changeColorBtn");
+changeColorBtn.addEventListener("click",()=>{
+  changeItemsColor();
+});
+
+const createUserBtn = document.getElementById("createUserBtn");
+createUserBtn.addEventListener("click",()=>{
+  createUserAndUpdate(globalHome);
+});

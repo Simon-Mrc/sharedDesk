@@ -423,9 +423,8 @@ export function searchIdandPushAndUpdate(currentDesk,objects,needStorage,targetI
 export function updateAllItemsInCurrentAndAllDesk(allItems){ //long enough name ?
     let currentDesk = getCurrentDesk();  
     let currentDeskContent = currentDesk.content ;
-    function recursiveModify(currentDeskContent){
-        currentDeskContent.forEach(item => {
-                for(let i=0 ; i<allItems.length; i = i + 1){
+    function recursiveModify(currentDeskContent,i){
+            currentDeskContent.forEach(item => {
                 if(item.type == 'file'){
                     if(item.id == allItems[i].id){
                         Object.assign(item,allItems[i]);
@@ -435,12 +434,13 @@ export function updateAllItemsInCurrentAndAllDesk(allItems){ //long enough name 
                     if(item.id == allItems[i].id){
                         Object.assign(item,allItems[i]);
                     }
-                    recursiveModify(item.children);                    
+                    recursiveModify(item.children,i);                                       
                 }
-            }       
-        } )
-    };
-    recursiveModify(currentDeskContent);
+            })      
+        } 
+        for(let i=0 ; i<allItems.length; i = i + 1){
+        recursiveModify(currentDeskContent,i);
+        }
     updateCurrentDesk(currentDesk);
     updateCurrentDeskInDesks(currentDesk);     
 }

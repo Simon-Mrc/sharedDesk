@@ -47,6 +47,7 @@ export async function newFile(x,y,section){ //Actually async probably not needed
                 })
                 let file = createFile(getCurrentUser(),labelName,getCurrentDesk(),x,y);
                 container.id = file.id;
+                container.style.boxShadow = `0 8px 20px ${getCurrentUser().userColor}`
                 container.addEventListener("contextmenu",async(e)=>{
                     e.preventDefault(); // Prevent browser menu!
                     e.stopPropagation();// Prevent interpretation of addevent listeners to current displayed screen.
@@ -116,6 +117,7 @@ export async function newFolder(x,y,section){// many wait needed
                 array.push(newDesk); // filling array with DOM Section identified by dataset and using index to display right section 
                 container.dataset.index = array.length-1;   
                 container.id = folder.id;  
+                container.style.boxShadow = `0 8px 20px ${getCurrentUser().userColor}`
             
                 // Need to work on this part. If already been double click you have to retrieve the right div and not create one
                 // Probably give a dynamic id to desk and write it somewhere in container property to be able to retrieve it ?

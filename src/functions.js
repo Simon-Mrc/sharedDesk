@@ -1,5 +1,5 @@
 import { showNamePrompt,textNeeded,passingInfo } from './namePrompt.js';
-import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateAllUsers,addContentAndUpdate } from './helperFunctions.js';
+import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateAllUsers,addContentAndUpdate, updateCurrentUser, updateCurrentUserInUsers } from './helperFunctions.js';
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
 import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { clearStateInHtml, clearStateInStorage } from './manager.js';
@@ -46,7 +46,9 @@ export async function initiate(section){
             // this await is to be sure that animations go smoothly despite loading speed
             await new Promise(resolve => requestAnimationFrame(resolve));
             await slideRight(desk);
-            allDesk.push(currentDesk);
+            currentUser.desksId.push(currentDesk.id);
+            updateCurrentUser(currentUser);
+            updateCurrentUserInUsers(currentUser);
             updateDesks(allDesk);
             localStorage.setItem("currentDesk", JSON.stringify(currentDesk)); //updating currentDesk
             //Must have wrote this before creating some help function i think

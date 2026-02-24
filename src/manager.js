@@ -73,7 +73,8 @@ export function loadState(user){ // Here user.desks is actually ids ! not the fu
                 switchDesk(fullDesk);
             })
             deskbtn.innerText = fullDesk.name;
-            document.getElementById("myDesks").appendChild(deskbtn);
+            document.getElementById("desksSide").classList.add("needEmpty");
+            document.getElementById("desksSide").appendChild(deskbtn);
         });
     }
 
@@ -123,7 +124,8 @@ export function savingDesk(currentDesk){
         })
         deskbtn.textContent = currentDesk.name;
         deskbtn.id = currentDesk.id;
-        document.getElementById(`myDesks`).appendChild(deskbtn);
+        document.getElementById(`desksSide`).classList.add("needEmpty")
+        document.getElementById(`desksSide`).appendChild(deskbtn);
     }
 }
 
@@ -176,22 +178,30 @@ export function deleteNotif(){
     updateCurrentUserInUsers(currentUser);
 }
 
-export function changeItemsColor(currentUser){
+export function changeItemsColor(){
+    let currentUser = getCurrentUser();
     let allDesk = getAllDesks();
     let currentDesk = getCurrentDesk();
     allDesk.forEach(desk => {
         let allItems = getAllItemCurrentDesk(desk);
-        allItems.forEach(item => {
-            if(currentUser.id == item.createdBy){
-                if(document.getElementById(item.id)){
-                    let targetContainer = document.getElementById(item.id);
-                    targetContainer.style.boxShadow = `0 8px 20px ${currentUser.userColor}`
-                    item.creatorColor = currentUser.userColor;
-                }
-            }            
-        }); 
-        localStorage.setItem('currentDesk',JSON.stringify(desk));
-        updateAllItemsInCurrentAndAllDesk(allItems);    
+        if(desk.accessUserId.includes(currentUser.id)){
+
+            console.log("test1");
+            allItems.forEach(item => {
+                console.log("updateAll called") 
+                if(currentUser.id == item.createdBy){
+                    if(document.getElementById(item.id)){
+                        let targetContainer = document.getElementById(item.id);
+                        targetContainer.style.boxShadow = `0 8px 20px ${currentUser.userColor}`
+                        item.creatorColor = currentUser.userColor;
+                    }
+                }            
+            }); 
+            localStorage.setItem('currentDesk',JSON.stringify(desk));
+            console.log("testhere");
+            updateAllItemsInCurrentAndAllDesk(allItems);    
+            console.log("and there");
+        }
     });
     localStorage.setItem('currentDesk',JSON.stringify(currentDesk));
 }

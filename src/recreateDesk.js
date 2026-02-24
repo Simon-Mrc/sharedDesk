@@ -46,6 +46,8 @@ export function recreateByFile(createdFile,section){
             
         })
         let file = createdFile;
+        container.id = file.id;  
+        container.style.boxShadow = `0 8px 20px ${file.creatorColor}`
         
         container.addEventListener("contextmenu",async(e)=>{
             e.preventDefault(); // Prevent browser menu!
@@ -88,7 +90,9 @@ export async function recreateByFolder(createdFolder,section){
         newDesk.dataset.id = folder.id; // starting from here actually 
         addScreenAndUpdate({id : folder.id})
         array.push(newDesk);
-        container.dataset.index = array.length-1;     
+        container.dataset.index = array.length-1;  
+        container.id = folder.id;     
+        container.style.boxShadow = `0 8px 20px ${folder.creatorColor}`
              
         container.addEventListener("dblclick",async ()=>{
             let securityCheck = 0;

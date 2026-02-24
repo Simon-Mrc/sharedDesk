@@ -4,37 +4,49 @@
 
 export const users = [
     {
-        name: "Simon Mrc",
+        name: "user01",
+        userName: "",
+        id: "",
+        accountType: "",
+        mail: "",
+        password: "",  
+        desksId : [],
+        friendList : [],  
+        notif : [],
+        userColor: "#FF5733"
+    },
+    {
+        name: "Simon1",
         userName: "SimonMrc",
         id: "user-001",
         accountType: "premium",
         mail: "simon@shareddesk.com",
-        password: "test123",  
-        desksId : ["desk-004","desk-003" ],
+        password: "1",  
+        desksId : ["desk01","desk02" ],
         friendList : [],  
         notif : ["user-002"],
         userColor: "#FF5733"
     },
     {
-        name: "Alice Johnson",
+        name: "Louise1",
         userName: "alice_j",
         id: "user-002",
         accountType: "free",
         mail: "alice@shareddesk.com",
-        password: "test456",
-        desksId : [],
+        password: "1",
+        desksId : ["desk02"],
         friendList : [],  
         notif : [],
         userColor: "#33FF57"
     },
     {
-        name: "Bob Martinez",
+        name: "Julien1",
         userName: "bob_m",
         id: "user-003",
         accountType: "premium",
         mail: "bob@shareddesk.com",
-        password: "test789",
-        desksId : [],
+        password: "1",
+        desksId : ["desk01"],
         friendList : [],  
         notif : [],
         userColor: "#3357FF"
@@ -47,7 +59,17 @@ export const users = [
 
 export const desks = [
     {
-        id: "desk-004",
+        id: "desk01",
+        name: "",
+        ownerId: "",
+        accessUserId: [],                      
+        modifyUserId: [],            
+        urlLink: null,
+        accessPassword: null,
+        content: [] 
+    },
+    {
+        id: "desk01",
         name: "Alice's Chaos Workspace",
         ownerId: "user-002",
         accessUserId: ["user-001", "user-002", "user-003"],
@@ -374,7 +396,7 @@ export const desks = [
         ]
     },
     {
-        id: "desk-003",
+        id: "desk02",
         name: "Bob's Private Workspace",
         ownerId: "user-003",
         accessUserId: ["user-003"],
@@ -574,5 +596,5 @@ export function loadMockData(){
     localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("desks", JSON.stringify(desks));
     localStorage.setItem("currentUser", JSON.stringify(users[0]));
-    localStorage.setItem("currentDesk", JSON.stringify(desks[1]));
+    localStorage.setItem("currentDesk", JSON.stringify(desks[0]));
 }
