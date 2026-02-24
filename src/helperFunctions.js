@@ -419,7 +419,7 @@ export function searchIdandPushAndUpdate(currentDesk,objects,needStorage,targetI
     });
 }
 
-export function updateAllItemsInCurrentAndAllDesk(allItems){
+export function updateAllItemsInCurrentAndAllDesk(allItems){ //long enough name ?
     let currentDesk = getCurrentDesk();  
     let currentDeskContent = currentDesk.content ;
     function recursiveModify(currentDeskContent){
