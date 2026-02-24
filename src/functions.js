@@ -46,11 +46,11 @@ export async function initiate(section){
             // this await is to be sure that animations go smoothly despite loading speed
             await new Promise(resolve => requestAnimationFrame(resolve));
             await slideRight(desk);
-            currentUser.desksId.push(currentDesk.id);
-            updateCurrentUser(currentUser);
+            currentUser.desksId.push(currentDesk.id);//add the new environment to users data so it can reaccess
+            updateCurrentUser(currentUser);// update it in storage
             updateCurrentUserInUsers(currentUser);
-            allDesk.push(currentDesk);
-            updateDesks(allDesk);
+            allDesk.push(currentDesk);//add new desks to all desks data
+            updateDesks(allDesk);//update all desks data ! Never forget to update after every change
             localStorage.setItem("currentDesk", JSON.stringify(currentDesk)); //updating currentDesk
             //Must have wrote this before creating some help function i think
         }

@@ -108,8 +108,8 @@ export async function logging(section){
 export function savingDesk(currentDesk){
     if(document.getElementById(currentDesk.id)){
         let fullDesk = {};
-        let cleanBtn = document.getElementById(currentDesk.id).cloneNode(true); // ✅ copies element, no listeners!
-        document.getElementById(currentDesk.id).replaceWith(cleanBtn);          // ✅ swaps it in DOM!
+        let cleanBtn = document.getElementById(currentDesk.id).cloneNode(true); // THIS ONE SO USEFULL copies domelement + nod
+        document.getElementById(currentDesk.id).replaceWith(cleanBtn);          // Replace with usefull to know to !
         Object.assign(fullDesk,currentDesk);
         cleanBtn.addEventListener("click",()=>{
             switchDesk(fullDesk);
@@ -135,7 +135,7 @@ export function changeUser(targetUser){
     loadState(targetUser);
 }
 
-export function addFriend(targetFriendId){
+export function addFriend(targetFriendId){ // add friend is actually accepting ones invite !
     let currentUser = getCurrentUser()
     currentUser.friendList.push(targetFriendId);
     currentUser.notif.splice(0,1);
@@ -166,8 +166,8 @@ export async function showNotif(){
     let currentUser = getCurrentUser();
     if(currentUser.notif[0] != undefined){
         await acceptOrDenied("will you take me as a friend ?", globalHome,
-            () => addFriend(currentUser.notif[0]),
-            () => deleteNotif())
+            () => addFriend(currentUser.notif[0]), // in case of resolve()
+            () => deleteNotif())// in cas of denied()
     }    
 }
 
@@ -178,9 +178,9 @@ export function deleteNotif(){
     updateCurrentUserInUsers(currentUser);
 }
 
-export function changeItemsColor(){
-    let currentUser = getCurrentUser();
-    let allDesk = getAllDesks();
+export function changeItemsColor(){ // this one is hard because you have to find every element created by currentuser
+    let currentUser = getCurrentUser();// then access the DOM element if it exist
+    let allDesk = getAllDesks();// then change color
     let currentDesk = getCurrentDesk();
     allDesk.forEach(desk => {
         let allItems = getAllItemCurrentDesk(desk);

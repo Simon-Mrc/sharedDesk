@@ -113,10 +113,10 @@ export async function newFolder(x,y,section){// many wait needed
                 let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);
                 let newDesk = await createNew(section);// await needed there because i need result in later script
                 newDesk.dataset.id = folder.id; // starting from here actually 
-                addScreenAndUpdate({id : folder.id})
+                addScreenAndUpdate({id : folder.id})//Filling localStorage with screen for later use 
                 array.push(newDesk); // filling array with DOM Section identified by dataset and using index to display right section 
-                container.dataset.index = array.length-1;   
-                container.id = folder.id;  
+                container.dataset.index = array.length-1;    // Container.dataset.id is linked to DOM array to find wich section to display
+                container.id = folder.id;  // Container.id is important there for recreate desk from scratch
                 container.style.boxShadow = `0 8px 20px ${getCurrentUser().userColor}`
             
                 // Need to work on this part. If already been double click you have to retrieve the right div and not create one
@@ -155,13 +155,12 @@ export async function newFolder(x,y,section){// many wait needed
                 })
                 //Final linking the box created to current desk
                 section.appendChild(container);
-                if(!section.dataset.id){
+                if(!section.dataset.id){ // each time there is !section.dataset.id means it s main page
                     addContentAndUpdate(folder);
                 }
                 else{
-                    let currentDesk = getCurrentDesk();
+                    let currentDesk = getCurrentDesk();//function below store folders data and updates all desks and currentdesk
                     searchIdandPushAndUpdate(currentDesk,currentDesk.content,folder,section.dataset.id)
-
                 }
                 displayTree()
                 return folder; // Always return something right ! well obviously this one s gonna be usefull 
