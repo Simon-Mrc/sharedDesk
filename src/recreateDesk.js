@@ -69,6 +69,7 @@ export async function recreateByFolder(createdFolder,section){
         container.classList.add('icon');
         container.style.left = createdFolder.x + 'px';
         container.style.top = createdFolder.y + 'px';
+        container.style.position = 'absolute';
         
         // Image for file 
         let img = document.createElement('img');
@@ -136,7 +137,7 @@ export async function recreateDesk(deskGiven){
             event.preventDefault(); 
             const elementX = event.offsetX;
             const elementY = event.offsetY;
-            showContextMenu(elementX,elementY,desk);
+            showContextMenu(elementX,elementY,section);
         });            
         desk.appendChild(section);
         section.classList.add(`desk-column-large`);

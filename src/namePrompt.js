@@ -1,4 +1,4 @@
-import { deleteNotif } from "./manager";
+
 
 export function showNamePrompt(x, y, section, type = "file") { // Ok lets go put comment on this !
     return new Promise((resolve, reject) => { // you want to be able to w8 for it

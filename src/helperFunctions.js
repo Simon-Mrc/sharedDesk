@@ -85,13 +85,23 @@ export function getAllDesks(){
     return allDesk || [];
 }
 // THIS ONE ..... ISN T IT JUST currentDesk.content .... i wrote i keeep !
-export function getAllItemCurrentDesk(){
-    let allItem = [];
-    for(let i = 0 ; i< getCurrentDesk().content.length ; i = i + 1){
-        allItem.push(getCurrentDesk().content[i]); 
-    } 
-    return allItem;
+export function getAllItemCurrentDesk(currentDesk){
+    let currentDeskContent = currentDesk.content
+    let items = [];
+    function recursiveFill(currentDeskContent){
+        currentDeskContent.forEach(item => {
+            if(item.type = "file"){
+                items.push(item);
+            }
+            else{
+                items.push(item);
+                recursiveFill(item.children);
+            }         
+        });
+    }
+return items;
 }
+
 export function updateDesks(item){
     localStorage.setItem("desks",JSON.stringify(item));
 }
@@ -409,3 +419,27 @@ export function searchIdandPushAndUpdate(currentDesk,objects,needStorage,targetI
     });
 }
 
+export function updateAllItemsInCurrentAndAllDesk(allItems){
+    let currentDesk = getCurrentDesk();  
+    let currentDeskContent = currentDesk.content ;
+    function recursiveModify(currentDeskContent){
+        currentDeskContent.forEach(item => {
+                for(let i=0 ; i<allItems.length; i = i + 1){
+                if(item.type == 'file'){
+                    if(item.id == allItems[i].id){
+                        Object.assign(item,allItems[i]);
+                    }
+                }
+                else{
+                    if(item.id == allItems[i].id){
+                        Object.assign(item,allItems[i]);
+                    }
+                    recursiveModify(item.children);                    
+                }
+            }       
+        } )
+    };
+    recursiveModify(currentDeskContent);
+    updateCurrentDesk(currentDesk);
+    updateCurrentDeskInDesks(currentDesk);     
+}
