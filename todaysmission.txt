@@ -1,3 +1,5 @@
+
+#3 Big problem with duping folder not being recursive ! // need to fixe positions too.
 #4 build some functions to be able to set up some more options (like retroactivly changing color of all document based on builders color everytime he changes his prefered color)
 #5 Build a better side bar for it to be more ready to use (and it ll allow me to build test easier.
 #6 thinking about draggable but it looks like complicated code to understand and i dont want to just copy past it without understanding 

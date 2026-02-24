@@ -73,8 +73,8 @@ export function loadState(user){ // Here user.desks is actually ids ! not the fu
                 switchDesk(fullDesk);
             })
             deskbtn.innerText = fullDesk.name;
-            document.getElementById("desksSide").classList.add("needEmpty");
-            document.getElementById("desksSide").appendChild(deskbtn);
+            document.getElementById("myDesks").classList.add("needEmpty");
+            document.getElementById("myDesks").appendChild(deskbtn);
         });
     }
 
@@ -124,8 +124,8 @@ export function savingDesk(currentDesk){
         })
         deskbtn.textContent = currentDesk.name;
         deskbtn.id = currentDesk.id;
-        document.getElementById(`desksSide`).classList.add("needEmpty")
-        document.getElementById(`desksSide`).appendChild(deskbtn);
+        document.getElementById(`myDesks`).classList.add("needEmpty")
+        document.getElementById(`myDesks`).appendChild(deskbtn);
     }
 }
 

@@ -4,6 +4,7 @@ import { createNew } from "./functions";
 import { getCurrentUser, getAllDesks, createDesk, updateDesks, addContentAndUpdate,
 createFile, getCurrentDesk, openOption, searchIdandPushAndUpdate, addScreenAndUpdate,
 createFolder } from "./helperFunctions";
+import { globalHome } from "./main";
 import { textNeeded, passingInfo, showNamePrompt } from "./namePrompt";
 import { displayTree } from "./tree";
 

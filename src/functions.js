@@ -3,7 +3,7 @@ import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,up
 import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
 import { newFile, newFolder,showContextMenu } from './creationbundle.js';
 import { clearStateInHtml, clearStateInStorage } from './manager.js';
-
+import { globalHome } from './main.js';
 //
 export async function initiate(section){
     clearStateInHtml();
@@ -49,6 +49,7 @@ export async function initiate(section){
             currentUser.desksId.push(currentDesk.id);
             updateCurrentUser(currentUser);
             updateCurrentUserInUsers(currentUser);
+            allDesk.push(currentDesk);
             updateDesks(allDesk);
             localStorage.setItem("currentDesk", JSON.stringify(currentDesk)); //updating currentDesk
             //Must have wrote this before creating some help function i think

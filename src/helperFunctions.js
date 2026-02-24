@@ -61,7 +61,7 @@ export function createUser(name,userName,mail,password){
         password: password,  
         desksId : [],
         friendList : [],  
-        notifications : [],
+        notif : [],
         userColor: "#FF5733"
     }
 }
@@ -170,18 +170,19 @@ export function deleteContentAndUpdate(item){  // this one delete and update cur
     displayTree();
 }
 export function addContentAndUpdate(item){ // Modify desks and currentdesk in LS
-    let currentDesk = getCurrentDesk()
+    let currentDesk = getCurrentDesk();
+    let desks=getAllDesks(); // I need it to be recursive to put in children from folder
     if(item!=null){
         currentDesk.content.push(item);
-    } // I actually have to check if i still use this one because it won t work anymore
-    let desks=getAllDesks(); // I need it to be recursive to put in children from folder
-    for(let i = 0 ; i < desks.length ; i = i + 1){
-        if (desks[i].id == currentDesk.id){
-            desks[i] = currentDesk;
+
+        for(let i = 0 ; i < desks.length ; i = i + 1){
+            if (desks[i].id == currentDesk.id){
+                desks[i] = currentDesk;
+            }
         }
-    }
-    updateDesks(desks);
-    updateCurrentDesk(currentDesk);
+        updateDesks(desks);
+        updateCurrentDesk(currentDesk);
+    } // I actually have to check if i still use this one because it won t work anymore
 }
 
 export function updateCurrentDeskInDesks(item){ // could be usefull ?

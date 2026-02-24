@@ -59,7 +59,7 @@ export const users = [
 
 export const desks = [
     {
-        id: "desk01",
+        id: "desk00",
         name: "",
         ownerId: "",
         accessUserId: [],                      
