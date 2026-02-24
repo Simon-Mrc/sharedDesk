@@ -6,7 +6,6 @@ import { clearStateInHtml, clearStateInStorage } from './manager.js';
 import { globalHome } from './main.js';
 //
 export async function initiate(section){
-    clearStateInHtml();
     clearStateInStorage();
     try{ // always think about user experience here
         // Obvioulsy need the data so we await lazy user to choose name

@@ -13,7 +13,7 @@ export function clearStateInStorage(){
 export function clearStateInHtml(){
     let allThatClear = document.querySelectorAll(`.needEmpty`);
     allThatClear.forEach(element => {
-        element.innerHTML=``;
+        element.remove();
     });
 }
 export function switchDesk(deskGiven){
@@ -73,7 +73,7 @@ export function loadState(user){ // Here user.desks is actually ids ! not the fu
                 switchDesk(fullDesk);
             })
             deskbtn.innerText = fullDesk.name;
-            document.getElementById("myDesks").classList.add("needEmpty");
+            deskbtn.classList.add("needEmpty");
             document.getElementById("myDesks").appendChild(deskbtn);
         });
     }
@@ -124,7 +124,7 @@ export function savingDesk(currentDesk){
         })
         deskbtn.textContent = currentDesk.name;
         deskbtn.id = currentDesk.id;
-        document.getElementById(`myDesks`).classList.add("needEmpty")
+        deskbtn.classList.add("needEmpty")
         document.getElementById(`myDesks`).appendChild(deskbtn);
     }
 }

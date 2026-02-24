@@ -1,5 +1,4 @@
-## create new account // function ready
-## change account // Function ready 
+
 ## Add friend // Function done (but it ll be use to accept friend request)
 ## Invite friends // 
 ## Invite notifications 

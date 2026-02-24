@@ -9,9 +9,3 @@
 
 #4 Set account preferencies like color !
 
-
-///// IMPORTANT /// TO KEEP WHEN YOU FEEL BORED //////
- in fact i ll probably just create a fake css class 
- querryselectorAll then change color of container shadow.
-/// must be displayed differently for different user //
-/// Very interesting to think on how to do it  ! ////

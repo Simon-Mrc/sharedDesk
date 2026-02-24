@@ -1,7 +1,0 @@
-#4 start setting user account to be able to change setup
-like color because it need to retroactivly (is that even a frking word)
-change all element created by this user. What a joy
-
-#5 really need to start looking into reloading of already created
-desks but it scares me. It looks quite hard 
-
