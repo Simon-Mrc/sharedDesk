@@ -85,12 +85,12 @@ export function getAllDesks(){
     return allDesk || [];
 }
 // THIS ONE ..... ISN T IT JUST currentDesk.content .... i wrote i keeep !
-export function getAllItemCurrentDesk(currentDesk){
+export function getAllItemCurrentDesk(currentDesk){ //Returns an array !!!
     let currentDeskContent = currentDesk.content
     let items = [];
     function recursiveFill(currentDeskContent){
         currentDeskContent.forEach(item => {
-            if(item.type = "file"){
+            if(item.type == "file"){
                 items.push(item);
             }
             else{
@@ -99,7 +99,8 @@ export function getAllItemCurrentDesk(currentDesk){
             }         
         });
     }
-return items;
+    recursiveFill(currentDeskContent);
+return items; // Returns an array of single items !!
 }
 
 export function updateDesks(item){

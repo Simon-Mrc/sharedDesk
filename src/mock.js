@@ -23,6 +23,8 @@ export const users = [
         mail: "alice@shareddesk.com",
         password: "test456",
         desksId : [],
+        friendList : [],  
+        notif : [],
         userColor: "#33FF57"
     },
     {
@@ -33,6 +35,8 @@ export const users = [
         mail: "bob@shareddesk.com",
         password: "test789",
         desksId : [],
+        friendList : [],  
+        notif : [],
         userColor: "#3357FF"
     }
 ];

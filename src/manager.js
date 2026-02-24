@@ -1,9 +1,8 @@
 import { acceptOrDenied, passingInfo, textNeeded } from './namePrompt.js';
-import { getAllDesks, getAllUsers, createUser, updateCurrentDesk, getCurrentUser, updateCurrentUser, updateCurrentUserInUsers, updateAllUsers } from './helperFunctions.js';
+import { getAllDesks, getAllUsers, createUser, updateCurrentDesk, getCurrentUser, updateCurrentUser, updateCurrentUserInUsers, updateAllUsers, getCurrentDesk, getAllItemCurrentDesk, updateAllItemsInCurrentAndAllDesk } from './helperFunctions.js';
 import { array } from './creationbundle.js';
 import { recreateDesk } from './recreateDesk.js';
 import { displayTree } from './tree.js';
-import { globalHome } from './main.js';
 
 export function clearStateInStorage(){
     let wipe = document.getElementById('globalHome');
@@ -140,6 +139,13 @@ export function addFriend(targetFriendId){
     currentUser.notif.splice(0,1);
     updateCurrentUser(currentUser);
     updateCurrentUserInUsers(currentUser);
+    let allUsers = getAllUsers();
+    allUsers.forEach(user => {
+        if(user.id == targetFriendId){
+            user.friendList.push(currentUser.id)
+        }
+    });
+    updateAllUsers(allUsers);
 }
 
 export function sendFriendRequest(targetFriend){
@@ -154,6 +160,7 @@ export function sendFriendRequest(targetFriend){
 }
 
 export async function showNotif(){
+    let globalHome = document.getElementById('globalHome');
     let currentUser = getCurrentUser();
     if(currentUser.notif[0] != undefined){
         await acceptOrDenied("will you take me as a friend ?", globalHome,
@@ -167,4 +174,24 @@ export function deleteNotif(){
     currentUser.notif.splice(0,1);
     updateCurrentUser(currentUser);
     updateCurrentUserInUsers(currentUser);
+}
+
+export function changeItemsColor(currentUser){
+    let allDesk = getAllDesks();
+    let currentDesk = getCurrentDesk();
+    allDesk.forEach(desk => {
+        let allItems = getAllItemCurrentDesk(desk);
+        allItems.forEach(item => {
+            if(currentUser.id == item.createdBy){
+                if(document.getElementById(item.id)){
+                    let targetContainer = document.getElementById(item.id);
+                    targetContainer.style.boxShadow = `0 8px 20px ${currentUser.userColor}`
+                    item.creatorColor = currentUser.userColor;
+                }
+            }            
+        }); 
+        localStorage.setItem('currentDesk',JSON.stringify(desk));
+        updateAllItemsInCurrentAndAllDesk(allItems);    
+    });
+    localStorage.setItem('currentDesk',JSON.stringify(currentDesk));
 }
