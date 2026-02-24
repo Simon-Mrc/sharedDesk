@@ -307,7 +307,6 @@ export function openOption(object, section,label,container){
                     recursiveDup(item.children);
                     }
                 });
-            return items;
             }
             let currentDesk = getCurrentDesk();
             let currentDeskContent = currentDesk.content;
@@ -318,11 +317,11 @@ export function openOption(object, section,label,container){
             }
             function recursiveFindAndPush(currentDeskContent){
                 currentDeskContent.forEach(item => {
-                if(item.type == "file"){
+                if(!item.children){
                 }
                 else{
                     if(item.id == object.id){
-                        item.children.push(dupObject);
+                        currentDeskContent.push(dupObject);
                     }
                     else{
                     recursiveFindAndPush(item.children);
