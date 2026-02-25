@@ -1,3 +1,9 @@
+DAY 1 learning : SQL DAMN it s interesting. It can clearly help my manage and retrieve all my datas.
+i have to find out how to build the tables tho. What should be connected to what in order to manage and make 
+the less data operation possible. Few more days and i d feel confident into bringing sql to the project.
+Transition will be lot of work but very interesting can t wait !!
+may be i ll start commenting in a more professionnal way ... or not . i leave a .txt with honest though any case.
+
 There is not gonna be updates in few days !  Don t worry i m not dead ! (at least not when i m writing those)
 Just side learning and practicing sql in order to implement it into this project before going further !
 See you <3
