@@ -1,3 +1,5 @@
+End of the day . almost 15 hour learning sql it s so damned interesting. aiming to do the same tomorrow in order to implement it in project by the end of the week!
+
 DAY 1 learning : SQL DAMN it s interesting. It can clearly help my manage and retrieve all my datas.
 i have to find out how to build the tables tho. What should be connected to what in order to manage and make 
 the less data operation possible. Few more days and i d feel confident into bringing sql to the project.
