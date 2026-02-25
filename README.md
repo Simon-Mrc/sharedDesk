@@ -1,3 +1,9 @@
+There is not gonna be updates in few days !  Don t worry i m not dead ! (at least not when i m writing those)
+Just side learning and practicing sql in order to implement it into this project before going further !
+See you <3
+
+
+
 # SharedDesk
 
 A collaborative workspace manager built with vanilla JavaScript.
