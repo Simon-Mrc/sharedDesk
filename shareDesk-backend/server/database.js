@@ -1,5 +1,5 @@
 const Database = require('better-sqlite3');
-const db = new Database('./data/simonDbTest.db'); 
+const db = new Database('./data/database.db'); 
 db.pragma('foreign_keys = ON');
 
 db.exec(`
@@ -28,7 +28,7 @@ db.exec(`
 
     CREATE TABLE IF NOT EXISTS deskAccess(
     deskId              TEXT NOT NULL ,
-    userId              TEXT NOT NULL ,
+    userId              TEXT  ,
     accessType          TEXT NOT NULL CHECK(accessType IN ('read','modify','admin')) , 
     PRIMARY KEY (deskId,userId),
     FOREIGN KEY (deskId) REFERENCES desks(id)

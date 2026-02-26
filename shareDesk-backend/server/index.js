@@ -1,69 +1,13 @@
 // PART WHERE YOU DEFINED ALL THATS GOING TO BE NEEDED //
 const express = require('express');
 const cors = require('cors');
-const db = require('./testSimondb.js'); // File that create the database
+const db = require('./database.js'); // File that create the database
 
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
-
-/// DEFINITION OF METHODS FOR DESKS /////        NEED TO BE REDONE
-// app.post('/desksTest', (req,res)=>{ // Add a desk to database
-//   const {id , name , ownerId , modifyUserId, urlLink, accessPassword, content} = req.body;
-//   try{
-//     db.prepare(`
-//       INSERT INTO desksTest (id , name , ownerId , modifyUserId, urlLink, accessPassword, content)
-//       VALUES(?,?,?,?,?,?,?)
-//       `).run(id , name , ownerId , modifyUserId, urlLink, accessPassword, content);
-//       res.json({log : 'desk has been successfully added'});
-//   }catch(error){
-//     res.json({log : 'Unsuccessfull as always' , error : error.message})
-//   }
-// });
-
-// app.get('/desksTest', (req,res)=>{
-//   const results = db.prepare(`
-//     SELECT * FROM desksTest
-//     `).all();
-//   res.json(results); 
-// })
-
-// app.delete('/desksTest/:id', (req,res)=>{
-//   try{
-//     db.prepare(`
-//       DELETE FROM desksTest WHERE id = ?
-//       `).run(req.params.id);
-//       res.json({log :'Desk has been deleted'});
-//       }catch(error){
-//         res.json({log : 'error', error : error.message})
-//       }
-// })
-
-// app.put('/desksTest/:id', (req,res)=>{
-//   const { name , ownerId , modifyUserId, urlLink, accessPassword, content} = req.body;
-//   try{
-//     db.prepare(`
-//       UPDATE desksTest SET name = ?, ownerId = ?,modifyUserId = ?,
-//       urlLink = ?, accessPassword = ?, content = ? WHERE id = ?
-//       `).run(name , ownerId , modifyUserId, urlLink, accessPassword, content, req.params.id);
-//       res.json({log : 'Desk successfully updated'});
-//   }catch(error){
-//     res.json({log : 'Failure', error : error.message});
-//   }
-// })
-
-// app.get('/desksTest/:id',(req,res)=>{
-//   try{
-//     const result = db.prepare(`
-//       SELECT * FROM desksTest WHERE id = ?
-//       `).get(req.params.id);
-//       res.json({log : 'found it' , desk : result});
-//   }catch(error){
-//     res.json({log : 'Failur', error : error.message})
-//   }
-// })
 
 
 ///// METHOD FOR ITEMS /////
@@ -109,12 +53,12 @@ app.put('/items/:id',(req,res)=>{ // update selected item // Use item object as 
       WHERE id = ?
       `).run(name,x,y,accessPassword,parentId,req.params.id);
       res.json({log : 'item update complete'})
-  }catch{
+  }catch(error){
     res.status(500).json({log: `failed to update item`, error: error.message})
   }
 })
 
-app.get(`/items/user/:userId`,(req,res)=>{ //// This one gets you all the items created by user 
+app.get(`/items/users/:userId`,(req,res)=>{ //// This one gets you all the items created by user 
   try{                  /// All user object as a parameter. Overkill let's change that // If i m correct it now only needs user.id as a parameter from itemQueries.js
     const selectedItems = db.prepare(`  
       SELECT * FROM items
@@ -208,29 +152,17 @@ app.get('/users/:userId',(req,res)=>{ // This one return the all user object usi
   }
 );
 
-// app.get(`/users/deskAccess/:deskId`,(req,res)=>{
-//   try{
-//     let allDeskUser = db.prepare(`
-//       SELECT * FROM
-//       users
-//       WHERE
-//       user.id = ?
-//       `)
-//   }
-// })
-
-
 ////////////// DESK SIDE ////////////
 
-app.post(`/desks/:desk`,(req,res)=>{ // Not so specific route // will decide later where it needs to be put.
+app.post(`/desks/`,(req,res)=>{ // Not so specific route // will decide later where it needs to be put.
   try{ //Create a desk with , // Parameters : name, ownerId , id
-    const {name,ownerId} = req.body;
+    const {id, name,ownerId,createdAt} = req.body;
     let newDesk = db.prepare(`
       INSERT INTO desks
-      (name,ownerId,id)
+      (id, name,ownerId,createdAt)
       VALUES
-      (?,?,?)
-      `).run(id,name,req.params.desk);
+      (?,?,?,?)
+      `).run(id,name,ownerId,createdAt);
       res.json(newDesk);
   }catch(error){
     res.status(500).json({log: `failed to create desk`, error: error.message});
@@ -241,7 +173,7 @@ app.put(`/desks/:deskId`,(req,res)=>{
   try{
     const {name,ownedId,urlLink,accessPassword,createdAt} = req.body;
     let updatedDate = db.prepare(`
-    UPDATE desks,
+    UPDATE desks
     SET
     name = ? ,
     ownerId = ?,
@@ -253,6 +185,67 @@ app.put(`/desks/:deskId`,(req,res)=>{
     res.json({log : 'Desk successfully updated'});
   }catch(error){
     res.status(500).json({log: `failed to create desk`, error: error.message});
+  }
+})
+
+app.delete(`/desks/:deskId`,(req,res)=>{
+  try{
+    const selectedDesk = db.prepare(`SELECT * 
+    FROM deskAccess WHERE deskId = ?`).all(req.params.deskId);
+    if(selectedDesk.length === 1 ){
+      db.prepare(`DELETE FROM desks WHERE id = ?`).run(req.params.deskId);
+      return res.json({log : 'deleted'})
+    }
+    res.json({log : 'This is a shared desk'})
+  }catch(error){
+    res.status(500).json({log: `failed to delete desk`, error: error.message});
+  }
+})
+
+app.get(`/desks/:id`,(req,res)=>{ // this one return the selected desk
+  try{ // No foreign implication // not specific route
+    let requiredDesk = db.prepare(`
+      SELECT * 
+      FROM
+      desks
+      WHERE
+      id = ?
+      `).get(req.params.id);
+      return res.json(requiredDesk);
+  }catch{
+    res.status(500).json({log: `failed to delete desk`, error: error.message});
+  }
+})
+
+app.get(`/desks/:userId`,(req,res)=>{ // this one return all desks owned by user
+  try{ // no foreign implication // not specific route at all
+    let arrayOfDesk = db.prepare(`
+      SELECT * FROM
+      desks WHERE
+      ownerId = ?
+      `).all(req.params.userId);
+      return res.json(arrayOfDesk);
+  }catch(error){
+    res.status(500).json({log: `failed to delete desk`, error: error.message});
+  }
+})
+
+
+////////////// ACCESS QUERIES SIDE ////////////////
+
+app.delete('/deskAccess/:deskId',(req,res)=>{ // only desk id // not very specific route
+  try{ // foreign relation with accessDesk table Deletion on cascade.
+    const {userId} = req.body 
+    db.prepare(`
+      DELETE FROM
+      deskAccess
+      WHERE 
+      deskId = ? AND userId = ? 
+      `).run(req.params.deskId,userId);
+      res.json({log : 'Desk deleted'})
+    }
+  catch(error){ //NEED TO REDO THIS ONE YOU DON T WANT TO REMOVE DESK IF IT IS SHARED
+    res.status(500).json({log: `failed to delete desk`, error: error.message});
   }
 })
 

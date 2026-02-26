@@ -29,9 +29,7 @@
  export async function deleteUser(userId){  /// This one delete a user. Only user.id as a parameter
     try{                    // Non specific route // foreign key with desks and items
         let deletedUser = await fetch(`http://localhost:3000/users/${userId}`,{
-            method : 'DELETE',
-            headers : {'content-type' : 'application/json'},
-            body : JSON.stringify(userId),
+            method : 'DELETE'
         })
         console.log('User Deleted');
     }catch(error){
