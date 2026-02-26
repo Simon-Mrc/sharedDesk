@@ -1,14 +1,18 @@
 {
-  "name": "shareddesk-simon-mrc",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "shareddesk",
+  "version": "1.0.0",
+  "description": "SharedDesk app",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "backend": "nodemon --legacy-watch backend/index.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
   },
   "devDependencies": {
-    "vite": "^7.3.1"
+    "nodemon": "^3.0.3",
+    "vite": "^5.4.21"
   }
 }

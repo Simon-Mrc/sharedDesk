@@ -49,15 +49,15 @@
     }
  }
 
- export async function selectAllUser(deskId){ // return an array of users no parameters    
-    try{            // It returns an object of all users sharing the desk identified by deskId
-        let allUser = await fetch(`http://localhost:3000/users/deskAccess/${deskId}`,{
-            method : 'GET'
-        })
-        console.log('Success !');
-        return await allUser.json();
-    }catch(error){
-        console.log('something went wrong');
-    }
- }
+//  export async function selectAllUser(deskId){ // return an array of users no parameters    
+//     try{            // It returns an object of all users sharing the desk identified by deskId
+//         let allUser = await fetch(`http://localhost:3000/users/deskAccess/${deskId}`,{
+//             method : 'GET'
+//         })
+//         console.log('Success !');
+//         return await allUser.json();
+//     }catch(error){
+//         console.log('something went wrong');
+//     }
+//  }
 

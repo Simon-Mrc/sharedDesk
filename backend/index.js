@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const db = require('./database.js'); // File that create the database
 
-const app = express();
+const app = express(); 
 const PORT = 3000;
 
 app.use(cors());
@@ -154,6 +154,19 @@ app.get('/users/:userId',(req,res)=>{ // This one return the all user object usi
 
 ////////////// DESK SIDE ////////////
 
+app.get(`/desks/user/:userId`,(req,res)=>{ // this one return all desks owned by user
+  try{ // no foreign implication // quite specific route 
+    let arrayOfDesk = db.prepare(`
+      SELECT * FROM
+      desks WHERE
+      ownerId = ?
+      `).all(req.params.userId);
+      return res.json(arrayOfDesk);
+  }catch(error){
+    res.status(500).json({log: `failed to delete desk`, error: error.message});
+  }
+})
+
 app.post(`/desks/`,(req,res)=>{ // Not so specific route // will decide later where it needs to be put.
   try{ //Create a desk with , // Parameters : name, ownerId , id
     const {id, name,ownerId,createdAt} = req.body;
@@ -212,23 +225,11 @@ app.get(`/desks/:id`,(req,res)=>{ // this one return the selected desk
       id = ?
       `).get(req.params.id);
       return res.json(requiredDesk);
-  }catch{
-    res.status(500).json({log: `failed to delete desk`, error: error.message});
-  }
-})
-
-app.get(`/desks/:userId`,(req,res)=>{ // this one return all desks owned by user
-  try{ // no foreign implication // not specific route at all
-    let arrayOfDesk = db.prepare(`
-      SELECT * FROM
-      desks WHERE
-      ownerId = ?
-      `).all(req.params.userId);
-      return res.json(arrayOfDesk);
   }catch(error){
     res.status(500).json({log: `failed to delete desk`, error: error.message});
   }
 })
+
 
 
 ////////////// ACCESS QUERIES SIDE ////////////////
@@ -249,7 +250,46 @@ app.delete('/deskAccess/:deskId',(req,res)=>{ // only desk id // not very specif
   }
 })
 
+app.get(`/deskAccess/:deskId`,(req,res)=>{ // Get All users from a desk
+  try{ // No foreign implications // not specific route
+    let allUserFromDesk = db.prepare(`
+      SELECT * FROM deskAccess
+      WHERE deskId = ?
+      `).all(req.params.deskId);
+    return res.json(allUserFromDesk);
+  }catch(error){
+    res.status(500).json({log: `failed to delete desk`, error: error.message});
+  }
+})
 
+app.post(`/deskAccess/:userId`,(req,res)=>{ // this one should add a user to a given desk
+  try{ // Arguments are deskId and userId through URL // not specific // no foreign implications
+    const {deskId} = req.body; // Passing userId because of route managment and because it makes more sense anyway =D
+    let addingUser = db.prepare(`
+      INSERT INTO 
+      deskAccess
+      (userId, deskId, accessType)
+      VALUES (?, ?, 'read') `).run(req.params.userId,deskId);
+      res.json({log : 'user Added'});
+  }catch(error){
+    res.status(500).json({log: `failed to delete desk`, error: error.message});
+  }
+})
+
+app.put(`/deskAccess/type/:userId`,(req,res)=>{ // this one modify accesstype of given user on given desk
+  try{ // no foreign implications // quite specific route (on top ?)
+    const {accessType,deskId} = req.body;
+    let modifyRight = db.prepare(`
+      UPDATE deskAccess
+      SET
+      accessType = ?
+      WHERE userId = ? and deskId = ?
+      `).run(accessType,req.params.userId,deskId);
+      res.json({log : 'Modify done'})
+  }catch(error){
+    res.status(500).json({log: `failed to delete desk`, error: error.message});
+  }
+})
 
 //// PART THAT KEEPS THE SERVER ALIVE ////
 const server = app.listen(PORT, () => {

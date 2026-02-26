@@ -1,5 +1,5 @@
 const Database = require('better-sqlite3');
-const db = new Database('./data/database.db'); 
+const db = new Database('./backend/data/database.db'); 
 db.pragma('foreign_keys = ON');
 
 db.exec(`
@@ -29,7 +29,7 @@ db.exec(`
     CREATE TABLE IF NOT EXISTS deskAccess(
     deskId              TEXT NOT NULL ,
     userId              TEXT  ,
-    accessType          TEXT NOT NULL CHECK(accessType IN ('read','modify','admin')) , 
+    accessType          TEXT NOT NULL CHECK(accessType IN ('read','modify','admin')) DEFAULT 'read' , 
     PRIMARY KEY (deskId,userId),
     FOREIGN KEY (deskId) REFERENCES desks(id)
     ON DELETE CASCADE,

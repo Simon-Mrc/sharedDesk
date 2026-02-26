@@ -3,11 +3,5 @@ on my mind literally all the time thinking about how to adapt my already existin
 already feelin nostalgi about all those functions i struggled with i ll hav to throw
 
 
- GET /deskAccess/:deskId    get all users of a desk
- POST /deskAccess           add user to desk
- PUT /deskAccess            change access type
-
-and in accessQueries.js:
- addUserToDesk()
- getAllDeskUsers()
- changeAccessType()
+ 
+ DONE !!

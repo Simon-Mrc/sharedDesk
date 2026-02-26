@@ -42,7 +42,7 @@ export async function createDesk(desk){ // Return nothing // Create a desk with
             method : 'GET'
         })
         console.log('Desk found !');
-        return await selecteDesk.json();
+        return await selectedDesk.json();
     }catch(error){
         console.log('something went awefully wrong ..look behind you !!')
     }
@@ -50,7 +50,7 @@ export async function createDesk(desk){ // Return nothing // Create a desk with
 
  export async function getAllDesksUser(userId){ // return array of all desks owned by user
     try{ // no foreign implication // only userid as parameter
-        let arrayOfDesk = await fetch(`http://localhost:3000/desks/${userId}`,{
+        let arrayOfDesk = await fetch(`http://localhost:3000/desks/user/${userId}`,{
             method : 'GET'
         })
         console.log('Desks found !');
