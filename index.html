@@ -1,79 +1,96 @@
 <!doctype html>
-<html lang="en"> <!--Of course my deer-->
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" /> <!--Obviously gonna change it-->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>shareddesk-simon-mrc</title> <!--Obviously gonna change it-->
+    <title>SharedDesk</title>
   </head>
   <body>
-    <!-- Sidebar section the only that s gonna have content in html-->
-    <!-- Only things that don t need to be script generated-->
-    <div id = "sideBar">
-      <button id="toggleSideBar">Toggle Sidebar</button>
-      <div id = "deskSideBar">
-      </div>
-      <div id = "moreStuff">
-        <button id="logInLogOut">Login Logout</button>
-        <button id="createUserBtn">CreateUser</button>
-        <button id="initiate">Initiate Desk</button>
-        <button id="saveCurrent">Save Desk</button>
-      </div>   
-      <div>
-        <div id = "desksSide" style="display: flex; flex-direction: column;">
-          <div style="display: flex; flex-direction: row;">
-            <h3> MY DESKS</h3>
-            <button id="changeColorBtn">TempChangeColor</button>
-          </div>
-          <div id="myDesks" style="display: flex; flex-direction: columns;">
-            <div style="display: flex; flex-direction: row;" >
-              <input id = "searchInDesk" placeholder="Search for a desk or folder or file or love">
-              <button id="searchInDeskbtn">search</button>
-            </div>
-          </div>       
-        </div>
-      </div>  
-      <div id = "searchBarFriendandDesk">
-        <div id = "divNightmare">
-          <div id="sub1" style="display: flex; flex-direction: raw;">
-            <input id="searchFriend" placeholder="Search for a friend">
-            <button id="searchFriendbtn">search</button>
-          </div>
-          <div id="sub2">
-            <input id="searchDesk" placeholder="Search for a desk">
-            <button id="searchDeskbtn">search</button>
+
+    <!-- ========== SIDEBAR ========== -->
+    <div id="sideBar">
+
+      <!-- Toggle button -->
+      <button id="toggleSideBar" class="sidebar-toggle">☰</button>
+
+      <!-- User info panel -->
+      <div id="account" class="sidebar-section">
+        <div id="userDisplay" class="user-display">
+          <div class="user-avatar" id="userAvatar">?</div>
+          <div class="user-info">
+            <span id="userNameDisplay" class="user-name">Not logged in</span>
+            <span id="userTypeDisplay" class="user-type"></span>
           </div>
         </div>
-        <div id = "result">
+      </div>
 
+      <!-- Actions panel -->
+      <div id="moreStuff" class="sidebar-section">
+        <button id="logInLogOut">🔑 Login</button>
+        <button id="createUserBtn">👤 Create User</button>
+        <button id="initiate">➕ New Desk</button>
+        <button id="saveCurrent">💾 Save Desk</button>
+        <button id="changeColorBtn">🎨 Update My Color</button>
+      </div>
+
+      <!-- My Desks panel -->
+      <div id="desksSide" class="sidebar-section sidebar-section--grow">
+        <div class="section-header">
+          <h3>MY DESKS</h3>
+          <button id="showTree" class="icon-btn" title="Show Tree">🌳</button>
+        </div>
+        <div class="search-row">
+          <input id="searchInDesk" placeholder="Search desks, folders, files...">
+          <button id="searchInDeskbtn" class="icon-btn">🔍</button>
+        </div>
+        <!-- desk buttons injected here by loadState/savingDesk -->
+        <div id="myDesks" class="needEmpty desk-list"></div>
+      </div>
+
+      <!-- Friends panel -->
+      <div id="friendSection" class="sidebar-section">
+        <div class="section-header">
+          <h3>FRIENDS</h3>
+          <button id="notif" class="icon-btn" title="Notifications">🔔</button>
+        </div>
+        <div class="search-row">
+          <input id="searchFriendInput" placeholder="Search for a friend">
+          <button id="searchFriendBtn" class="icon-btn">🔍</button>
+        </div>
+        <div class="search-row">
+          <input id="searchDesk" placeholder="Search for a shared desk">
+          <button id="searchDeskBtn" class="icon-btn">🔍</button>
+        </div>
+        <div id="searchResult" class="needEmpty"></div>
+        <!-- friend list injected here -->
+        <div id="friendList" class="needEmpty friend-list"></div>
+      </div>
+
+
+      <div id="testSection" class="sidebar-section sidebar-section--test">
+        <div class="section-header">
+          <h3>🧪 TEST</h3>
+        </div>
+        <button id="desk1">Load Desk 1</button>
+        <button id="desk2">Save Current</button>
+        <div id="navButtons">
+          <button id="btnDesks">Simon</button>
+          <button id="btnSettings">Alice</button>
+          <button id="quite">Bob</button>
         </div>
       </div>
-      
 
-
-      <div id = "searchFriend">
-        <h3> Test section</h3>
-        <button id="desk1">LoadDesK1</button>
-        <button id="desk2">LoaDdesk2</button>
-        <div id="navButtons" style="display: flex; flex-direction: column;">
-          <button id="btnSettings">userAlice</button>
-          <button id="btnDesks">userSimon</button>
-          <button id="quite">userBob</button>
-          <button id="notif">notif</button>
-          <button id="showTree">🌳 Show Tree</button>
-        </div>       
-      </div>
-      
-    </div>  <!-- End of sidebar-->
-    
-    <div id="centerDisplayed">
-      <div id="settings" style="display: none;">        
-      </div>
-      <div id="globalHome">           
-      </div>
-      <div id="moreStuffDisplayed" style="display: none;">
-      </div>
     </div>
+    <!-- ========== END SIDEBAR ========== -->
+
+    <!-- ========== CENTER ========== -->
+    <div id="centerDisplayed">
+      <div id="settings" style="display: none;"></div>
+      <div id="globalHome"></div>
+      <div id="moreStuffDisplayed" style="display: none;"></div>
+    </div>
+    <!-- ========== END CENTER ========== -->
 
     <script type="module" src="/src/main.js"></script>
   </body>
