@@ -1,3 +1,6 @@
+Spent the all morning tryin to build my tables . I made few functions to communicate with node server. Can t wait to implement it. I think i m gonna keep all the DOM building aspect . not sur how to it tho because all my creation functions relate on the JSON style Nested object i give. Maybe i ll just make a function that take all data from my database and rebuild the same object i had before.
+Database can surely be optimized tho. 
+
 End of the day . almost 15 hour learning sql it s so damned interesting. aiming to do the same tomorrow in order to implement it in project by the end of the week!
 
 DAY 1 learning : SQL DAMN it s interesting. It can clearly help my manage and retrieve all my datas.
