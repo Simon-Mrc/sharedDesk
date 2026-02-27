@@ -12,6 +12,7 @@ export async function createItem(item){ ////// Create in database /// No foreign
         body : JSON.stringify(item),
     })
     console.log("item created");
+    return await createItem.json();
     }catch{
         console.log("Fail item creation");
     }
@@ -28,7 +29,7 @@ export async function deleteItem(itemId){ ////// Delete in database //// Childre
     }
 }
 
-export async function modifyItem(item){ // update selected item // Use item object as a parameter
+export async function updateItem(item){ // update selected item // Use item object as a parameter
     try{                            // No foreign implication
         let modItem = await fetch(`http://localhost:3000/items/${item.id}`,{
             method : 'PUT',

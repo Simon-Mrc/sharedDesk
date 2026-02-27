@@ -1,0 +1,21 @@
+Finally managed it !! 60hours in 3 days but i m there ! back and front connected and (almost) working.
+Desks, users, item, deskAccess currently getting stored as they re supposed to
+not tested the recreation process rn.
+I asked AI for a quick tree fix because it made all script crashed (too lazy to try catch everywhere)
+so the routes and database i spent 30hours writing seems to work fine . 
+I now really to work css and html + some functionnality (the boring part appenchild everything and create all freaking btns)
+but it ll make testing easier.
+
+
+So basically front handle DOM section creation and container objects for files and folder
+
+back handles relations beetween elements, queries that alter datas (create user / create desk/ delete and so on ...)
+ 
+i ll take a rest tonight and give all my code a full review tomorrow morning.
+
+I ll try to write detailled explanation (also make my want to switch for typescript for next project
+because you can ealisy get confused with what kind of item you re manipulating when deep in
+is it a object ({name : " ",id:" " ,...})) or just a collection of parameters (name, id , ...);
+
+anyway good enough for now . i ll put a folder of old version with no sql and only local storage because
+i want to keep a trace of that work with recursive dom creation /recreation/duping/and data managment.

@@ -2,21 +2,23 @@ import './style/style.css';
 import './style/animations.css';
 import './style/buttons.css';
 import './style/containers.css';
-import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateAllUsers,addContentAndUpdate } from './helperFunctions.js';
-import { users, desks, loadMockData } from './mock.js';
-import {localStorageStoreTest, localStorageGetTest} from './localStorageTest.js';
-import { showNamePrompt,textNeeded } from './namePrompt.js';
-import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
-import { newFile, newFolder,showContextMenu } from './creationbundle.js';
-import { initiate,createNew } from './functions.js';
+import { initiate} from './functions.js';
 import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
-import { recreateDesk } from './recreateDesk.js';
-import { changeItemsColor, clearStateInHtml, clearStateInStorage, createUserAndUpdate, logging, savingDesk, showNotif } from './manager.js';
+import { clearStateInHtml, clearStateInStorage, createUserDb, savingDesk } from './manager.js';
+import { initiateDeskandUser } from './state.js';
 
+////////////////// Inititalisation ///////////////////
 clearStateInHtml();
 clearStateInStorage();
-// loadMockData();   //////////MOCK DATA HERE////////////////////
 
+
+
+let result = await initiateDeskandUser();
+export const state = {
+  currentUser: result[0],
+  currentDesk: result[1]
+}
+////////////////// END OF INITIALISATION ////////////// MAYBE DIFFERENT ORGANISATION LATER /////////
 
 // Really need to set up a starting state to reset beetween each switching environment.
 // Testing purpose ! don t look at desk 3 btw
@@ -56,53 +58,28 @@ initiateButton.addEventListener("click", ()=>{
 // Those were for testing purposes. Keeping it for now out of pity for them
 // To be fair they really helped me adjust the animations 
 // They now let you choose from different user to test permissions ! feels nice
-const displayed = document.getElementById(`test`);
-const buttonExpand = document.getElementById(`btnDesks`);
-const quite = document.getElementById(`quite`);
-buttonExpand.addEventListener("click", ()=>{
-  let users = JSON.parse(localStorage.getItem("users"));
-  let currentUser = users[0];
-  localStorage.setItem("currentUser",JSON.stringify(currentUser));
-});
-const buttonShrink = document.getElementById(`btnSettings`);
-buttonShrink.textContent = "logging test";
-buttonShrink.addEventListener("click", ()=>{ 
-  let users = JSON.parse(localStorage.getItem("users"));
-  let currentUser = users[1];
-  localStorage.setItem("currentUser",JSON.stringify(currentUser));
-  logging(globalHome);
+
+const logginBtn = document.getElementById(`btnSettings`);
+logginBtn.textContent = "logging test";
+logginBtn.addEventListener("click",async ()=>{ 
+  let transitionVar = await initiateDeskandUser();
+  if(transitionVar){
+    clearStateInHtml();
+    clearStateInStorage();
+    state.currentDesk = transitionVar[1];
+    state.currentUser = transitionVar[0];
+  }
 });
 
-quite.addEventListener("click", ()=>{
-  let users = JSON.parse(localStorage.getItem("users"));
-  let currentUser = users[2];
-  localStorage.setItem("currentUser",JSON.stringify(currentUser));
+let savingBtn=document.getElementById("desk2");
+savingBtn.textContent = "savedesk";
 
-});
-
-let desk1=document.getElementById("desk1");
-let desk2=document.getElementById("desk2");
-desk2.textContent = "savedesk";
-
-desk1.addEventListener("click",()=>{
-  recreateDesk(JSON.parse(localStorage.getItem('desks'))[1]);
+savingBtn.addEventListener("click",()=>{
+  savingDesk();
 })
-desk2.addEventListener("click",()=>{
-  savingDesk(JSON.parse(localStorage.getItem('currentDesk')));
-})
-let notif=document.getElementById("notif");
-notif.textContent = "Notif";
-
-notif.addEventListener("click",()=>{
- showNotif();
-})
-
-const changeColorBtn = document.getElementById("changeColorBtn");
-changeColorBtn.addEventListener("click",()=>{
-  changeItemsColor();
-});
 
 const createUserBtn = document.getElementById("createUserBtn");
+createUserBtn.textContent = "Create a new user !";
 createUserBtn.addEventListener("click",()=>{
-  createUserAndUpdate(globalHome);
+  createUserDb(globalHome);
 });

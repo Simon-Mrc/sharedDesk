@@ -1,11 +1,10 @@
 import { quiteSlideLeft, slideRight } from "./animations";
 import { array, showContextMenu } from "./creationbundle";
 import { createNew } from "./functions";
-import { getCurrentUser, getAllDesks, createDesk, updateDesks, addContentAndUpdate,
-createFile, getCurrentDesk, openOption, searchIdandPushAndUpdate, addScreenAndUpdate,
-createFolder } from "./helperFunctions";
-import { globalHome } from "./main";
-import { textNeeded, passingInfo, showNamePrompt } from "./namePrompt";
+import { openOption, addScreenAndUpdate } from "./helperFunctions";
+import { state } from "./main";
+import { textNeeded, passingInfo } from "./namePrompt";
+import { getAllItemFromDesk } from "./queriesDb/accessQueries";
 import { displayTree } from "./tree";
 
 // Ok so to explain here. I basically copy/paste my previous code for setting files
@@ -89,7 +88,6 @@ export async function recreateByFolder(createdFolder,section){
         let folder = createdFolder;
         let newDesk = await createNew(section);// await needed there because i need result in later script
         newDesk.dataset.id = folder.id; // starting from here actually 
-        addScreenAndUpdate({id : folder.id})
         array.push(newDesk);
         container.dataset.index = array.length-1;  
         container.id = folder.id;     
@@ -128,7 +126,7 @@ export async function recreateByFolder(createdFolder,section){
     section.appendChild(container);
 
 
-    displayTree()
+    await displayTree()
 return newDesk;// funny things i commented this because this return new desk solo handle recursive recreation
 }
 // Always return something right ! well obviously this one s gonna be usefull 
@@ -149,25 +147,26 @@ export async function recreateDesk(deskGiven){
             
         await new Promise(resolve => requestAnimationFrame(resolve));
         await slideRight(desk); // keeping it for loading first page of new environment.
-        localStorage.setItem("currentDesk", JSON.stringify(deskGiven)); // Set up current desk as you recreate it
+        state.currentDesk = deskGiven; // Set up current desk as you recreate it
      
     // RECURSIVE FUN PART STARTS HERE 
     // all that pain copy/paste and choosing what to keep to finally use brain !
     async function recursiveDesk(deskContent, section){
-        for(let content of deskContent){
-            if(content.type == "file"){
-                recreateByFile(content, section); // if file no worries he is in right section !  
+        let sectionId = section.dataset.id || null;
+        let allItem = deskContent.filter(item => 
+            String(sectionId) == String(item.parentId));
+        
+        for(let item of allItem){ // cant await in foreach
+            if(item.type == "file"){
+                recreateByFile(item , section);
             }
-            else if(content.type == "folder"){ // SOOO
-                let newSectionBis =  await recreateByFolder(content, section);  // this calls the recreateByFolder functions
-                if(content.children.length > 0){// witch create and return an empty section ready to be filled
-                    let newSection = newSectionBis; // if folder is not empty go in it so you change section for it !
-                    await recursiveDesk(content.children, newSection); // and then you repeat !
-                }// So the trick here was to be sure to always be in the right section
-            }//you could say "why you let newSection on empty folder ?"
-        }// all my architecture is build around the fact that section have ids to be spotted
-    }// So even if it s empty and not used in recursion for recreating environment i still need for it to be created
-    let deskContent = deskGiven.content; 
+            else{
+                let newSection = await recreateByFolder(item ,section);
+                await recursiveDesk(deskContent,newSection);
+            }
+        }
+    }
+    let deskContent = await getAllItemFromDesk(deskGiven.id); 
 // and thats it ! calling the function and we re good to go !
     await recursiveDesk(deskContent, section); 
 }

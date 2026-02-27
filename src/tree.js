@@ -1,33 +1,39 @@
 import './style/style.css';
-import { getCurrentDesk } from "./helperFunctions";
-// Got to admit i was very too lazy building this myself.
-// It s not the fun part !! 
-// Fun part was building all architecture from scratch
-// Anyway thanks to chat gpt we now have a visual =D
+import { state } from './main';
+import { getAllItemFromDesk } from './queriesDb/accessQueries';
 
-// ACTUALLY it seems i would greatly learn with this and it might also solve my data managment issu.
-export function displayTree() {
-  let currentDesk = getCurrentDesk();
+export async function displayTree() {
+
   let treeEx = document.querySelector(".existingTree");
   if (treeEx) treeEx.remove();
 
-  function buildTree(items, prefix = '') {
+  function buildTree(items, parentId = null, prefix = '') {
       let result = '';
-      items.forEach((item, index) => {
-          let isLast = index === items.length - 1;
+      let children = items.filter(item => String(item.parentId) === String(parentId));
+      children.forEach((item, index) => {
+          let isLast = index === children.length - 1;
           let connector = isLast ? '└── ' : '├── ';
           let icon = item.type === 'folder' ? '📁' : '📄';
           result += prefix + connector + icon + ' ' + item.name + '\n';
-          if(item.type === 'folder' && item.children && item.children.length > 0){
+          if(item.type === 'folder'){
               let newPrefix = prefix + (isLast ? '    ' : '│   ');
-              result += buildTree(item.children, newPrefix);
+              result += buildTree(items, item.id, newPrefix);
           }
       });
       return result;
   }
 
-  let tree = '🖥️ ' + currentDesk.name + '\n';
-  tree += buildTree(currentDesk.content);
+  // fetch items from DB!
+  let items = [];
+  try{
+    items = await getAllItemFromDesk(state.currentDesk.id) || [];
+  }catch(e){
+    items = [];
+  }
+
+  let treeText = '🖥️ ' + state.currentDesk?.name + '\n';
+  treeText += buildTree(items, null);
+  //          ↑ pass null for root level items!
 
   let display = document.createElement('div');
   display.style.cssText = `
@@ -44,7 +50,7 @@ export function displayTree() {
   max-width: 30vw;
   overflow: auto;
 `;
-display.classList.add("existingTree");
+  display.classList.add("existingTree");
 
   let closeBtn = document.createElement('button');
   closeBtn.textContent = '❌ Close';
@@ -54,9 +60,9 @@ display.classList.add("existingTree");
   let pre = document.createElement('pre');
   pre.style.margin = '0';
   pre.style.fontFamily = 'monospace';
-  pre.textContent = tree; // ✅ String goes here!
+  pre.textContent = treeText;
 
   display.appendChild(closeBtn);
-  display.appendChild(pre); // ✅ Then append pre!
+  display.appendChild(pre);
   document.body.appendChild(display);
 }

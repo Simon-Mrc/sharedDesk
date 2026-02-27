@@ -2,6 +2,8 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./database.js'); // File that create the database
+console.log('DB object:', db);
+console.log('DB prepare type:', typeof db.prepare);
 
 const app = express(); 
 const PORT = 3000;
@@ -20,7 +22,7 @@ app.post(`/items`,(req,res)=>{ /// Add a new item very not specific, need to be 
     VALUES
     (?,?,?,?,?,?,?,?)
     `).run(id,deskId,name,type,x,y,createdBy,parentId)
-    res.json({log : `Item created`})
+    res.json({id,deskId,name,type,x,y,createdBy,parentId});
   }catch(error){
     res.status(500).json({log: `failed to create item`, error: error.message})
   }
@@ -84,6 +86,22 @@ app.get(`/items/:id`,(req,res)=>{ //// Return an item with a given id
 })
 
 ///////////// Part for users //////////////
+app.post(`/logging/:userName`,(req,res)=>{
+  try{
+    const {password} = req.body;
+    let user = db.prepare(`
+      SELECT * FROM users
+      WHERE userName = ? AND password = ?
+      `).get(req.params.userName,password);
+      if(!user){
+        return res.status(401).json({error: 'wrong username or password'})
+    } 
+    res.json(user);
+  }
+  catch(error){
+    res.status(500).json({log: `failed to get item`, error: error.message})
+  }
+})
 
 app.post(`/users`,(req,res)=>{    /// This one creates a new user
   try{          // Very non specific. should probably put it last 
@@ -94,7 +112,11 @@ app.post(`/users`,(req,res)=>{    /// This one creates a new user
       VALUES
       (?,?,?,?,?,?)
       `).run(name , userName, id , accountType, mail , password);
-      res.json({log : 'user created'})
+    let newUser = db.prepare(`
+      SELECT * FROM users
+      WHERE id = ?
+      `).get(id);
+      res.json(newUser);
   }catch(error){
     res.status(500).json({log: `failed to add user`, error: error.message})
   }
@@ -167,22 +189,33 @@ app.get(`/desks/user/:userId`,(req,res)=>{ // this one return all desks owned by
   }
 })
 
-app.post(`/desks/`,(req,res)=>{ // Not so specific route // will decide later where it needs to be put.
-  try{ //Create a desk with , // Parameters : name, ownerId , id
-    const {id, name,ownerId,createdAt} = req.body;
+// I need to automatically add desk to accessDesk and  user to accessDesk as owner
+app.post(`/desks/deskAccess/`,(req,res)=>{ // Not so specific route // will decide later where it needs to be put.
+  try{ //Create a desk with , // Parameters : name, ownerId , id // 
+    const {id, name,ownerId,createdAt} = req.body; 
+    console.log('Creating desk:', {id, name, ownerId, createdAt});
     let newDesk = db.prepare(`
       INSERT INTO desks
       (id, name,ownerId,createdAt)
       VALUES
       (?,?,?,?)
       `).run(id,name,ownerId,createdAt);
+    db.prepare(`
+      INSERT INTO deskAccess
+      (deskId, userId,accessType)
+      VALUES
+      (?,?,'admin')
+      `).run(id,ownerId);
+    newDesk = db.prepare(`
+      SELECT * FROM desks
+      WHERE id = ?`).get(id);
       res.json(newDesk);
   }catch(error){
     res.status(500).json({log: `failed to create desk`, error: error.message});
   }
 })
 
-app.put(`/desks/:deskId`,(req,res)=>{
+app.put(`/desks/:deskId`,(req,res)=>{ //Update new desk !
   try{
     const {name,ownedId,urlLink,accessPassword,createdAt} = req.body;
     let updatedDate = db.prepare(`
@@ -201,8 +234,8 @@ app.put(`/desks/:deskId`,(req,res)=>{
   }
 })
 
-app.delete(`/desks/:deskId`,(req,res)=>{
-  try{
+app.delete(`/desks/:deskId`,(req,res)=>{ // Delete desk by id
+  try{ // foreign key to check. literally take 1 sec but too lazy rn
     const selectedDesk = db.prepare(`SELECT * 
     FROM deskAccess WHERE deskId = ?`).all(req.params.deskId);
     if(selectedDesk.length === 1 ){
@@ -234,7 +267,35 @@ app.get(`/desks/:id`,(req,res)=>{ // this one return the selected desk
 
 ////////////// ACCESS QUERIES SIDE ////////////////
 
-app.delete('/deskAccess/:deskId',(req,res)=>{ // only desk id // not very specific route
+app.get(`/deskAccess/items/:deskId`,(req,res)=>{ // specific route no foreign implications
+  try{
+    let allItems = db.prepare(`
+      SELECT * FROM
+      items
+      WHERE deskId = ?
+      `).all(req.params.deskId);
+      return res.json(allItems);
+    }catch(error){
+      res.status(500).json({log: `failed to delete desk`, error: error.message});
+    }
+  })
+  
+  app.post(`/deskAccess/accessType`,(req,res)=>{ // this one should return access type of giver user
+    try{ // for given desk// Only ids needed
+      const {userId,deskId} = req.body;
+      let access = db.prepare(`
+        SELECT accessType FROM deskAccess
+        WHERE userId = ? AND deskId = ?
+        `).get(userId,deskId);
+        console.log(JSON.stringify(access));
+        res.json(access);
+    }
+    catch(error){
+      res.status(500).json({log: `failed to delete desk`, error: error.message});
+    }
+  })
+  
+  app.delete('/deskAccess/:deskId',(req,res)=>{ // only desk id // not very specific route
   try{ // foreign relation with accessDesk table Deletion on cascade.
     const {userId} = req.body 
     db.prepare(`
@@ -290,6 +351,7 @@ app.put(`/deskAccess/type/:userId`,(req,res)=>{ // this one modify accesstype of
     res.status(500).json({log: `failed to delete desk`, error: error.message});
   }
 })
+
 
 //// PART THAT KEEPS THE SERVER ALIVE ////
 const server = app.listen(PORT, () => {

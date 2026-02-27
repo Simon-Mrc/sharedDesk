@@ -1,8 +1,10 @@
-import { acceptOrDenied, passingInfo, textNeeded } from './namePrompt.js';
-import { getAllDesks, getAllUsers, createUser, updateCurrentDesk, getCurrentUser, updateCurrentUser, updateCurrentUserInUsers, updateAllUsers, getCurrentDesk, getAllItemCurrentDesk, updateAllItemsInCurrentAndAllDesk } from './helperFunctions.js';
+import { acceptOrDenied,textNeeded } from './namePrompt.js';
 import { array } from './creationbundle.js';
 import { recreateDesk } from './recreateDesk.js';
 import { displayTree } from './tree.js';
+import { createUser, selectUser, updateUser } from './queriesDb/userQueries.js';
+import { getAllDesksUser, selecteDesk } from './queriesDb/deskQueries.js';
+import { state } from './main.js';
 
 export function clearStateInStorage(){
     let wipe = document.getElementById('globalHome');
@@ -16,101 +18,74 @@ export function clearStateInHtml(){
         element.remove();
     });
 }
-export function switchDesk(deskGiven){
+export async function switchDesk(deskGiven){
     clearStateInHtml();
     clearStateInStorage() ;    // BYE BYE
-    localStorage.setItem(`currentDesk`, JSON.stringify(deskGiven));  
-    recreateDesk(deskGiven);  // HELLO
-    displayTree();
+    await recreateDesk(deskGiven);  // HELLO
+    await displayTree();
+    state.currentDesk = deskGiven;
+    return state.currentDesk;
 }
 
 // This one create user, store in LS Set currentUser and load userState starting point
-export async function createUserAndUpdate(section){
+export async function createUserDb(section){
     try{
         let name = await textNeeded( "Choose a name","Don t be generic tho",section);
         let userName = await textNeeded( "Choose a Nickname","Nothing offensiv Boy",section);
         let mail= await textNeeded("Enter your mail","and get rickrolled",section);
         let password= await textNeeded("Enter password","no 1234 plz",section);
-        let newUser = createUser(name,userName,mail,password);
-        let users = JSON.parse(localStorage.getItem('users'));
-        users.push(newUser);
-        localStorage.setItem('users',JSON.stringify(users));
-        localStorage.setItem('currentUser',JSON.stringify(newUser));
-        loadState(newUser);
+        let newUser = await createUser({
+            name: name,
+            userName: userName,
+            id: crypto.randomUUID(), 
+            mail: mail,
+            password: password,
+            accountType: 'user',
+            friendList: '[]',
+            notif: '[]',
+            userColor: '#FF5733'
+        });
+        state.currentUser = newUser;
+        await updateUser(state.currentUser);
+        await loadState(state.currentUser);
     }catch(error){
         console.log(error);
     }
 }
-export function findDeskById(deskId){
-    let allDesks = getAllDesks();
-    let searchedDesk = {};
-    allDesks.forEach(desk => {
-        if(desk.id == deskId){
-            Object.assign(searchedDesk,desk);
-        }        
-    });
-    return searchedDesk
-}
 
 // Carefull there you need full user object for function // not just id
-export function loadState(user){ // Here user.desks is actually ids ! not the full desk
-    console.log("test3");
+export async function loadState(user){ // Here user.desks is actually ids ! not the full desk
+    console.log("Starting loading state");
     clearStateInStorage(); // thought it would be better for storage managment.
     clearStateInHtml();
-    let allUserDesks = user.desksId;
+    let allUserDesks = await getAllDesksUser(user.id);
     console.log(user);
     if(allUserDesks == undefined){
-        console.log("test desks");
+        console.log("User has no current desk");
         return;
     }
     else{
-        allUserDesks.forEach(deskid => { // did the change at beginning for more lisibility
-            console.log("testloop");
+        for(let desk of allUserDesks) { // This assign all buttons to desks of certain user
+            console.log("testloop"); // can t await in for each that why we change it to for !
             let deskbtn = document.createElement('button')
             let fullDesk = {};
-            Object.assign(fullDesk,findDeskById(deskid))
+            Object.assign(fullDesk,await selecteDesk(desk.id))
             deskbtn.addEventListener("click",()=>{
                 switchDesk(fullDesk);
             })
             deskbtn.innerText = fullDesk.name;
             deskbtn.classList.add("needEmpty");
             document.getElementById("myDesks").appendChild(deskbtn);
-        });
+        };
     }
-
 }
 
-export async function logging(section){
-    try{
-        let users = getAllUsers();
-        let userName = await textNeeded( "Whats your name already ?","I don t recall you",section);
-        let check = 0;
-        let currentUser = {};
-        users.forEach(user => {
-            if(user.name == userName){
-                check = 1;
-                Object.assign(currentUser,user);
-            }
-        });
-        if(check ==1){
-            let pswrd = await textNeeded( "What the password","don t remember ? what a shame",section);
-            if(pswrd == currentUser.password){
-                passingInfo("Welcome Back", section);
-                localStorage.setItem('currentUser',JSON.stringify(currentUser));
-                console.log("test1");
-                loadState(currentUser);
-                console.log("test2");
-            }
-        }
-    }catch(error){console.log(error)} 
-}
-
-export function savingDesk(currentDesk){
-    if(document.getElementById(currentDesk.id)){
+export function savingDesk(){
+    if(document.getElementById(state.currentDesk.id)){
         let fullDesk = {};
-        let cleanBtn = document.getElementById(currentDesk.id).cloneNode(true); // THIS ONE SO USEFULL copies domelement + nod
-        document.getElementById(currentDesk.id).replaceWith(cleanBtn);          // Replace with usefull to know to !
-        Object.assign(fullDesk,currentDesk);
+        let cleanBtn = document.getElementById(state.currentDesk.id).cloneNode(true); // THIS ONE SO USEFULL copies domelement + nod
+        document.getElementById(state.currentDesk.id).replaceWith(cleanBtn);          // Replace with usefull to know to !
+        Object.assign(fullDesk,state.currentDesk);
         cleanBtn.addEventListener("click",()=>{
             switchDesk(fullDesk);
         })
@@ -118,90 +93,77 @@ export function savingDesk(currentDesk){
     else{
         let deskbtn = document.createElement('button')
         let fullDesk = {};
-        Object.assign(fullDesk,currentDesk);
+        Object.assign(fullDesk,state.currentDesk);
         deskbtn.addEventListener("click",()=>{
             switchDesk(fullDesk);
         })
-        deskbtn.textContent = currentDesk.name;
-        deskbtn.id = currentDesk.id;
+        deskbtn.textContent = state.currentDesk.name;
+        deskbtn.id = state.currentDesk.id;
         deskbtn.classList.add("needEmpty")
         document.getElementById(`myDesks`).appendChild(deskbtn);
     }
 }
 
 // Again we need full targetUser object for this function
-export function changeUser(targetUser){
-    localStorage.setItem('currentUser', JSON.stringify(targetUser));
-    loadState(targetUser);
+export async function changeUser(targetUser){
+    await loadState(targetUser);
+    state.currentUser = targetUser;
 }
 
-export function addFriend(targetFriendId){ // add friend is actually accepting ones invite !
-    let currentUser = getCurrentUser()
-    currentUser.friendList.push(targetFriendId);
-    currentUser.notif.splice(0,1);
-    updateCurrentUser(currentUser);
-    updateCurrentUserInUsers(currentUser);
-    let allUsers = getAllUsers();
-    allUsers.forEach(user => {
-        if(user.id == targetFriendId){
-            user.friendList.push(currentUser.id)
-        }
-    });
-    updateAllUsers(allUsers);
+export async function addFriend(targetFriendId){ // add friend is actually accepting ones invite !
+    state.currentUser.friendList.push(targetFriendId);
+    state.currentUser.notif.splice(0,1);
+    let targetFriend = await selectUser(targetFriendId);
+    targetFriend.friendList.push(state.currentUser.id);
+    await updateUser(state.currentUser);
+    await updateUser(targetFriend);
 }
 
-export function sendFriendRequest(targetFriend){
-    let currentUser = getCurrentUser();
-    let allUsers = getAllUsers();
-    for(let i = 0 ; i < allUsers.length ; i = i + 1){
-        if (allUsers[i].id == targetFriend.id){
-            allUsers[i].notif.push(currentUser.id);
-        }
-    }
-    updateAllUsers(allUsers);
+export async function sendFriendRequest(targetFriend){
+    let target = await selectUser(targetFriend.id);
+    target.notif.push(state.currentUser.id);
+    await updateUser(target);
+    await updateUser(targetFriend);
 }
 
 export async function showNotif(){
     let globalHome = document.getElementById('globalHome');
-    let currentUser = getCurrentUser();
-    if(currentUser.notif[0] != undefined){
+        if(state.currentUser.notif[0] != undefined){
         await acceptOrDenied("will you take me as a friend ?", globalHome,
-            () => addFriend(currentUser.notif[0]), // in case of resolve()
+            () => addFriend(state.currentUser.notif[0]), // in case of resolve()
             () => deleteNotif())// in cas of denied()
     }    
 }
 
-export function deleteNotif(){
-    let currentUser = getCurrentUser();
-    currentUser.notif.splice(0,1);
-    updateCurrentUser(currentUser);
-    updateCurrentUserInUsers(currentUser);
+export async function deleteNotif(){
+    state.currentUser.notif.splice(0,1);
+    await updateUser(state.currentUser);
 }
+ ///////////////// NEED TO BE REDO !!! ///////////////
+// export function changeItemsColor(currentUser){ // this one is hard because you have to find every element created by currentuser
+//                     // then access the DOM element if it exist
+//     let allDesk = getAllDesks();// then change color
+//     let currentDesk = getCurrentDesk();
+//     allDesk.forEach(desk => {
+//         let allItems = getAllItemCurrentDesk(desk);
+//         if(desk.accessUserId.includes(currentUser.id)){
 
-export function changeItemsColor(){ // this one is hard because you have to find every element created by currentuser
-    let currentUser = getCurrentUser();// then access the DOM element if it exist
-    let allDesk = getAllDesks();// then change color
-    let currentDesk = getCurrentDesk();
-    allDesk.forEach(desk => {
-        let allItems = getAllItemCurrentDesk(desk);
-        if(desk.accessUserId.includes(currentUser.id)){
-
-            console.log("test1");
-            allItems.forEach(item => {
-                console.log("updateAll called") 
-                if(currentUser.id == item.createdBy){
-                    if(document.getElementById(item.id)){
-                        let targetContainer = document.getElementById(item.id);
-                        targetContainer.style.boxShadow = `0 8px 20px ${currentUser.userColor}`
-                        item.creatorColor = currentUser.userColor;
-                    }
-                }            
-            }); 
-            localStorage.setItem('currentDesk',JSON.stringify(desk));
-            console.log("testhere");
-            updateAllItemsInCurrentAndAllDesk(allItems);    
-            console.log("and there");
-        }
-    });
-    localStorage.setItem('currentDesk',JSON.stringify(currentDesk));
-}
+//             console.log("test1");
+//             allItems.forEach(item => {
+//                 console.log("updateAll called") 
+//                 if(currentUser.id == item.createdBy){
+//                     if(document.getElementById(item.id)){
+//                         let targetContainer = document.getElementById(item.id);
+//                         targetContainer.style.boxShadow = `0 8px 20px ${currentUser.userColor}`
+//                         item.creatorColor = currentUser.userColor;
+//                     }
+//                 }            
+//             }); 
+//             localStorage.setItem('currentDesk',JSON.stringify(desk));
+//             console.log("testhere");
+//             updateAllItemsInCurrentAndAllDesk(allItems);    
+//             console.log("and there");
+//         }
+//     });
+//     localStorage.setItem('currentDesk',JSON.stringify(currentDesk));
+// }

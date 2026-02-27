@@ -1,16 +1,17 @@
 import { passingInfo, showNamePrompt, textNeeded } from './namePrompt.js';
-import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateAllUsers,
-addContentAndUpdate, createFolder, createFile, updateCurrentDesk, openOption, 
-addScreenAndUpdate,
-updateCurrentDeskInDesks} from './helperFunctions.js';
-import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
-import { initiate,createNew } from './functions.js';
-import { searchIdandPushAndUpdate } from './helperFunctions.js';
+import { openOption, addScreenAndUpdate} from './helperFunctions.js';
+import { quiteSlideLeft,slideRight } from './animations.js';
+import { createNew } from './functions.js';
 import { displayTree } from './tree.js';
+import { checkAccess } from './queriesDb/accessQueries.js';
+import { createItem } from './queriesDb/itemQueries.js';
+import { state } from './main.js';
 // Scope is a pain hopefully localstorage exist. Too lazy to change it to manage changes.
 export let array = [];
 export async function newFile(x,y,section){ //Actually async probably not needed there !    
-    if(getCurrentDesk().modifyUserId.includes(getCurrentUser().id)){
+    let access = await checkAccess(state.currentUser.id,state.currentDesk.id);
+    if(access?.accesType == "modify" || access?.accessType == "admin"){ // the question mark is optionnal chaining
+        // Prevents crash if access.accessType is NULL ou undefined ! Very usefull !
         // Used to force container to have right style properties to allow positionning on click
         if (section.style.position !== 'relative' && section.style.position !== 'absolute') {
             section.style.position = 'relative';
@@ -45,35 +46,31 @@ export async function newFile(x,y,section){ //Actually async probably not needed
                 container.addEventListener("dblclick",()=>{
                     
                 })
-                let file = createFile(getCurrentUser(),labelName,getCurrentDesk(),x,y);
+                let file = await createItem({ // Full object not just parameters !
+                    id: crypto.randomUUID(),
+                    deskId: state.currentDesk.id,
+                    name: labelName,
+                    type: "file",
+                    x: x,
+                    y: y,
+                    createdBy: state.currentUser.id, 
+                    parentId: section.dataset.id || null
+                });
+                
                 container.id = file.id;
-                container.style.boxShadow = `0 8px 20px ${getCurrentUser().userColor}`
+                container.style.boxShadow = `0 8px 20px ${state.currentUser.userColor}`
                 container.addEventListener("contextmenu",async(e)=>{
                     e.preventDefault(); // Prevent browser menu!
                     e.stopPropagation();// Prevent interpretation of addevent listeners to current displayed screen.
                     await openOption(file,section,label,container);                    
                 })
 
-                // OMG if it works I AM A FREAKING GENIOUS. This is for saving file data into folder he s beeen created into !
                 section.appendChild(container);
-                let checkCondition=0; //Useless not deleting it tho What u gonna do about that              
-                if(!section.dataset.id){// if section doesnt have dataset.id it means it doesn t came from a folder                  
-                    addContentAndUpdate(file); // So it the main desk basically
-                }
-                // They have the same unique id (given to folder at creation and given to section)
-                // via folder on creation 
-                
-                // gonna run a few test with this one . Spent 1 hour on this! My first recursive call
-                // Learned a frking lot i love it ! very quite tricky tho
-                // i have to match to witch folder it came from
-                else{
-                    let currentDesk = getCurrentDesk(); // Ok so this is recursive file datastorage function !
-                    searchIdandPushAndUpdate(currentDesk,currentDesk.content,file,section.dataset.id)
-                    }
-                    displayTree();     
+                await displayTree();     
                 return [container,label];    
                 }         
-            }catch (error){
+            }
+            catch (error){
 
             }
     }
@@ -83,7 +80,8 @@ export async function newFile(x,y,section){ //Actually async probably not needed
 };
 
 export async function newFolder(x,y,section){// many wait needed
-    if(getCurrentDesk().modifyUserId.includes(getCurrentUser().id)){// do you have the right bro ?
+    let access = await checkAccess(state.currentUser.id,state.currentDesk.id);
+        if(access?.accessType == "modify" || access?.accessType == "admin"){
 
         // Used to force container to have right style properties to allow positionning on click
         if (section.style.position !== 'relative' && section.style.position !== 'absolute') {
@@ -110,14 +108,24 @@ export async function newFolder(x,y,section){// many wait needed
                 // Attached img and label to container wich is right-positionned
                 container.appendChild(img);
                 container.appendChild(label);
-                let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);
+                let folder = await createItem({ // Full object not just parameters !
+                    id: crypto.randomUUID(),
+                    deskId: state.currentDesk.id,
+                    name: folderName,
+                    type: "folder",
+                    x: x,
+                    y: y,
+                    createdBy: state.currentUser.id, // ← id not userName!
+                    parentId: section.dataset.id || null
+                });
+              
                 let newDesk = await createNew(section);// await needed there because i need result in later script
                 newDesk.dataset.id = folder.id; // starting from here actually 
                 addScreenAndUpdate({id : folder.id})//Filling localStorage with screen for later use 
                 array.push(newDesk); // filling array with DOM Section identified by dataset and using index to display right section 
                 container.dataset.index = array.length-1;    // Container.dataset.id is linked to DOM array to find wich section to display
                 container.id = folder.id;  // Container.id is important there for recreate desk from scratch
-                container.style.boxShadow = `0 8px 20px ${getCurrentUser().userColor}`
+                container.style.boxShadow = `0 8px 20px ${state.currentUser.userColor}`
             
                 // Need to work on this part. If already been double click you have to retrieve the right div and not create one
                 // Probably give a dynamic id to desk and write it somewhere in container property to be able to retrieve it ?
@@ -155,14 +163,7 @@ export async function newFolder(x,y,section){// many wait needed
                 })
                 //Final linking the box created to current desk
                 section.appendChild(container);
-                if(!section.dataset.id){ // each time there is !section.dataset.id means it s main page
-                    addContentAndUpdate(folder);
-                }
-                else{
-                    let currentDesk = getCurrentDesk();//function below store folders data and updates all desks and currentdesk
-                    searchIdandPushAndUpdate(currentDesk,currentDesk.content,folder,section.dataset.id)
-                }
-                displayTree()
+                await displayTree()
                 return folder; // Always return something right ! well obviously this one s gonna be usefull 
             }
         // }catch{ // Nice user experience

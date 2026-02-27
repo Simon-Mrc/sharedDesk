@@ -1,9 +1,10 @@
-import { showNamePrompt,textNeeded,passingInfo } from './namePrompt.js';
-import { createDesk, getAllDesks, getCurrentUser, getCurrentDesk, updateDesks,updateAllUsers,addContentAndUpdate, updateCurrentUser, updateCurrentUserInUsers } from './helperFunctions.js';
-import { resetClass, slideLeft, quiteSlideLeft,slideRight } from './animations.js';
-import { newFile, newFolder,showContextMenu } from './creationbundle.js';
-import { clearStateInHtml, clearStateInStorage } from './manager.js';
-import { globalHome } from './main.js';
+import { textNeeded } from './namePrompt.js';
+import { quiteSlideLeft,slideRight } from './animations.js';
+import { showContextMenu } from './creationbundle.js';
+import { clearStateInStorage } from './manager.js';
+import { globalHome,state } from './main.js';
+import { createDesk, updateDesk } from './queriesDb/deskQueries.js';
+import { updateUser } from './queriesDb/userQueries.js';
 //
 export async function initiate(section){
     clearStateInStorage();
@@ -20,43 +21,29 @@ export async function initiate(section){
             const elementY = event.offsetY;
             showContextMenu(elementX,elementY,desk);
         });
-                
-        let currentUser = getCurrentUser();
-        console.log(currentUser.id);
         // Need to add header on every desk 
         // displayed or not it s gonna be usefull for json creation later.
         // there is environment creation . going through all created desk to see if id matches
-        let deskid = currentUser.id + '-' + nameChosen;
-        let allDesk = getAllDesks(); // get all desks from localStorage to check if ID match
-        let check = 0 ;
-        for (let i = 0 ; i < allDesk.length ; i = i+1){
-            if(allDesk[i].id == deskid){
-                check = 1 ;
-                i = allDesk.length ;
-            }
-        }
-        if(check == 0){
-
-            let currentDesk = createDesk(currentUser.id, nameChosen, deskid);
-            // First desk linking to main display. Called in main
-            section.appendChild(desk);
-            desk.classList.add(`desk-column-large`);
-            
-            // this await is to be sure that animations go smoothly despite loading speed
-            await new Promise(resolve => requestAnimationFrame(resolve));
-            await slideRight(desk);
-            currentUser.desksId.push(currentDesk.id);//add the new environment to users data so it can reaccess
-            updateCurrentUser(currentUser);// update it in storage
-            updateCurrentUserInUsers(currentUser);
-            allDesk.push(currentDesk);//add new desks to all desks data
-            updateDesks(allDesk);//update all desks data ! Never forget to update after every change
-            localStorage.setItem("currentDesk", JSON.stringify(currentDesk)); //updating currentDesk
-            //Must have wrote this before creating some help function i think
-        }
-        else{ // Lazy user is also not so smart one it seems
-            await passingInfo("Already picked that name =D", section);
-        }
-
+        let id = state.currentUser.userName + '-' + nameChosen;
+        let newDesk = await createDesk({
+            id: id,
+            name: nameChosen,
+            ownerId: state.currentUser.id,
+            createdAt: Date.now()
+        });
+        Object.assign(state.currentDesk,newDesk);
+        await updateDesk(state.currentDesk);
+        // First desk linking to main display. Called in main
+        section.appendChild(desk);
+        desk.classList.add(`desk-column-large`);
+        
+        // this await is to be sure that animations go smoothly despite loading speed
+        await new Promise(resolve => requestAnimationFrame(resolve));
+        await slideRight(desk);
+//add the new environment to users data so it can reaccess
+        updateUser(state.currentUser);// update it in storage
+        
+        
     }catch(error){ //USERRRRRR
         console.log("unexpected issue");
     }

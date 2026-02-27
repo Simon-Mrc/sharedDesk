@@ -1,13 +1,27 @@
 
 ////////////// USERS FUNCTIONS ////////////////:
- export async function createUser(user){ /// Create new user. All user object as a parameter
+export async function logging(userName,password){
+    try{
+        let user = await fetch(`http://localhost:3000/logging/${userName}/`,{
+            method : 'POST',
+            headers : {'content-type' : 'application/json'},
+            body : JSON.stringify({password})
+        })
+        return await user.json();
+    }catch(error){
+        console.log('wrong username or password')
+    }
+} 
+
+export async function createUser(user){ /// Create new user. All user object as a parameter
     try{            // No foreign implication
         let newUser = await fetch(`http://localhost:3000/users`,{
             method : 'POST',
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify(user)
         })
-        console.log('user created')
+        console.log('user created');
+        return await newUser.json();
     }catch(error){
         console.log('user not created')
     }
