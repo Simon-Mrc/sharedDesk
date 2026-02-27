@@ -1,17 +1,8 @@
-Spent the all morning tryin to build my tables . I made few functions to communicate with node server. Can t wait to implement it. I think i m gonna keep all the DOM building aspect . not sur how to it tho because all my creation functions relate on the JSON style Nested object i give. Maybe i ll just make a function that take all data from my database and rebuild the same object i had before.
-Database can surely be optimized tho. 
+Just spend the last 2 days not stop working on sql learning, building routes, inventing tables, understanding how all of this work. 40 hours of work. But it s done ! all set up ! i ve got a project working on local storage right now but all is set up. My back is ready (need polish of course but it ll do for now) . gonna take a fckin good night sleep because tomorrow real work starts . Make the transition. i ll need to go over all my script again to change from local storage to localhost. Tricky because all of my DOM creation is based of the stored datas in local storage. Wich is built as a nested archicteture. But database are table. So it s gonna be quite a challenge. HONESTLY i fcking can t wait to get to it .
+SQL is so cool to learn tho . I obviously have so much more to learn but i ll do like everything. over time !
+can t wait to see all the data system i built bein stored. Hopefully i know every line of those script by heart. I can t imagine someone arriving and having to make the transition. 
 
-End of the day . almost 15 hour learning sql it s so damned interesting. aiming to do the same tomorrow in order to implement it in project by the end of the week!
-
-DAY 1 learning : SQL DAMN it s interesting. It can clearly help my manage and retrieve all my datas.
-i have to find out how to build the tables tho. What should be connected to what in order to manage and make 
-the less data operation possible. Few more days and i d feel confident into bringing sql to the project.
-Transition will be lot of work but very interesting can t wait !!
-may be i ll start commenting in a more professionnal way ... or not . i leave a .txt with honest though any case.
-
-There is not gonna be updates in few days !  Don t worry i m not dead ! (at least not when i m writing those)
-Just side learning and practicing sql in order to implement it into this project before going further !
-See you <3
+PEACE !
 
 
 
