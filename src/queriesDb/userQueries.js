@@ -2,7 +2,7 @@
 ////////////// USERS FUNCTIONS ////////////////:
 export async function logging(userName,password){
     try{
-        let user = await fetch(`http://localhost:3000/logging/${userName}/`,{
+        let user = await fetch(`http://localhost:3000/logging/${userName}`,{
             method : 'POST',
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify({password})

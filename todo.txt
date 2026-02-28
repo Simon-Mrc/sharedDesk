@@ -1,2 +1,9 @@
+1 - Build preset environment for each reset. easy testing purpose : ✅ 
+2 - Rework html and main.js to clean all useless testing purpose and build 
+clean environment for testing purpose : ❌
+3 - Full review of all scripts, clean useless parts, add commentaries : ❌
+4 - Full test of all remaining features, datastorage, dom creation and cleaning : ❌
+5 - fix all remaining bugs : ❌
 
+SO i can start from a real fresh and clean state to add feature as i create them !
 

@@ -31,7 +31,7 @@ export async function initiate(section){
             ownerId: state.currentUser.id,
             createdAt: Date.now()
         });
-        Object.assign(state.currentDesk,newDesk);
+        state.currentDesk = newDesk;
         await updateDesk(state.currentDesk);
         // First desk linking to main display. Called in main
         section.appendChild(desk);
@@ -40,12 +40,14 @@ export async function initiate(section){
         // this await is to be sure that animations go smoothly despite loading speed
         await new Promise(resolve => requestAnimationFrame(resolve));
         await slideRight(desk);
+        console.log('desk created:', state.currentDesk);
+console.log('desk div:', desk);
 //add the new environment to users data so it can reaccess
         updateUser(state.currentUser);// update it in storage
         
         
     }catch(error){ //USERRRRRR
-        console.log("unexpected issue");
+        console.log("unexpected issue",error);
     }
 };
 

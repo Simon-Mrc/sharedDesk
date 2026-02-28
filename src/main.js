@@ -4,7 +4,7 @@ import './style/buttons.css';
 import './style/containers.css';
 import { initiate} from './functions.js';
 import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
-import { clearStateInHtml, clearStateInStorage, createUserDb, savingDesk } from './manager.js';
+import { clearStateInHtml, clearStateInStorage, createUserDb, savingDesk, loadState } from './manager.js';
 import { initiateDeskandUser } from './state.js';
 
 ////////////////// Inititalisation ///////////////////
@@ -16,7 +16,7 @@ clearStateInStorage();
 let result = await initiateDeskandUser();
 export const state = {
   currentUser: result[0],
-  currentDesk: result[1]
+  currentDesk: result[1] || {}
 }
 ////////////////// END OF INITIALISATION ////////////// MAYBE DIFFERENT ORGANISATION LATER /////////
 
@@ -68,6 +68,7 @@ logginBtn.addEventListener("click",async ()=>{
     clearStateInStorage();
     state.currentDesk = transitionVar[1];
     state.currentUser = transitionVar[0];
+    await loadState(state.currentUser);
   }
 });
 
