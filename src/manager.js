@@ -10,7 +10,6 @@ export function clearStateInStorage(){
     let wipe = document.getElementById('globalHome');
     wipe.innerHTML=``;
     array.length = 0; // by doin so i empty the array without breaking reference and contain it to this scope
-    localStorage.setItem(`screens`,JSON.stringify([{id : 0}]));
 }
 export function clearStateInHtml(){
     let allThatClear = document.querySelectorAll(`.needEmpty`);

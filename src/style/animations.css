@@ -88,20 +88,36 @@
 /* Animation classes */
 .section-exit {
   animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  border: 1px solid #bdbdbd !important;
+  background-color: #dcdbdb !important;
+  box-shadow: 0 4px 15px rgba(31, 38, 135, 0.2);
+  border-radius: 6px;
 }
 
 .section-enter {
   animation: slideInLeft 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  border: 1px solid #bdbdbd !important;
+  background-color: #dcdbdb !important;
+  box-shadow: 0 4px 15px rgba(31, 38, 135, 0.2);
+  border-radius: 6px;
 }
 
 .section-exit-minimal {
   animation: slideOutLeftMinimal 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   max-width: 2rem !important;
   overflow: hidden;
+  border: 1px solid #bdbdbd !important;
+  background-color: #dcdbdb !important;
+  box-shadow: 0 4px 15px rgba(31, 38, 135, 0.2);
+  border-radius: 6px;
 }
 
 .section-enter-minimal {
   animation: slideInLeftMinimal 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  border: 1px solid #bdbdbd !important;
+  background-color: #dcdbdb !important;
+  box-shadow: 0 4px 15px rgba(31, 38, 135, 0.2);
+  border-radius: 6px;
 }
 
 @keyframes shake {

@@ -2,11 +2,9 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
   font-weight: 400;
-
   color-scheme: light dark;
   color: #2c3e50;
   background-color: #ffffff;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,9 +21,7 @@ html, body {
   width: 100%;
   height: 100%;
 }
-.existingTree{
-  z-index: 100;
-}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
@@ -36,89 +32,188 @@ body {
   color: #2c3e50;
 }
 
-/* Large column class - takes 95% of flex row */
-.desk-column-large {
-  flex: 0 0 90% !important;
-  width: 90% !important;
-}
-.desk-column-small {
-  flex: 0 1 auto !important;
-  width: auto !important;
-  min-width: 0;
-}
-
-/* SIDEBAR STYLING */
+/* ============================================
+   SIDEBAR
+   flex-direction: column so sections stack
+   vertically inside it
+   width starts small, expands on .expanded
+   overflow-y: auto so it scrolls if needed
+   ============================================ */
 #sideBar {
   background-color: #ffffff;
-  border: 2px solid #5b7ae5;
   border-right: 3px solid #5b7ae5;
-  overflow-y: auto;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: 10vw;
-  flex-shrink: 0;
+  min-width: 48px;        /* so toggle button always visible */
+  flex-shrink: 0;         /* sidebar never shrinks below its width */
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* stack children vertically */
   box-shadow: 2px 0 12px rgba(91, 122, 229, 0.15);
-  margin: 0;
-}
-
-#sideBar::-webkit-scrollbar {
-  width: 6px;
-}
-
-#sideBar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-#sideBar::-webkit-scrollbar-thumb {
-  background: #d0d0d0;
-  border-radius: 3px;
-}
-
-#sideBar::-webkit-scrollbar-thumb:hover {
-  background: #b0b0b0;
+  overflow: hidden;       /* hide content when collapsed */
 }
 
 #sideBar.expanded {
-  width: 30vw;
+  width: 280px;           /* fixed px better than vw for sidebar */
+  overflow-y: auto;       /* allow scroll only when expanded */
 }
 
-#account {
-  padding: 16px;
-  margin: 8px;
+/* scrollbar for sidebar */
+#sideBar::-webkit-scrollbar { width: 6px; }
+#sideBar::-webkit-scrollbar-track { background: transparent; }
+#sideBar::-webkit-scrollbar-thumb { background: #d0d0d0; border-radius: 3px; }
+#sideBar::-webkit-scrollbar-thumb:hover { background: #b0b0b0; }
+
+/* ============================================
+   SIDEBAR TOGGLE BUTTON
+   always visible even when collapsed
+   ============================================ */
+.sidebar-toggle {
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #e8e8e8;
+  cursor: pointer;
+  font-size: 18px;
+  flex-shrink: 0;         /* never compress this button */
+  text-align: center;
+}
+
+.sidebar-toggle:hover {
+  background-color: #f0f3ff;
+}
+
+/* ============================================
+   SIDEBAR SECTIONS (account, moreStuff)
+   flex-shrink: 0 so they take their natural
+   height and dont compress
+   ============================================ */
+.sidebar-section {
+  padding: 12px;
+  margin: 6px;
   border: 1px solid #e8e8e8;
   border-radius: 8px;
   background-color: #f9f9f9;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  flex-shrink: 0;         /* dont compress! */
 }
 
+/* ============================================
+   DESKS SIDE SECTION
+   THIS IS THE KEY FIX!
+   flex: 1 makes it take ALL remaining space
+   after other sections take their natural height
+   overflow-y: auto allows scrolling inside it
+   ============================================ */
 #desksSide {
-  padding: 16px;
-  margin: 8px;
+  padding: 12px;
+  margin: 6px;
   border: 1px solid #e8e8e8;
   border-radius: 8px;
   background-color: #f9f9f9;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  flex: 1;
-  overflow-y: auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  flex: 1;                /* TAKE ALL REMAINING SPACE! */
+  min-height: 0;          /* CRITICAL! without this flex: 1 wont work in column! */
+  overflow-y: auto;       /* scroll inside when many desks */
+  display: flex;
+  flex-direction: column; /* stack header and list vertically */
 }
 
-#moreStuff {
-  padding: 16px;
-  margin: 8px;
-  border: 1px solid #e8e8e8;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+/* ============================================
+   DESK LIST
+   flex: 1 so it fills desksSide
+   overflow-y: auto so it scrolls independently
+   display: flex + column so buttons stack nicely
+   ============================================ */
+#myDesks {
+  flex: 1;                /* fill remaining space in desksSide */
+  min-height: 0;          /* CRITICAL! same reason as above */
+  overflow-y: auto;       /* scroll when many desk buttons */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;               /* space between desk buttons */
+  padding-top: 8px;
+}
+
+/* desk buttons injected by JS */
+#myDesks button {
+  width: 100%;
+  padding: 8px 10px;
+  text-align: left;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* ... if name too long */
+}
+
+#myDesks button:hover {
+  background-color: #f0f3ff;
+  border-color: #5b7ae5;
+  color: #5b7ae5;
+}
+
+/* section headers like MY DESKS */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  flex-shrink: 0;         /* never compress header */
+}
+
+.section-header h3 {
+  font-size: 11px;
+  font-weight: 600;
+  color: #a0a0a0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* user display in account section */
+.user-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #5b7ae5;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
   flex-shrink: 0;
-  overflow-y: auto;
 }
 
+.user-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #2c3e50;
+}
 
-/* CENTER DISPLAY STYLING */
+.user-type {
+  font-size: 11px;
+  color: #a0a0a0;
+}
+
+/* ============================================
+   CENTER DISPLAY
+   flex: 1 takes all remaining width
+   after sidebar
+   overflow: hidden so desks dont escape
+   ============================================ */
 #centerDisplayed {
-  flex: 1;
+  flex: 1;                /* take all width after sidebar */
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -127,91 +222,59 @@ body {
   margin: 12px;
   border-radius: 8px;
   border: 2px solid #e8e8e8;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-#centerDisplayed::-webkit-scrollbar {
-  width: 8px;
-}
-
-#centerDisplayed::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-#centerDisplayed::-webkit-scrollbar-thumb {
-  background: #d0d0d0;
-  border-radius: 4px;
-}
-
-#centerDisplayed::-webkit-scrollbar-thumb:hover {
-  background: #b0b0b0;
-}
-
-/* Apply style to all children and descendants of centerDisplayed (except form elements) */
-#centerDisplayed > div,
-#centerDisplayed div div {
-  padding: 12px;
-  margin: 2px;
-  border: 1px solid #e8e8e8;
-  border-radius: 6px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-}
-
-#settings {
-  padding: 24px;
-  background-color: #ffffff;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border: 1px solid #f0f0f0;
-  border-radius: 6px;
-  margin: 0;
-}
-
+/* ============================================
+   GLOBAL HOME
+   where desks are displayed!
+   flex-direction: row so desks sit side by side
+   overflow-x: hidden because animations handle it
+   NO generic div styling here anymore!
+   that was breaking everything!
+   ============================================ */
 #globalHome {
-  padding: 24px;
-  background-color: #eeeded;
-  flex: 1;
-  overflow-y:hidden;
+  flex: 1;                /* take all height in centerDisplayed */
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  border: 1px solid #f0f0f0;
+  flex-direction: row;    /* desks side by side */
+  overflow: hidden;       /* animations handle transitions */
+  background-color: #eeeded;
   border-radius: 6px;
-  margin: 0;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+  position: relative;
 }
-#globalHome > div,
-#globalHome div div{
+
+/* ============================================
+   DESK COLUMNS
+   these are the divs created by JS!
+   desk-column-large = active desk (90% width)
+   ranged = minimized desk (just a sliver)
+   ============================================ */
+.desk-column-large {
+  flex: 0 0 90% !important;
+  width: 90% !important;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
   background-color: #e9e8e8 !important;
   border: 1px solid #bdbdbd !important;
   box-shadow: 0 4px 15px rgba(31, 38, 135, 0.2);
-}
-#globalHome > div,
-#globalHome div div:hover{
-box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
-}
-.ranged{
-  padding: 0px !important;
-  max-width: 2rem !important;
+  border-radius: 6px;
 }
 
-#moreStuffDisplayed {
-  padding: 24px;
-  background-color: #ffffff;
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border: 1px solid #f0f0f0;
+.desk-column-large:hover {
+  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
+}
+
+.ranged {
+  flex: 0 0 2rem !important;
+  width: 2rem !important;
+  max-width: 2rem !important;
+  padding: 0 !important;
+  border: 1px solid #bdbdbd !important;
+  background-color: #dcdbdb !important;
+  box-shadow: 0 4px 15px rgba(31, 38, 135, 0.2);
   border-radius: 6px;
-  margin: 0;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
 }
 
 /* Icon/item wrapper */
