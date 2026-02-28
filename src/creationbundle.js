@@ -42,7 +42,7 @@ export async function newFile(x,y,section){  // x,y is where you click, section 
                 
                 // Image getting taken here
                 let img = document.createElement('img');
-                img.src = "../pictures/file.png";
+                img.src = "/pictures/file.png";
                 
                 // Label : need to add a prompt there
                 let label = document.createElement('span');
@@ -116,7 +116,7 @@ export async function newFolder(x,y,section){
                 
                 // Image for folder (commenting on changes as i said =D) 
                 let img = document.createElement('img');
-                img.src = "../pictures/folder.jpg";
+                img.src = "/pictures/folder.jpg";
                 
                 // Label thats gonna be displayed need to work on it
                 let label = document.createElement('span');

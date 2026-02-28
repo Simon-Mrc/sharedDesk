@@ -50,11 +50,22 @@ body {
   flex-direction: column; /* stack children vertically */
   box-shadow: 2px 0 12px rgba(91, 122, 229, 0.15);
   overflow: hidden;       /* hide content when collapsed */
+
 }
 
 #sideBar.expanded {
-  width: 280px;           /* fixed px better than vw for sidebar */
+  width: 330px;           /* fixed px better than vw for sidebar */
   overflow-y: auto;       /* allow scroll only when expanded */
+}
+
+.toggleAndLog{
+  display: grid;
+  grid-template-columns: 65fr 35fr;
+  max-height: 10%;
+  gap : 3%
+}
+.logbtn{
+  max-width: 20%;
 }
 
 /* scrollbar for sidebar */
@@ -72,7 +83,7 @@ body {
   padding: 12px;
   background: none;
   border: none;
-  background-color: #d9dff5;
+  background-color: #7a85ac;
   border-bottom: 1px solid #bcb8fe;
   cursor: pointer;
   font-size: 18px;
@@ -89,12 +100,33 @@ body {
    flex-shrink: 0 so they take their natural
    height and dont compress
    ============================================ */
+/* #sideBar > div {
+  overflow-x: hidden;
+} */
+
+#moreStuff{
+  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex-shrink: 0;
+  min-width: 280px; /* ← same fix! */
+  column-gap: 10px;
+  row-gap: 3px;
+}
+
+#moreStuff button {
+  flex-shrink: 0; 
+  width: 100%;    
+}
+
 .sidebar-section {
   padding: 12px;
   margin: 6px;
   border: 1px solid #e8e8e8;
   border-radius: 8px;
   background-color: #f9f9f9;
+  min-width: 280px; /* ← same fix! */
+  overflow: hidden;
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
   flex-shrink: 0;         /* dont compress! */
 }
@@ -106,6 +138,7 @@ body {
    after other sections take their natural height
    overflow-y: auto allows scrolling inside it
    ============================================ */
+
 #desksSide {
   padding: 12px;
   margin: 6px;
@@ -114,7 +147,8 @@ body {
   background-color: #f9f9f9;
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
   flex: 1;                /* TAKE ALL REMAINING SPACE! */
-  min-height: 0;          /* CRITICAL! without this flex: 1 wont work in column! */
+  min-height: 40%;          /* CRITICAL! without this flex: 1 wont work in column! */
+  min-width: 280px; /* ← same fix! */
   overflow-y: auto;       /* scroll inside when many desks */
   display: flex;
   flex-direction: column; /* stack header and list vertically */
@@ -126,22 +160,27 @@ body {
    overflow-y: auto so it scrolls independently
    display: flex + column so buttons stack nicely
    ============================================ */
+
+
 #myDesks {
   flex: 1;                /* fill remaining space in desksSide */
-  min-height: 0;          /* CRITICAL! same reason as above */
-  overflow-y: auto;       /* scroll when many desk buttons */
+  min-height: 0;          /* CRITICAL! same reason as above */     /* scroll when many desk buttons */
   display: flex;
   flex-direction: column;
   gap: 4px;               /* space between desk buttons */
   padding-top: 8px;
+  display: grid;
+  grid-template-columns: 8fr 1fr;  
+  max-width: 100%;
 }
 
 /* desk buttons injected by JS */
 #myDesks button {
-  width: 100%;
+  width: 95%;
+  color: #3b5f82;
   padding: 8px 10px;
   text-align: left;
-  background: #ffffff;
+  background: #abd6c7;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
   cursor: pointer;
@@ -150,6 +189,8 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; /* ... if name too long */
+  min-height: 30px;
+  max-height: 40px;
 }
 
 #myDesks button:hover {
@@ -276,6 +317,7 @@ body {
   box-shadow: 0 4px 15px rgba(31, 38, 135, 0.2);
   border-radius: 6px;
   overflow: hidden;
+  pointer-events: none;
 }
 
 /* Icon/item wrapper */
@@ -302,7 +344,7 @@ body {
 
   /* When expanded on mobile, takes 70% */
   #sideBar.expanded {
-    width: 70vw;
+    width: 80vw;
   }
 
   #centerDisplayed {

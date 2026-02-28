@@ -12,7 +12,6 @@ import { initiateDeskandUser } from './state.js';
 clearStateInHtml();
 clearStateInStorage();
 
-
 ////////////////////////// EXPORT SECTION ///////////////////
 export const globalHome = document.getElementById(`globalHome`);
 let result = await initiateDeskandUser();
@@ -20,7 +19,6 @@ export const state = {
   currentUser: result[0],
   currentDesk: result[1] || {}
 }
-
 
 /////////////////////////////////////////////////////////
 ///////////////BTN ATTRIBUTION SECTION //////////////////
@@ -43,7 +41,7 @@ initiateButton.addEventListener("click", ()=>{
 });
 
 ////////////////////LOGGING BTN///////////////////////////
-const logginBtn = document.getElementById(`logInLogOut`);
+const logginBtn = document.getElementById(`logBtn`);
 logginBtn.addEventListener("click",async ()=>{ 
   let transitionVar = await initiateDeskandUser();
   if(transitionVar){

@@ -65,14 +65,21 @@ export async function loadState(user){ // Here user.desks is actually ids ! not 
     else{
         for(let desk of allUserDesks) { // This assign all buttons to desks of certain user
             let deskbtn = document.createElement('button');
+            let deskbtnSettings = document.createElement('button');
             let fullDesk = await selecteDesk(desk.id);
             console.log(fullDesk);
             deskbtn.addEventListener("click",()=>{
                 switchDesk(fullDesk);
             })
+            deskbtnSettings.addEventListener('click',()=>{
+                ///////// Desk Setting here ///////////
+            })
             deskbtn.innerText = fullDesk.name;
+            deskbtnSettings.innerText = "⚙️";
+            deskbtnSettings.classList.add('needEmpty');
             deskbtn.classList.add("needEmpty"); // for reset when switching users
             document.getElementById("myDesks").appendChild(deskbtn);
+            document.getElementById("myDesks").appendChild(deskbtnSettings);
         };
     }
 }
@@ -85,19 +92,29 @@ export function savingDesk(){
         Object.assign(fullDesk,state.currentDesk); // exact copy of current desk
         cleanBtn.addEventListener("click",()=>{
             switchDesk(fullDesk);
-        })
+        });
+        // deskbtnSettings.addEventListener('click',()=>{
+        //     ///////// Desk Setting here ///////////
+        // }); /// need to think more about if needed to update with new content 
     }
     else{
-        let deskbtn = document.createElement('button')
+        let deskbtn = document.createElement('button');
+        let deskbtnSettings = document.createElement('button');
         let fullDesk = {}; //same as before different pointer .....
         Object.assign(fullDesk,state.currentDesk);
         deskbtn.addEventListener("click",()=>{
             switchDesk(fullDesk); // ..... but same values
-        })
+        });
+        deskbtnSettings.addEventListener('click',()=>{
+            ///////// Desk Setting here ///////////
+        });
         deskbtn.textContent = state.currentDesk.name;
         deskbtn.id = state.currentDesk.id; // to check later if already existing desk ! (ealier in code tho)
+        deskbtnSettings.innerText = "⚙️";
+        deskbtnSettings.classList.add('needEmpty');
         deskbtn.classList.add("needEmpty") // to be clean out when resetting
         document.getElementById(`myDesks`).appendChild(deskbtn);
+        document.getElementById("myDesks").appendChild(deskbtnSettings);
     }
 }
 

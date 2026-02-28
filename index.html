@@ -11,10 +11,13 @@
     <!-- ========== SIDEBAR ========== -->
     <div id="sideBar">
 
-      <!-- Toggle button -->
-      <button id="toggleSideBar" class="sidebar-toggle">☰</button>
+      <!-- Toggle and log button -->
+      <div class="toggleAndLog">
+        <button id="toggleSideBar" class="sidebar-toggle">☰</button>      
+        <button id="logBtn">🔑 Login / Logout</button>
+      </div>
 
-      <!-- User info panel -->
+      <!-- User info panel Need to be worked on-->
       <div id="account" class="sidebar-section">
         <div id="userDisplay" class="user-display">
           <div class="user-avatar" id="userAvatar">?</div>
@@ -22,23 +25,23 @@
             <span id="userNameDisplay" class="user-name">Not logged in</span>
             <span id="userTypeDisplay" class="user-type"></span>
           </div>
-          <button id="logInLogOut">🔑 Login / Logout</button>
+          <button id="accountSetting">⚙️Account Settings</button>
         </div>
       </div>
 
-      <!-- Actions panel -->
+      <!-- Actions panel all functions need to be created-->
       <div id="moreStuff" class="sidebar-section">
         <button id="createUserBtn">👤 Create User</button>
         <button id="newDeskBtn">➕ New Desk</button>
         <button id="saveCurrent">💾 Save Desk</button>
-        <!-- <button id="changeUserSetting">🎨 Manage Settings</button> -->
+        <button id="getLinkBtn">🔗GET LINK</button>
+        <button id="socialBtn">👥 Friends</button>
         <button id="shamingTree" class="icon-btn" title="Show Tree">🌳</button>
       </div>
-      <div id = "pop-upContainer" style="display: none;">
-        
+        <div id = "pop-upContainer" style="display: none;">       
       </div>
 
-      <!-- My Desks panel -->
+      <!-- My Desks panel setting needs to be worked on -->
       <div id="desksSide">
         <div class="section-header">
           <h3>MY DESKS</h3>
@@ -47,31 +50,9 @@
           <input id="searchInDesk" placeholder="Search desks, folders, files...">
           <button id="searchInDeskbtn" class="icon-btn">🔍</button>
         </div>
-
-        <div id="myDesks" class="desk-list">
-
+          <div id="myDesks" class="desk-list">
         </div>
       </div>
-
-      <!-- Friends panel -->
-      <!-- <div id="friendSection" class="sidebar-section">
-        <div class="section-header">
-          <h3>FRIENDS</h3>
-          <button id="notif" class="icon-btn" title="Notifications">🔔</button>
-        </div>
-        <div class="search-row">
-          <input id="searchFriendInput" placeholder="Search for a friend">
-          <button id="searchFriendBtn" class="icon-btn">🔍</button>
-        </div>
-        <div class="search-row">
-          <input id="searchDesk" placeholder="Search for a shared desk">
-          <button id="searchDeskBtn" class="icon-btn">🔍</button>
-        </div>
-        <div id="searchResult" class="needEmpty"></div>
-        friend list injected here 
-        <div id="friendList" class="needEmpty friend-list"></div>
-      </div> -->
-
     </div>
     <!-- ========== END SIDEBAR ========== -->
 
