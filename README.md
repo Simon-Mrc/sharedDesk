@@ -9,74 +9,114 @@ clean environment for testing purpose : ❌
 
 SO i can start from a real fresh and clean state to add feature as i create them !
 
+/////////////////// AI GENERATED SUMMARY ////////////// NOT PROUD BUT TOO LAZY //////////////////
+# 🖥️ SharedDesk
 
+A collaborative virtual desktop app built with vanilla JavaScript, Node.js, Express and SQLite.  
+Create desks, organize files and folders, share workspaces with friends and manage permissions — all in real time.
 
-# SharedDesk
+WELL : mostly now i think you can create your virtual space with friends and family to share photo/video and manage
+all of that in a visually appealing style. It s like a mix of git / google drive / with a sense of social media
 
-A collaborative workspace manager built with vanilla JavaScript.
+---
 
-## Features
-- 🗂️ Create and manage virtual desks
-- 📁 Files and folders with drag-and-drop
-- 👥 Multi-user support with permissions
-- 💾 Persistent storage with localStorage
-- ✨ Smooth animations
+## ✨ Features
 
-## Built With
-- Vanilla JavaScript (ES6+)
-- HTML5 / CSS3
-- Vite
+- 📁 **Create files and folders** on a virtual desktop with drag-and-drop positioning
+- 🖥️ **Multiple desks** per user, with smooth animated transitions between them
+- 👥 **User management** — create accounts, log in, manage friends
+- 🔐 **Permission system** — admin / modify / read access per desk per user
+- 🔒 **Password protection** on individual folders
+- 🌳 **Visual tree view** of your desk structure
+- 💾 **Persistent storage** — everything saved in SQLite database
+- ⚡ **Full stack** — REST API backend + vanilla JS frontend bundled with Vite
 
-## Status
-🚧 Work in progress - dev started on 18/02/2026 (french convention what u gonna do about it)
+---
 
-## Run Locally
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Vanilla JavaScript (ES Modules) |
+| Bundler | Vite |
+| Backend | Node.js + Express |
+| Database | SQLite via better-sqlite3 |
+| Styling | Pure CSS with animations |
+
+---
+
+## 📁 Project Structure
+
+```
+sharedDesk/
+├── backend/
+│   ├── data/
+│   │   └── database.db        # SQLite database (auto generated) // Carefull here i set up an auto reset in database.js
+│   ├── database.js            # DB setup, tables, preset data // Remove auto delete if you want data persistence
+│   └── index.js               # Express REST API   ///////!!!!! NEEDS REWORK TOO: RETURN AND PLACEMENT TO BE RETHINK !!/
+├── src/
+│   ├── queriesDb/          /////!!!! ALL ROUTES NEED REWORKING : RETURNS NOT REALLY ON POINT !!!!!////////
+│   │   ├── accessQueries.js   # Desk access + items fetch 
+│   │   ├── deskQueries.js     # Desk CRUD
+│   │   ├── itemQueries.js     # File/folder CRUD
+│   │   └── userQueries.js     # User CRUD + login
+│   ├── style/            /////////////CSS MESSY AS *** full of !important but will do for now ! ///////////
+│   │   ├── style.css          # Main styles   
+│   │   ├── animations.css     # Slide animations
+│   │   ├── buttons.css        # Button styles
+│   │   └── containers.css     # Container styles
+│   ├── animations.js          # Slide left/right animations   /////////!!! TOO AFRAID TOO TOUCH NOW 
+│   ├── creationbundle.js      # New file/folder creation + context menu
+│   ├── functions.js           # Desk creation + screen helpers
+│   ├── helperFunctions.js     # Option menu (rename/delete/password)
+│   ├── main.js                # App entry point + state init  
+│   ├── manager.js             # State management (load/switch/save desk)
+│   ├── namePrompt.js          # All modal prompts (text input, confirm)
+│   ├── recreateDesk.js        # Rebuild desk from DB on login
+│   ├── state.js               # Login + initial state setup
+│   └── tree.js                # Visual tree display ////////ASHAMED AI GENERATED FUNCTION IT WAS FOR TESTING PURPOSES ////
+├── index.html                 # App shell
+├── package.json
+└── vite.config.js
+
+## 🚀 Getting Started
+### Prerequisites
+- Node.js 18+
+- npm
+
+### Installation
 ```bash
+# Clone the repo
+git clone https://github.com/yourname/sharedDesk.git
+cd sharedDesk
+
+# Install dependencies
 npm install
+```
+### Run the app
+```bash
+# Terminal 1 - start backend API
+npm run backend
+
+# Terminal 2 - start frontend dev server
 npm run dev
 ```
-plz read comments so i don t feel so empty when writing these
+Then open **http://localhost:5173** in your browser.
 
-Describing how it works to make reading easier ! 
-also will act as a reminder for me if i want to get back to it.
+## 👤 Preset Test Users
 
-SO !
-1 : You logg in and initiate on an empty screen
-    you already have user json object and current user json set in local storage
-    iniate will create the environement.
-    u choose a name that gives you environement unique id
-    it set up the first currentdesk in json current desk
-    a div is created wich is the window that ll appear on screnn with slide right animation
-    all addeventlistener right click created now
-    div get an index and a setdata.id to build database correctly
-    forgot to tell but everytime a div is created (for displayed)
-    it get store in an array defined in main.js to be load later to display the right section.
-    it is the dom object that is in that array (i mean it s pointer at least)
+| Name | Username | Password | Role |
+|------|----------|----------|------|
+| user0 | user0 | 1 | user |
+| Bob | bob | 1 | user |
+| Simon | simon | 1 | admin |
 
-2:  you create with right-click a file or folder
-    as you create it it get automaticly add to you currentdesk data in json
-    folder got key: children[] that is checked 
-    everytime an object is created it get an eventlistener attached to it in create function
-    tricky part is it gets attacched before object is created
-    (file got rightclick event listener in code before it actually gets created)
-    if file is created it check index on section he is in to be stored in json
-    right folder.children[]
+## 🔮 Roadmap
 
-3:  double clicking on a folder check if div created exist or not by checking the array
-    if div already created it gets displayed with animation using it setdata and index in array
-    if a file is created it check setdata.id from the section he is in to know
-    from wich folder this section was created setdata.id and folder.id (folder div is from are the same)
+- [ ] Drag and drop repositioning of files and folders
+- [ ] Duplicate file/folder (recursive)
+- [ ] Friend system and shared desk invites
+- [ ] User color customization
+- [ ] Search across desks, folders and files
+- [ ] Mobile optimization
 
-
-And that s how global structure works. Every time something is created or modified all item (almost)
-gets load from localstorage using JSON and shit and get updates
-then reinject into localstorage.
-
-function as password , rename, delete and so on are not hard to build with this kind of well structured archi
-not to brag tho but i feel proud for my first real project.
-
-
-FCK just noticed that tree doesn t get displayed the way i want it to be . But i swear it s structured as it should (like a computer)
-go look into localStorage.getItem('currentDesk') in browser console as you create your environnement ! i suggest you then parse it to a stringify this 
-with node or anything to have a better displayed and view on how it s done !
-will try to have this adjust by tomorrow !
