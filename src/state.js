@@ -1,3 +1,4 @@
+import { loadState } from "./manager";
 import { textNeeded } from "./namePrompt";
 import { getAllDesksUser, selecteDesk } from "./queriesDb/deskQueries";
 import { selectUser, logging  } from "./queriesDb/userQueries";
@@ -21,6 +22,7 @@ export async function initiateDeskandUser(){
       currentUser0 = await selectUser('user0'); //for now until loggin has been made mandatory
     }
     console.log(currentUser0);
+    await loadState(currentUser0);
     return([currentUser0,currentDesk0]);
 }
 

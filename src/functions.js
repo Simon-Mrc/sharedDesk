@@ -8,8 +8,7 @@ import { updateUser } from './queriesDb/userQueries.js';
 //
 export async function initiate(section){
     clearStateInStorage();
-    try{ // always think about user experience here
-        // Obvioulsy need the data so we await lazy user to choose name
+    try{  // Obvioulsy need the data so we await lazy user to choose name
         let nameChosen = await textNeeded("choose a name for your environment", "Enter a name", section);
         // OMG First desk creation here
         let desk = document.createElement(`div`);
@@ -22,7 +21,6 @@ export async function initiate(section){
             showContextMenu(elementX,elementY,desk);
         });
         // Need to add header on every desk 
-        // displayed or not it s gonna be usefull for json creation later.
         // there is environment creation . going through all created desk to see if id matches
         let id = state.currentUser.userName + '-' + nameChosen;
         let newDesk = await createDesk({
@@ -40,12 +38,8 @@ export async function initiate(section){
         // this await is to be sure that animations go smoothly despite loading speed
         await new Promise(resolve => requestAnimationFrame(resolve));
         await slideRight(desk);
-        console.log('desk created:', state.currentDesk);
-console.log('desk div:', desk);
-//add the new environment to users data so it can reaccess
-        updateUser(state.currentUser);// update it in storage
-        
-        
+        //add the new environment to users data so it can reaccess
+        updateUser(state.currentUser);// update it in storage      
     }catch(error){ //USERRRRRR
         console.log("unexpected issue",error);
     }

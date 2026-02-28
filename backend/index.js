@@ -13,13 +13,13 @@ app.use(express.json());
 ///// METHOD FOR ITEMS /////
 app.post(`/items`,(req,res)=>{ /// Add a new item very not specific, need to be put last
   try{                // take all item object as an argument
-    const {id,deskId,name,type,x,y,createdBy,parentId }=req.body
+    const {id,deskId,name,type,x,y,createdBy,creatorColor,parentId }=req.body
   db.prepare(`
     INSERT INTO items
-    (id,deskId,name,type,x,y,createdBy,parentId)
+    (id,deskId,name,type,x,y,createdBy,creatorColor,parentId)
     VALUES
-    (?,?,?,?,?,?,?,?)
-    `).run(id,deskId,name,type,x,y,createdBy,parentId)
+    (?,?,?,?,?,?,?,?,?)
+    `).run(id,deskId,name,type,x,y,createdBy,creatorColor,parentId)
     const item = db.prepare(`
       SELECT * FROM items
       WHERE id = ?
@@ -46,16 +46,17 @@ app.delete('/items/:itemId',(req,res)=>{ // This one delete an item // Children 
 
 app.put('/items/:id',(req,res)=>{ // update selected item // Use item object as a parameter
   try{
-    const{name,x,y,accessPassword,parentId} = req.body
+    const{name,x,y,accessPassword,creatorColor,parentId} = req.body
     db.prepare(`
       UPDATE items SET 
       name = ?,
       x = ? ,
       y = ? ,
       accessPassword = ?,
+      creatorColor = ? ,
       parentId = ?
       WHERE id = ?
-      `).run(name,x,y,accessPassword,parentId,req.params.id);
+      `).run(name,x,y,accessPassword,creatorColor,parentId,req.params.id);
     const updatedItem = db.prepare(`
       SELECT * FROM items
       WHERE id = ?
@@ -100,7 +101,7 @@ app.post(`/logging/:userName`,(req,res)=>{
       WHERE userName = ? AND password = ?
       `).get(req.params.userName,password);
       if(!user){
-        return res.status(401).json({error: 'wrong username or password'})
+        return ;
     } 
     return res.json(user);
   }
@@ -176,7 +177,6 @@ app.get('/users/:userId',(req,res)=>{ // This one return the all user object usi
       WHERE
       id = ?
       `).get(req.params.userId);
-      console.log('user successfully targeted')
       return res.json(selectedUser);
   }catch(error){
     res.status(500).json({log: `failed to get item`, error: error.message});
@@ -227,7 +227,7 @@ app.post(`/desks/deskAccess/`,(req,res)=>{ // Not so specific route // will deci
 
 app.put(`/desks/:deskId`,(req,res)=>{ //Update new desk !
   try{
-    const {name,ownedId,urlLink,accessPassword,createdAt} = req.body;
+    const {name,ownerId,urlLink,accessPassword,createdAt} = req.body;
     db.prepare(`
     UPDATE desks
     SET
@@ -237,7 +237,7 @@ app.put(`/desks/:deskId`,(req,res)=>{ //Update new desk !
     accessPassword = ?,
     createdAt = ?
     WHERE id = ?
-    `).run(name,ownedId,urlLink,accessPassword,createdAt,req.params.deskId);
+    `).run(name,ownerId,urlLink,accessPassword,createdAt,req.params.deskId);
     let updatedDesk = db.prepare(`
       SELECT * FROM desks
       WHERE id = ?

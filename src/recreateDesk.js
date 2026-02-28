@@ -1,7 +1,7 @@
 import { quiteSlideLeft, slideRight } from "./animations";
 import { array, showContextMenu } from "./creationbundle";
 import { createNew } from "./functions";
-import { openOption, addScreenAndUpdate } from "./helperFunctions";
+import { openOption } from "./helperFunctions";
 import { state } from "./main";
 import { textNeeded, passingInfo } from "./namePrompt";
 import { getAllItemFromDesk } from "./queriesDb/accessQueries";
@@ -54,8 +54,6 @@ export function recreateByFile(createdFile,section){
             e.stopPropagation();// Prevent interpretation of addevent listeners to current displayed screen.
             await openOption(file,section,label,container);                    
         })
-
-                // OMG if it works I AM A FREAKING GENIOUS. This is for saving file data into folder he s beeen created into !
     section.appendChild(container);         
 }
 
@@ -95,7 +93,6 @@ export async function recreateByFolder(createdFolder,section){
              
         container.addEventListener("dblclick",async ()=>{
             let securityCheck = 0;
-            // Little trick there ! i can use folder here before creation. I could have put it before but i find it fun to leeave it there.
             if (folder.accessPassword){ 
                 let pswrd = await textNeeded('what is the password?','Try to guess mthfckr',section);//await really needed there
                 if(pswrd === folder.accessPassword){
@@ -106,8 +103,7 @@ export async function recreateByFolder(createdFolder,section){
                     securityCheck = 1; // security check is locked in 
                 }
             }
-            if(securityCheck === 0){// U can come in my man ! Just choosin what i ll display you there
-        // array is full of div representing all my created screen displayed
+            if(securityCheck === 0){// U can come in my man ! 
                 if(container.dataset.index){ // i stored dataset in container representing folder
                     await quiteSlideLeft(section);// then i just linked it to a specific index in DOM array
                     array[container.dataset.index].style.display=``; // Big brain thinking there
@@ -120,7 +116,7 @@ export async function recreateByFolder(createdFolder,section){
         container.addEventListener("contextmenu",/*async*/ (e)=>{
             e.preventDefault(); // rightclicking interprated by computer
             e.stopPropagation();// rightclicking interpretader elsewhere from container
-  /*await*/ openOption(folder,section,label,container); //async and await obviously not needed but i like the colours so considering keeping it
+            openOption(folder,section,label,container);
         })
 //Final linking the box created to current desk
     section.appendChild(container);
@@ -130,6 +126,7 @@ export async function recreateByFolder(createdFolder,section){
 return newDesk;// funny things i commented this because this return new desk solo handle recursive recreation
 }
 // Always return something right ! well obviously this one s gonna be usefull 
+
 
 export async function recreateDesk(deskGiven){
     // Initialisation !
@@ -150,7 +147,7 @@ export async function recreateDesk(deskGiven){
         state.currentDesk = deskGiven; // Set up current desk as you recreate it
      
     // RECURSIVE FUN PART STARTS HERE 
-    // all that pain copy/paste and choosing what to keep to finally use brain !
+    // all that pain copy/paste and choosing what to keep end  to finally use brain !
     async function recursiveDesk(deskContent, section){
         let sectionId = section.dataset.id || null;
         let allItem = deskContent.filter(item => 

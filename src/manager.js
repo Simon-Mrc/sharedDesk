@@ -8,13 +8,13 @@ import { state } from './main.js';
 
 export function clearStateInStorage(){
     let wipe = document.getElementById('globalHome');
-    wipe.innerHTML=``;
+    wipe.innerHTML=``; // clearing all displayed sections
     array.length = 0; // by doin so i empty the array without breaking reference and contain it to this scope
 }
 export function clearStateInHtml(){
-    let allThatClear = document.querySelectorAll(`.needEmpty`);
+    let allThatClear = document.querySelectorAll(`.needEmpty`); // Node object of DOM elements
     allThatClear.forEach(element => {
-        element.remove();
+        element.remove();// clearing all created DOM elements that needs it
     });
 }
 export async function switchDesk(deskGiven){
@@ -33,7 +33,7 @@ export async function createUserDb(section){
         let userName = await textNeeded( "Choose a Nickname","Nothing offensiv Boy",section);
         let mail= await textNeeded("Enter your mail","and get rickrolled",section);
         let password= await textNeeded("Enter password","no 1234 plz",section);
-        let newUser = await createUser({
+        let newUser = await createUser({ // this function needs all obect not just values!
             name: name,
             userName: userName,
             id: crypto.randomUUID(), 
@@ -44,9 +44,9 @@ export async function createUserDb(section){
             notif: '[]',
             userColor: '#FF5733'
         });
-        state.currentUser = newUser;
-        await updateUser(state.currentUser);
-        await loadState(state.currentUser);
+        state.currentUser = newUser;     // updates current state
+        await updateUser(state.currentUser);      //save in DB
+        await loadState(state.currentUser);     //Load new environnement
     }catch(error){
         console.log(error);
     }
@@ -65,77 +65,75 @@ export async function loadState(user){ // Here user.desks is actually ids ! not 
     }
     else{
         for(let desk of allUserDesks) { // This assign all buttons to desks of certain user
-            console.log("testloop"); // can t await in for each that why we change it to for !
             let deskbtn = document.createElement('button')
-            let fullDesk = {};
-            Object.assign(fullDesk,await selecteDesk(desk.id))
+            let fullDesk = await selecteDesk(desk.id);
             deskbtn.addEventListener("click",()=>{
                 switchDesk(fullDesk);
             })
             deskbtn.innerText = fullDesk.name;
-            deskbtn.classList.add("needEmpty");
+            deskbtn.classList.add("needEmpty"); // for reset when switching users
             document.getElementById("myDesks").appendChild(deskbtn);
         };
     }
 }
 
 export function savingDesk(){
-    if(document.getElementById(state.currentDesk.id)){
-        let fullDesk = {};
+    if(document.getElementById(state.currentDesk.id)){ //If it is already a saved desk
+        let fullDesk = {};// create a different pointer to be putted in eventlistener btn
         let cleanBtn = document.getElementById(state.currentDesk.id).cloneNode(true); // THIS ONE SO USEFULL copies domelement + nod
         document.getElementById(state.currentDesk.id).replaceWith(cleanBtn);          // Replace with usefull to know to !
-        Object.assign(fullDesk,state.currentDesk);
+        Object.assign(fullDesk,state.currentDesk); // exact copy of current desk
         cleanBtn.addEventListener("click",()=>{
             switchDesk(fullDesk);
         })
     }
     else{
         let deskbtn = document.createElement('button')
-        let fullDesk = {};
+        let fullDesk = {}; //same as before different pointer .....
         Object.assign(fullDesk,state.currentDesk);
         deskbtn.addEventListener("click",()=>{
-            switchDesk(fullDesk);
+            switchDesk(fullDesk); // ..... but same values
         })
         deskbtn.textContent = state.currentDesk.name;
-        deskbtn.id = state.currentDesk.id;
-        deskbtn.classList.add("needEmpty")
+        deskbtn.id = state.currentDesk.id; // to check later if already existing desk ! (ealier in code tho)
+        deskbtn.classList.add("needEmpty") // to be clean out when resetting
         document.getElementById(`myDesks`).appendChild(deskbtn);
     }
 }
 
 // Again we need full targetUser object for this function
-export async function changeUser(targetUser){
-    await loadState(targetUser);
+export async function changeUser(targetUser){ // Not sure if this function will find use
+    await loadState(targetUser); // think about sharing account ?
     state.currentUser = targetUser;
 }
 
-export async function addFriend(targetFriendId){ // add friend is actually accepting ones invite !
+export async function acceptFriend(targetFriendId){ // accepting ones invite stored in user.notif in usersDB !
     state.currentUser.friendList.push(targetFriendId);
     state.currentUser.notif.splice(0,1);
-    let targetFriend = await selectUser(targetFriendId);
+    let targetFriend = await selectUser(targetFriendId); // Only friends Id is needed
     targetFriend.friendList.push(state.currentUser.id);
     await updateUser(state.currentUser);
-    await updateUser(targetFriend);
+    await updateUser(targetFriend); // don t forget to update both users
 }
 
-export async function sendFriendRequest(targetFriend){
+export async function sendFriendRequest(targetFriend){ // push own id in friends notif
     let target = await selectUser(targetFriend.id);
     target.notif.push(state.currentUser.id);
     await updateUser(target);
-    await updateUser(targetFriend);
+    await updateUser(targetFriend); // Both update in db 
 }
 
 export async function showNotif(){
     let globalHome = document.getElementById('globalHome');
         if(state.currentUser.notif[0] != undefined){
         await acceptOrDenied("will you take me as a friend ?", globalHome,
-            () => addFriend(state.currentUser.notif[0]), // in case of resolve()
-            () => deleteNotif())// in cas of denied()
+            () => acceptFriend(state.currentUser.notif[0]), // in case of resolve()
+            () => deleteNotif())// in cas of denied() // need to think about no possibility to ask again ? prevents spam ?
     }    
 }
 
-export async function deleteNotif(){
+export async function deleteNotif(){ // just cut askerId from currentuser.notif
     state.currentUser.notif.splice(0,1);
-    await updateUser(state.currentUser);
+    await updateUser(state.currentUser); // update in db
 }
  

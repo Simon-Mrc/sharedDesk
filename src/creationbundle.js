@@ -1,23 +1,35 @@
 import { passingInfo, showNamePrompt, textNeeded } from './namePrompt.js';
-import { openOption, addScreenAndUpdate} from './helperFunctions.js';
+import { openOption} from './helperFunctions.js';
 import { quiteSlideLeft,slideRight } from './animations.js';
 import { createNew } from './functions.js';
 import { displayTree } from './tree.js';
 import { checkAccess } from './queriesDb/accessQueries.js';
 import { createItem } from './queriesDb/itemQueries.js';
 import { state } from './main.js';
-// Scope is a pain hopefully localstorage exist. Too lazy to change it to manage changes.
+
+// This array is gonna fill up with section as DOM element 
+// it s used to search and find right section to display 
+// the dataset.id of the section = id of folder it s coming from
+// the container(DOM object representing folder object) s'id = folders'id
+// and container.dataset.index = place in array 
+// so when you double click on a folder, it checks its datasetindex, and load DOM element in the right position of array. 
 export let array = [];
-export async function newFile(x,y,section){ //Actually async probably not needed there !    
-    let access = await checkAccess(state.currentUser.id,state.currentDesk.id);
-    if(access?.accesType == "modify" || access?.accessType == "admin"){ // the question mark is optionnal chaining
+
+////////////////////////////////////////////////////////////////
+////////////////////////// FILE CREATION HERE /////////////////
+/////////////////////////////////////////////////////////////////
+
+export async function newFile(x,y,section){  // x,y is where you click, section is where you are now in DOM  
+    let access = await checkAccess(state.currentUser.id,state.currentDesk.id); // Asking db : deskAccess the accesstype of user
+    if(access?.accessType == "modify" || access?.accessType == "admin"){ // the question mark is optionnal chaining
         // Prevents crash if access.accessType is NULL ou undefined ! Very usefull !
+                                //////////////STYLE POSITIONING////////////////
         // Used to force container to have right style properties to allow positionning on click
         if (section.style.position !== 'relative' && section.style.position !== 'absolute') {
             section.style.position = 'relative';
         }
         section.style.overflow = 'hidden';
-        
+        ////////////////////////STARTING PROMPT FOR INFOS //////////////////
         try{
             let labelName =  await showNamePrompt(x,y,section,"file");
             if (labelName){
@@ -44,18 +56,19 @@ export async function newFile(x,y,section){ //Actually async probably not needed
                 // Wtf s gonna happen if you double click a file ? Gettin rick rolled?
                 // Just kiding thinking about download option !
                 container.addEventListener("dblclick",()=>{
-                    
+                    ///////////NEED TO BE FILLED !!! //////////////
                 })
                 let file = await createItem({ // Full object not just parameters !
-                    id: crypto.randomUUID(),
-                    deskId: state.currentDesk.id,
+                    id: crypto.randomUUID(), // in case of 2 items created to quickly (in recreation)
+                    deskId: state.currentDesk.id, // so to be consistent i put the same process everywhere
                     name: labelName,
                     type: "file",
                     x: x,
                     y: y,
                     createdBy: state.currentUser.id, 
-                    parentId: section.dataset.id || null
-                });
+                    creatorColor : state.currentUser.userColor,
+                    parentId: section.dataset.id || null // null if you create it on first displayed section 
+                }); // first section doesn t have dataset because it s not coming from a folder.
                 
                 container.id = file.id;
                 container.style.boxShadow = `0 8px 20px ${state.currentUser.userColor}`
@@ -71,15 +84,19 @@ export async function newFile(x,y,section){ //Actually async probably not needed
                 }         
             }
             catch (error){
-
+                console.log(error);
             }
     }
     else{
-        passingInfo("You don t have permission boy", section);//DENIED
+        passingInfo("You don t have permission boy", section); //DENIED : accessType from db must be 'read'
     }
 };
+ //////////////////////////////////////////////////////////////////////:
+ ////////////////////////FOLDER S CREATION SECTION/////////////////////
+ ////////////////almost same as file i ll just comment changes//////// 
+ ////////////////////////////////////////////////////////////////////
 
-export async function newFolder(x,y,section){// many wait needed
+export async function newFolder(x,y,section){
     let access = await checkAccess(state.currentUser.id,state.currentDesk.id);
         if(access?.accessType == "modify" || access?.accessType == "admin"){
 
@@ -88,15 +105,16 @@ export async function newFolder(x,y,section){// many wait needed
             section.style.position = 'relative';
         }
         section.style.overflow = 'hidden';
-        // try{//obvioulsy awaiting there because you need data to follow script flow
+        try{
+
             let folderName = await showNamePrompt(x,y,section,"folder");
-            if (folderName){// in cas something went wrong in shownameprompt fuction
+            if (folderName){
                 let container = document.createElement('div');
                 container.classList.add('icon');
                 container.style.left = (x+2) + 'px';
                 container.style.top = (y+2) + 'px';
                 
-                // Image for file 
+                // Image for folder (commenting on changes as i said =D) 
                 let img = document.createElement('img');
                 img.src = "../pictures/folder.jpg";
                 
@@ -108,32 +126,30 @@ export async function newFolder(x,y,section){// many wait needed
                 // Attached img and label to container wich is right-positionned
                 container.appendChild(img);
                 container.appendChild(label);
-                let folder = await createItem({ // Full object not just parameters !
+                let folder = await createItem({ 
                     id: crypto.randomUUID(),
                     deskId: state.currentDesk.id,
                     name: folderName,
-                    type: "folder",
+                    type: "folder", //big change here . 
                     x: x,
                     y: y,
-                    createdBy: state.currentUser.id, // ← id not userName!
+                    createdBy: state.currentUser.id, // ← id not userName! (note to myself ! keeping it tho)
+                    creatorColor : state.currentUser.userColor,
                     parentId: section.dataset.id || null
                 });
-              
-                let newDesk = await createNew(section);// await needed there because i need result in later script
-                newDesk.dataset.id = folder.id; // starting from here actually 
-                addScreenAndUpdate({id : folder.id})//Filling localStorage with screen for later use 
+              ///////////////////////CREATION OF SECTION "INSIDE" THE CREATED FOLDER ////////////////////
+
+                let newDesk = await createNew(section); // this just create the DOM element, appenchild to globalhome and put event listener on it
+                newDesk.dataset.id = folder.id; // so dataset of section = folderId from witch it s coming  
                 array.push(newDesk); // filling array with DOM Section identified by dataset and using index to display right section 
                 container.dataset.index = array.length-1;    // Container.dataset.id is linked to DOM array to find wich section to display
                 container.id = folder.id;  // Container.id is important there for recreate desk from scratch
                 container.style.boxShadow = `0 8px 20px ${state.currentUser.userColor}`
             
-                // Need to work on this part. If already been double click you have to retrieve the right div and not create one
-                // Probably give a dynamic id to desk and write it somewhere in container property to be able to retrieve it ?
                 container.addEventListener("dblclick",async ()=>{
                     let securityCheck = 0;
-                // Little trick there ! i can use folder here before creation. I could have put it before but i find it fun to leeave it there.
                 if (folder.accessPassword){ 
-                        let pswrd = await textNeeded('what is the password?','Try to guess mthfckr',section);//await really needed there
+                        let pswrd = await textNeeded('what is the password?','Try to guess buddy',section);
                         if(pswrd === folder.accessPassword){
                             passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen still not solved tho
                         }                                        // to lazy to create a specific display function just for this
@@ -144,7 +160,7 @@ export async function newFolder(x,y,section){// many wait needed
                     }
                     
                     if(securityCheck === 0){// U can come in my man ! Just choosin what i ll display you there
-                    // array is full of div representing all my created screen displayed
+                    // ARRAY using there !
                         if(container.dataset.index){ // i stored dataset in container representing folder
                             await quiteSlideLeft(section);// then i just linked it to a specific index in DOM array
                             array[container.dataset.index].style.display=``; // Big brain thinking there
@@ -153,22 +169,21 @@ export async function newFolder(x,y,section){// many wait needed
                     }
                     
                 })
-                
-                //Amazing to see that i can create folder element here. So beautiful
-                // let folder = createFolder(getCurrentUser(),folderName,getCurrentDesk(),x,y);          
-                container.addEventListener("contextmenu",/*async*/ (e)=>{
+                      
+                container.addEventListener("contextmenu",(e)=>{
                     e.preventDefault(); // rightclicking interprated by computer
                     e.stopPropagation();// rightclicking interpretader elsewhere from container
-                    /*await*/ openOption(folder,section,label,container); //async and await obviously not needed but i like the colours so considering keeping it
+                    openOption(folder,section,label,container);
                 })
                 //Final linking the box created to current desk
                 section.appendChild(container);
                 await displayTree()
                 return folder; // Always return something right ! well obviously this one s gonna be usefull 
             }
-        // }catch{ // Nice user experience
-        // console.log('gonna fix it later. i ve got much more to do u know')}
-    }
+        
+    }catch (error){
+        console.log(error);
+    }}
     else{
         passingInfo("You don t have permission boy", section); //DENIED
     }
@@ -195,7 +210,7 @@ export function showContextMenu(x, y, section) {
     button1.textContent = 'New File';
     button1.addEventListener('click', () => {      
         newFile(x, y, section); // no await here because you want menu to be removed instantly
-        menu.remove(); // plz don t forget that line .... 
+        menu.remove();  
     });
     
     // Folder creation button. Still not fun                                              Getting late there you know
@@ -204,8 +219,7 @@ export function showContextMenu(x, y, section) {
     button2.textContent = 'New Folder';
     button2.addEventListener('click', () => {   
         newFolder(x,y,section);// no await here because you want menu to be removed instantly
-        menu.remove(); // You really don t want to forget this one
-    });
+        menu.remove();     });
     
     // Linking the freaking buttons
     menu.appendChild(button1);
@@ -220,8 +234,7 @@ export function showContextMenu(x, y, section) {
     // my click simultanously with content appearing. So disapear immediatly
     // that s why you set timeout. 0 means script will take effect at the next 
     // event (in our case clicking)
-    // Again nice user experience
-    setTimeout(() => {
+      setTimeout(() => {
         document.addEventListener('click', function closeMenu(e) {
             if (!menu.contains(e.target)) {
                 menu.remove();

@@ -1,15 +1,5 @@
-import { clearStateInHtml, clearStateInStorage } from "./manager";
 import { textNeeded } from "./namePrompt";
 import { deleteItem, updateItem } from "./queriesDb/itemQueries";
-import { recreateDesk } from "./recreateDesk";
-
-//those functions speak for themselves
-//This one is usefull !!! Used to be able to replace my array const !
-export function addScreenAndUpdate(screen){ // I really need to focus on this to built a proper start set up
-    let screens = JSON.parse(localStorage.getItem('screens')) || [];
-    screens.push(screen);
-    localStorage.setItem('screens',JSON.stringify(screens));
-}
 
 // speak for itself. Button creation there
 export function openOption(object, section,label,container){
@@ -47,23 +37,20 @@ export function openOption(object, section,label,container){
         buttonContainer.appendChild(cancelBtn);
         optionMenu.appendChild(buttonContainer);
         section.appendChild(optionMenu);
-        //BORING PART ENDS
-        // LITTLE MORE INTERESTING HERE
-        renameBtn.addEventListener('click', async (e) => {// Obviously gonna need to wait
+        ////////////////////////BORING PART ENDS
+        //////////////////////// LITTLE MORE INTERESTING HERE
+        renameBtn.addEventListener('click', async (e) => {
             // Gotta admit textNeeded isn t great naming but IDC
               try{ let name = await textNeeded("choose a new name","choose a new name",section);
-                if (name) { //change name function and update in LS
+                if (name) { //change name function and update in DB
                     optionMenu.remove();
                     object.name = name;
                     label.textContent = name;
-                    //update object.name in localStorage
-                    // update currentDesk and desks in local Storage
                     updateItem(object);
                     resolve(name); 
                 }
              else {//Stupid user not even able to pick a name
-                input.classList.add('prompt-input-error');
-                setTimeout(() => input.classList.remove('prompt-input-error'), 500);
+                optionMenu.remove();
             }}catch{
                 reject();//And don t come back
             };
@@ -73,83 +60,25 @@ export function openOption(object, section,label,container){
             try{ //i ll stop commentary there you got the idea
                 let newPsw = await textNeeded("Set a password", "Don t be genereic", section);
                 object.accessPassword = newPsw;
-                updateItem(object); // ok i need to work on that function Right now it s not recursive
-                optionMenu.remove();// so not storing data as it should
+                updateItem(object); // update in DB
+                optionMenu.remove();
                 resolve();
             }catch{}
         })
         deleteBtn.addEventListener('click', ()=>{
             optionMenu.remove();
-            container.remove();
-            deleteItem(object.id); // this one has been made recursive !    
+            container.remove(); //Delete from DOM
+            deleteItem(object.id); // delete from DB    
             resolve();
         })
-        cancelBtn.addEventListener('click', ()=>{ //Recursive ? just kidding
+        cancelBtn.addEventListener('click', ()=>{ 
             optionMenu.remove()
             resolve();
         })
         /////////////NEED TO ADD SETTING THERE !!//////////
 
-        //////////// NEED TO ADD DUPLICATE //////DONNNEEEEE////////////
-//OMG this one was so hard to build and it is still not working. Need to dupe file and folder and all children ...
-        // duplicateBtn.addEventListener("click", ()=>{
-        //     let dupObject = {};
-        //     Object.assign(dupObject,JSON.parse(JSON.stringify(object))); // same object but 2 pointers ! So it s actually not really the same !
-        //     dupObject.id = Date.now();
-        //     dupObject.x = (dupObject.x+40);
-        //     dupObject.y = (dupObject.y+30);
-    
-        //     function recursiveDup(items){
-        //         items.forEach(item => {        
-        //         if(item.type == "file"){
-        //             item.id = `desk-${crypto.randomUUID()}`; // not using Date.now() because i m afraid it script goes to quick
-        //             item.x = (item.x+40) ;// it ll be giving same id twice
-        //             item.y = (item.y+40) ;
-        //         }
-        //         else{
-        //             item.id = `desk-${crypto.randomUUID()}`;
-        //             item.x = (item.x+40) ;
-        //             item.y = (item.y+40) ;
-        //             recursiveDup(item.children);
-        //             }
-        //         });
-        //     }
-        //     let currentDesk = getCurrentDesk();
-        //     let currentDeskContent = currentDesk.content;
-        //     if(!object.children){    
-        //     }
-        //     else{
-        //         recursiveDup(dupObject.children)
-        //     }
-        //     function recursiveFindAndPush(currentDeskContent){
-        //         currentDeskContent.forEach(item => {
-        //         if(!item.children){
-        //         }
-        //         else{
-        //             if(item.id == object.id){
-        //                 currentDeskContent.push(dupObject);
-        //             }
-        //             else{
-        //             recursiveFindAndPush(item.children);
-        //             };            
-        //         }     
-        //     });
-        // }
-        // if(!section.dataset.id){ // if in main page just push it
-        //     currentDeskContent.push(dupObject); 
-        // } 
-        // else {
-        //     recursiveFindAndPush(currentDeskContent); 
-        // }
-        // updateCurrentDesk(currentDesk);
-        // updateCurrentDeskInDesks(currentDesk);
-        // clearStateInHtml();
-        // clearStateInStorage() ; 
-        // setTimeout(() => { // set up a timeout because i am afraid of script speed excecution
-        //     recreateDesk(currentDesk);
-        // }, 1000);
-
-        // }) 
+        //////////// NEED TO ADD DUPLICATE /////////////////
+        ////////////THIS IS GONNA BE QUITE A CHALLENGE/////////
 
             //////////// LOVE CAPSLOCK ///////////////////:
         ///////////WHERE IS THE NEXT RICKROLLED TRAP????/////////
@@ -165,5 +94,5 @@ export function openOption(object, section,label,container){
     });
 }
 
-// Ok so this is recursive file datastorage function 
+
 
