@@ -125,19 +125,25 @@ export async function changeUser(targetUser){ // Not sure if this function will 
 }
 
 export async function acceptFriend(targetFriendId){ // accepting ones invite stored in user.notif in usersDB !
-    state.currentUser.friendList.push(targetFriendId);
-    state.currentUser.notif.splice(0,1);
+    let friendList = JSON.parse(state.currentUser.friendList); // In order to make the string an array
+    friendList.push(targetFriendId);
+    state.currentUser.friendList = JSON.stringify(friendList); // reconvert into string
+    let notif = JSON.parse(state.currentUser.notif); 
+    notif.splice(0,1);
+    state.currentUser.notif = JSON.stringify(notif);
     let targetFriend = await selectUser(targetFriendId); // Only friends Id is needed
-    targetFriend.friendList.push(state.currentUser.id);
+    let targetFriendFriendList = JSON.parse(targetFriend.friendList);
+    targetFriendFriendList.push(state.currentUser.id);
+    targetFriend.friendList = JSON.stringify(targetFriendFriendList);
     await updateUser(state.currentUser);
     await updateUser(targetFriend); // don t forget to update both users
 }
 
 export async function sendFriendRequest(targetFriend){ // push own id in friends notif
-    let target = await selectUser(targetFriend.id);
-    target.notif.push(state.currentUser.id);
-    await updateUser(target);
-    await updateUser(targetFriend); // Both update in db 
+    let notif = JSON.parse(targetFriend.notif);
+    notif.push(state.currentUser.id);
+    targetFriend.notif = JSON.stringify(notif);
+    await updateUser(targetFriend);
 }
 
 export async function showNotif(){

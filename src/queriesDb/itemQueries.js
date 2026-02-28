@@ -22,7 +22,7 @@ export async function createItem(item){ ////// Create in database /// No foreign
 
 export async function deleteItem(itemId){ ////// Delete in database //// Children got delete too
     try{                                //// Only item.id as a parameter
-        let deleteItem = await fetch(`http://localhost:3000/items/${itemId}`,{
+        let deleteItem = await fetch(`http://localhost:3000/items/${encodeURIComponent(itemId)}`,{
             method : 'DELETE',
         })
     console.log("Item deleted");

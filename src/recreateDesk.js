@@ -29,7 +29,7 @@ export function recreateByFile(createdFile,section){
         
         // Image getting taken here
         let img = document.createElement('img');
-        img.src = "../pictures/file.png";
+        img.src = "/pictures/file.png";
         
         // Label : need to add a prompt there
         let label = document.createElement('span');
@@ -73,7 +73,7 @@ export async function recreateByFolder(createdFolder,section){
         
         // Image for file 
         let img = document.createElement('img');
-        img.src = "../pictures/folder.jpg";
+        img.src = "/pictures/folder.jpg";
         
         // Label thats gonna be displayed need to work on it
         let label = document.createElement('span');
