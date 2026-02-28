@@ -5,7 +5,7 @@
 ////////////// USERS FUNCTIONS ////////////////:
 export async function logging(userName,password){ // two string expected as argument !
     try{
-        let user = await fetch(`http://localhost:3000/logging/${userName}`,{
+        let user = await fetch(`http://localhost:3000/logging/${encodeURIComponent(userName)}`,{
             method : 'POST',
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify({password})
@@ -36,7 +36,7 @@ export async function createUser(user){ /// Create new user. All user object as 
 
  export async function updateUser(user){    // Update user. All user object as a parameter
     try{                    //// No foreign implication
-        let updatedUser = await fetch(`http://localhost:3000/users/${user.id}`,{
+        let updatedUser = await fetch(`http://localhost:3000/users/${encodeURIComponent(user.id)}`,{
             method : 'PUT',
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify(user),
@@ -52,7 +52,7 @@ export async function createUser(user){ /// Create new user. All user object as 
 
  export async function deleteUser(userId){  /// This one delete a user. Only user.id as a parameter
     try{                    // Non specific route // foreign key with desks and items
-        let deletedUser = await fetch(`http://localhost:3000/users/${userId}`,{
+        let deletedUser = await fetch(`http://localhost:3000/users/${encodeURIComponent(userId)}`,{
             method : 'DELETE'
         })
         console.log('User Deleted');
@@ -63,7 +63,7 @@ export async function createUser(user){ /// Create new user. All user object as 
 
  export async function selectUser(userId){ // Return a user object take only userId as a parameter
     try{               // no foreign key of course
-        let selectedUser = await fetch(`http://localhost:3000/users/${userId}`,{
+        let selectedUser = await fetch(`http://localhost:3000/users/${encodeURIComponent(userId)}`,{
             method : 'GET'
         })
         const res = await selectedUser.json();

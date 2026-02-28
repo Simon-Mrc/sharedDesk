@@ -22,17 +22,20 @@
             <span id="userNameDisplay" class="user-name">Not logged in</span>
             <span id="userTypeDisplay" class="user-type"></span>
           </div>
+          <button id="logInLogOut">🔑 Login / Logout</button>
         </div>
       </div>
 
       <!-- Actions panel -->
       <div id="moreStuff" class="sidebar-section">
-        <button id="logInLogOut">🔑 Login</button>
         <button id="createUserBtn">👤 Create User</button>
         <button id="newDeskBtn">➕ New Desk</button>
         <button id="saveCurrent">💾 Save Desk</button>
-        <!-- <button id="changeColorBtn">🎨 Update My Color</button> -->
+        <!-- <button id="changeUserSetting">🎨 Manage Settings</button> -->
         <button id="shamingTree" class="icon-btn" title="Show Tree">🌳</button>
+      </div>
+      <div id = "pop-upContainer" style="display: none;">
+        
       </div>
 
       <!-- My Desks panel -->
@@ -41,11 +44,13 @@
           <h3>MY DESKS</h3>
         </div>
         <div class="search-row">
-          <!-- <input id="searchInDesk" placeholder="Search desks, folders, files...">
-          <button id="searchInDeskbtn" class="icon-btn">🔍</button> -->
+          <input id="searchInDesk" placeholder="Search desks, folders, files...">
+          <button id="searchInDeskbtn" class="icon-btn">🔍</button>
         </div>
-        <!-- desk buttons injected here by loadState/savingDesk -->
-        <div id="myDesks" class="desk-list"></div>
+
+        <div id="myDesks" class="desk-list">
+
+        </div>
       </div>
 
       <!-- Friends panel -->

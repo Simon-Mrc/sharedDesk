@@ -1,3 +1,8 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/// putting encodeURIComponent at every parameters getting passed by URL as safety net ////////
+/////It encodes parameters to prevent broken url (space in http:// ... for exemple)/////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 export async function createDesk(desk){ // Return nothing // Create a desk with 
     try{        // Parameters : name, ownerId , id
         let newDesk = await fetch(`http://localhost:3000/desks/deskAccess`,{
@@ -16,7 +21,7 @@ export async function createDesk(desk){ // Return nothing // Create a desk with
 
  export async function updateDesk(desk){ //Return nothing, need all desk object.
     try{ // no foreign implication // global route need to be placed pretty far in script in index
-        let upDateDesk = await fetch(`http://localhost:3000/desks/${desk.id}`,{
+        let upDateDesk = await fetch(`http://localhost:3000/desks/${encodeURIComponent(desk.id)}`,{
             method : 'PUT',
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify(desk)
@@ -33,7 +38,7 @@ export async function createDesk(desk){ // Return nothing // Create a desk with
 
  export async function deleteDesk(deskId){ // need to delete all desk from user if it s not shared.
     try{
-        let deletedDesk = await fetch(`http://localhost:3000/desks/${deskId}`,{
+        let deletedDesk = await fetch(`http://localhost:3000/desks/${encodeURIComponent(deskId)}`,{
             method : 'DELETE',
         })
         console.log('successfull delete');
@@ -44,7 +49,7 @@ export async function createDesk(desk){ // Return nothing // Create a desk with
 
  export async function selecteDesk(id){ // return a desk with its id as a parameter
     try{
-        let selectedDesk = await fetch(`http://localhost:3000/desks/${id}`,{
+        let selectedDesk = await fetch(`http://localhost:3000/desks/${encodeURIComponent(id)}`,{
             method : 'GET'
         })
         const res = await selectedDesk.json();
@@ -58,7 +63,7 @@ export async function createDesk(desk){ // Return nothing // Create a desk with
 
  export async function getAllDesksUser(userId){ // return array of all desks owned by user
     try{ // no foreign implication // only userid as parameter
-        let arrayOfDesk = await fetch(`http://localhost:3000/desks/user/${userId}`,{
+        let arrayOfDesk = await fetch(`http://localhost:3000/desks/user/${encodeURIComponent(userId)}`,{
             method : 'GET'
         })
         const res = await arrayOfDesk.json();

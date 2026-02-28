@@ -18,7 +18,6 @@ export function clearStateInHtml(){
     });
 }
 export async function switchDesk(deskGiven){
-    clearStateInHtml();
     clearStateInStorage() ;    // BYE BYE
     await recreateDesk(deskGiven);  // HELLO
     await displayTree();
@@ -65,8 +64,9 @@ export async function loadState(user){ // Here user.desks is actually ids ! not 
     }
     else{
         for(let desk of allUserDesks) { // This assign all buttons to desks of certain user
-            let deskbtn = document.createElement('button')
+            let deskbtn = document.createElement('button');
             let fullDesk = await selecteDesk(desk.id);
+            console.log(fullDesk);
             deskbtn.addEventListener("click",()=>{
                 switchDesk(fullDesk);
             })

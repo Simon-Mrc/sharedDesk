@@ -33,7 +33,7 @@ export async function deleteItem(itemId){ ////// Delete in database //// Childre
 
 export async function updateItem(item){ // update selected item // Use item object as a parameter
     try{                            // No foreign implication
-        let modItem = await fetch(`http://localhost:3000/items/${item.id}`,{
+        let modItem = await fetch(`http://localhost:3000/items/${encodeURIComponent(item.id)}`,{
             method : 'PUT',
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify(item)
@@ -49,7 +49,7 @@ export async function updateItem(item){ // update selected item // Use item obje
 
 export async function getAllItems(userId){ //// This one gets you all the items created by user 
     try{                                // If i m correct it now only needs user.id as a parameter
-        let allItems = await fetch(`http://localhost:3000/items/users/${userId}`,{      // No foreign implication
+        let allItems = await fetch(`http://localhost:3000/items/users/${encodeURIComponent(userId)}`,{      // No foreign implication
             method : 'GET',
         })
         const res = await allItems.json();
@@ -62,7 +62,7 @@ export async function getAllItems(userId){ //// This one gets you all the items 
 
 export async function getSpecificItem(id){   //// Return an item with a given id
     try{                       /// Very non specific route probably needs to be put last 
-        let item = await fetch(`http://localhost:3000/items/${id}`,{        // No foreign implication
+        let item = await fetch(`http://localhost:3000/items/${encodeURIComponent(id)}`,{        // No foreign implication
             method : 'GET'      
         })
         const res = await item.json();

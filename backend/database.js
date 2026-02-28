@@ -2,6 +2,10 @@ const Database = require('better-sqlite3');
 const db = new Database('./backend/data/database.db'); 
 db.pragma('foreign_keys = ON');
 
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////RESET TABLES //////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+
 // db.exec(`
 //   DROP TABLE IF EXISTS items;
 //   DROP TABLE IF EXISTS deskAccess;
@@ -66,7 +70,8 @@ db.exec(`
  ////////////////    TESTING PURPOSES  ///////////////////
 
  ////////////// Users Settings ///////////////
-// db.prepare(`
+
+//  db.prepare(`
 //   INSERT INTO users
 //   (name,userName,id,accountType,mail,password,friendList)
 //   VALUES

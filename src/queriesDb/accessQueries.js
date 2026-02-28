@@ -1,7 +1,7 @@
 export async function removeUserFromDesk(deskId,userId){ // delete user from desk
     try{ // no foreign keys involved. maybe think later about a trigger or something for automatic deletion
 
-        let deletedDesk = await fetch(`http://localhost:3000/deskAccess/${deskId}`,{
+        let deletedDesk = await fetch(`http://localhost:3000/deskAccess/${encodeURIComponent(deskId)}`,{
             method : 'DELETE',
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify({userId})
@@ -14,7 +14,7 @@ export async function removeUserFromDesk(deskId,userId){ // delete user from des
 
 export async function getAllUserFromDesk(deskId){ // Get all user from this shareddesk
     try{
-        let arrayOfDesk = await fetch(`http://localhost:3000/deskAccess/${deskId}`,{
+        let arrayOfDesk = await fetch(`http://localhost:3000/deskAccess/${encodeURIComponent(deskId)}`,{
             method : 'GET'
         })
         const res = await arrayOfDesk.json();
@@ -28,7 +28,7 @@ export async function getAllUserFromDesk(deskId){ // Get all user from this shar
 
 export async function addUserToDesk(userId,deskId){ // Add a user to specific desk
     try{ // no foreign implicaton // userId deskId as parameters
-        let userAdded = await fetch(`http://localhost:3000/deskAccess/${userId}`,{
+        let userAdded = await fetch(`http://localhost:3000/deskAccess/${encodeURIComponent(userId)}`,{
             method : 'POST',
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify({deskId})
@@ -42,7 +42,7 @@ export async function addUserToDesk(userId,deskId){ // Add a user to specific de
 
 export async function modifyAutorisation(deskId,userId,accessType){ // modify users right on desk
     try{ // quite specific route maybe place on top ? // no foreign implications
-        let modifyin = await fetch(`http://localhost:3000/deskAccess/type/${userId}`,{
+        let modifyin = await fetch(`http://localhost:3000/deskAccess/type/${encodeURIComponent(userId)}`,{
             method : 'PUT',
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify({deskId , accessType})
@@ -55,7 +55,7 @@ export async function modifyAutorisation(deskId,userId,accessType){ // modify us
 
 export async function getAllItemFromDesk(deskId){ // Get all items from a given desk
     try{
-        let allItems = await fetch(`http://localhost:3000/deskAccess/items/${deskId}`,{
+        let allItems = await fetch(`http://localhost:3000/deskAccess/items/${encodeURIComponent(deskId)}`,{
             method : 'GET',
         })
         const res = await allItems.json();

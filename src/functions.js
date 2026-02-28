@@ -22,9 +22,9 @@ export async function initiate(section){
         });
         // Need to add header on every desk 
         // there is environment creation . going through all created desk to see if id matches
-        let id = state.currentUser.userName + '-' + nameChosen;
-        let newDesk = await createDesk({
-            id: id,
+        let id = (state.currentUser.userName + '-' + nameChosen).replace(/\s+/g, '_'); // replacing all space because
+        let newDesk = await createDesk({ // it messes up the route (path) in queries ! // g is for global and it means it s gonna replace all matches
+            id: id,                      // \s means any white space and + means even if they re chained !
             name: nameChosen,
             ownerId: state.currentUser.id,
             createdAt: Date.now()

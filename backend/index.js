@@ -101,7 +101,7 @@ app.post(`/logging/:userName`,(req,res)=>{
       WHERE userName = ? AND password = ?
       `).get(req.params.userName,password);
       if(!user){
-        return ;
+        return res.status(401).json({error: 'wrong username or password'});;
     } 
     return res.json(user);
   }

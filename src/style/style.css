@@ -72,7 +72,8 @@ body {
   padding: 12px;
   background: none;
   border: none;
-  border-bottom: 1px solid #e8e8e8;
+  background-color: #d9dff5;
+  border-bottom: 1px solid #bcb8fe;
   cursor: pointer;
   font-size: 18px;
   flex-shrink: 0;         /* never compress this button */
@@ -80,7 +81,7 @@ body {
 }
 
 .sidebar-toggle:hover {
-  background-color: #f0f3ff;
+  background-color: #bfc6e3;
 }
 
 /* ============================================

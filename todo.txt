@@ -1,9 +1,9 @@
 1 - Build preset environment for each reset. easy testing purpose : ✅ :100%
 2 - Rework html and main.js to clean all useless testing purpose and build 
-clean environment for testing purpose : ✅ : 60% ❌ : 40%
-3 - Full review of all scripts, clean useless parts, add commentaries : ✅:40% ❌:60%
+clean environment for testing purpose : ✅ : 80% ❌ : 20%
+3 - Full review of all scripts, clean useless parts, add commentaries : ✅:100%
 4 - Full test of all remaining features, datastorage, dom creation and cleaning : ✅: 60% ❌:40%
-5 - fix all remaining bugs : ✅ : 40% ❌:60%
+5 - fix all remaining bugs : ✅ : 90% ❌:10%
 
 SO i can start from a real fresh and clean state to add feature as i create them !
 
