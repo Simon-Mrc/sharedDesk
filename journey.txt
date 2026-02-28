@@ -1,3 +1,15 @@
+//////////////////////////////////DAY 11 ///////////////////////////////////
+Environment starts to look great . Fixed many many minor but important issues imported with 
+database back switch . Learned a freaking lot with this project this is amazing. 
+Gotta be carefull with url path and id attribution. make those clean because it s hard to track
+bug appearing because of them. gonna start to work on user experience and interaction now
+clearly the part i like the most but it s needed for me to be able to incorporate new functions
+i want item changing color // duplicate elements // account setting // a real social interface //
+But today was really a good day so far // i was a bit afraid to make the switch and honestly i ve spent
+20 more or so hours just fixing and finding all bugs and at a point i felt like i wasn t gonna make it
+let ' s go on !
+
+//////////////////////////////////////DAY 10 ///////////////////////////////////////////
 Finally managed it !! 60hours in 3 days but i m there ! back and front connected and (almost) working.
 Desks, users, item, deskAccess currently getting stored as they re supposed to
 not tested the recreation process rn.
