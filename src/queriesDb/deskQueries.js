@@ -5,8 +5,10 @@ export async function createDesk(desk){ // Return nothing // Create a desk with
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify(desk)
         });
+        const res = await newDesk.json();
         console.log('Desk created');
-        return await newDesk.json();
+        console.log(res);
+        return res;
     }catch(error){
         console.log('Choose a different name u dummy');
     }
@@ -19,8 +21,10 @@ export async function createDesk(desk){ // Return nothing // Create a desk with
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify(desk)
         })
+        const res = await upDateDesk.json();
         console.log('desk Updated');
-        return await upDateDesk.json();
+        console.log(res);
+        return res;
     }catch(error){
         console.log('something went terribly wrong computer s gonna explode in 5,4,3,2')
     }
@@ -43,8 +47,10 @@ export async function createDesk(desk){ // Return nothing // Create a desk with
         let selectedDesk = await fetch(`http://localhost:3000/desks/${id}`,{
             method : 'GET'
         })
+        const res = await selectedDesk.json();
         console.log('Desk found !');
-        return await selectedDesk.json();
+        console.log(res);
+        return res;
     }catch(error){
         console.log('something went awefully wrong ..look behind you !!')
     }
@@ -55,8 +61,10 @@ export async function createDesk(desk){ // Return nothing // Create a desk with
         let arrayOfDesk = await fetch(`http://localhost:3000/desks/user/${userId}`,{
             method : 'GET'
         })
+        const res = await arrayOfDesk.json();
         console.log('Desks found !');
-        return await arrayOfDesk.json();
+        console.log(res);
+        return res;
     }catch(error){
         console.log('something went awefully wrong ..look behind you !!')
     }

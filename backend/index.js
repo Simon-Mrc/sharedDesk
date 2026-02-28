@@ -2,8 +2,6 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./database.js'); // File that create the database
-console.log('DB object:', db);
-console.log('DB prepare type:', typeof db.prepare);
 
 const app = express(); 
 const PORT = 3000;
@@ -16,13 +14,17 @@ app.use(express.json());
 app.post(`/items`,(req,res)=>{ /// Add a new item very not specific, need to be put last
   try{                // take all item object as an argument
     const {id,deskId,name,type,x,y,createdBy,parentId }=req.body
-  const result = db.prepare(`
+  db.prepare(`
     INSERT INTO items
     (id,deskId,name,type,x,y,createdBy,parentId)
     VALUES
     (?,?,?,?,?,?,?,?)
     `).run(id,deskId,name,type,x,y,createdBy,parentId)
-    res.json({id,deskId,name,type,x,y,createdBy,parentId});
+    const item = db.prepare(`
+      SELECT * FROM items
+      WHERE id = ?
+      `).get(id);
+    return res.json(item);
   }catch(error){
     res.status(500).json({log: `failed to create item`, error: error.message})
   }
@@ -54,7 +56,11 @@ app.put('/items/:id',(req,res)=>{ // update selected item // Use item object as 
       parentId = ?
       WHERE id = ?
       `).run(name,x,y,accessPassword,parentId,req.params.id);
-      res.json({log : 'item update complete'})
+    const updatedItem = db.prepare(`
+      SELECT * FROM items
+      WHERE id = ?
+      `).get(req.params.id)
+      return res.json(updatedItem)
   }catch(error){
     res.status(500).json({log: `failed to update item`, error: error.message})
   }
@@ -66,7 +72,7 @@ app.get(`/items/users/:userId`,(req,res)=>{ //// This one gets you all the items
       SELECT * FROM items
       WHERE createdBy = ?
       `).all(req.params.userId);
-      res.json(selectedItems)
+      return res.json(selectedItems)
   }catch(error){
     res.status(500).json({log: `failed to get items`, error: error.message})
   }
@@ -79,7 +85,7 @@ app.get(`/items/:id`,(req,res)=>{ //// Return an item with a given id
     FROM items
     WHERE id = ?
     `).get(req.params.id);
-    res.json(itemSearched)
+    return res.json(itemSearched)
   }catch(error){
     res.status(500).json({log: `failed to get item`, error: error.message})
   }
@@ -96,7 +102,7 @@ app.post(`/logging/:userName`,(req,res)=>{
       if(!user){
         return res.status(401).json({error: 'wrong username or password'})
     } 
-    res.json(user);
+    return res.json(user);
   }
   catch(error){
     res.status(500).json({log: `failed to get item`, error: error.message})
@@ -116,7 +122,7 @@ app.post(`/users`,(req,res)=>{    /// This one creates a new user
       SELECT * FROM users
       WHERE id = ?
       `).get(id);
-      res.json(newUser);
+      return res.json(newUser);
   }catch(error){
     res.status(500).json({log: `failed to add user`, error: error.message})
   }
@@ -138,7 +144,11 @@ app.put(`/users/:id`,(req,res)=>{   // this one update any change in user parame
         userColor = ?
         WHERE id = ?
         `).run(name , userName,  accountType, mail , password, friendList, notif, userColor, req.params.id);
-        res.json({log : 'user Update Done'})
+        let updatedUser = db.prepare(`
+          SELECT * FROM users
+          WHERE id = ?
+          `).get(req.params.id)
+        return res.json(updatedUser);
     }catch(error){
       res.status(500).json({log: `failed to get item`, error: error.message})
     }
@@ -166,8 +176,8 @@ app.get('/users/:userId',(req,res)=>{ // This one return the all user object usi
       WHERE
       id = ?
       `).get(req.params.userId);
-      res.json(selectedUser);
       console.log('user successfully targeted')
+      return res.json(selectedUser);
   }catch(error){
     res.status(500).json({log: `failed to get item`, error: error.message});
   }
@@ -209,7 +219,7 @@ app.post(`/desks/deskAccess/`,(req,res)=>{ // Not so specific route // will deci
     newDesk = db.prepare(`
       SELECT * FROM desks
       WHERE id = ?`).get(id);
-      res.json(newDesk);
+      return res.json(newDesk);
   }catch(error){
     res.status(500).json({log: `failed to create desk`, error: error.message});
   }
@@ -218,7 +228,7 @@ app.post(`/desks/deskAccess/`,(req,res)=>{ // Not so specific route // will deci
 app.put(`/desks/:deskId`,(req,res)=>{ //Update new desk !
   try{
     const {name,ownedId,urlLink,accessPassword,createdAt} = req.body;
-    let updatedDate = db.prepare(`
+    db.prepare(`
     UPDATE desks
     SET
     name = ? ,
@@ -228,7 +238,11 @@ app.put(`/desks/:deskId`,(req,res)=>{ //Update new desk !
     createdAt = ?
     WHERE id = ?
     `).run(name,ownedId,urlLink,accessPassword,createdAt,req.params.deskId);
-    res.json({log : 'Desk successfully updated'});
+    let updatedDesk = db.prepare(`
+      SELECT * FROM desks
+      WHERE id = ?
+      `).get(req.params.deskId);
+    return res.json(updatedDesk);
   }catch(error){
     res.status(500).json({log: `failed to create desk`, error: error.message});
   }
@@ -268,7 +282,7 @@ app.get(`/desks/:id`,(req,res)=>{ // this one return the selected desk
 ////////////// ACCESS QUERIES SIDE ////////////////
 
 app.get(`/deskAccess/items/:deskId`,(req,res)=>{ // specific route no foreign implications
-  try{
+  try{    // So this one gets all items from a selected desk
     let allItems = db.prepare(`
       SELECT * FROM
       items
@@ -287,8 +301,7 @@ app.get(`/deskAccess/items/:deskId`,(req,res)=>{ // specific route no foreign im
         SELECT accessType FROM deskAccess
         WHERE userId = ? AND deskId = ?
         `).get(userId,deskId);
-        console.log(JSON.stringify(access));
-        res.json(access);
+        return res.json(access);
     }
     catch(error){
       res.status(500).json({log: `failed to delete desk`, error: error.message});
@@ -297,7 +310,7 @@ app.get(`/deskAccess/items/:deskId`,(req,res)=>{ // specific route no foreign im
   
   app.delete('/deskAccess/:deskId',(req,res)=>{ // only desk id // not very specific route
   try{ // foreign relation with accessDesk table Deletion on cascade.
-    const {userId} = req.body 
+    const {userId} = req.body // So this one removes user from deskAccess
     db.prepare(`
       DELETE FROM
       deskAccess

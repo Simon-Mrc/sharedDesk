@@ -11,8 +11,10 @@ export async function createItem(item){ ////// Create in database /// No foreign
         headers : {'content-type' : 'application/json'},
         body : JSON.stringify(item),
     })
+    const res = await createItem.json();
     console.log("item created");
-    return await createItem.json();
+    console.log(res);
+    return res;
     }catch{
         console.log("Fail item creation");
     }
@@ -36,7 +38,10 @@ export async function updateItem(item){ // update selected item // Use item obje
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify(item)
         })
-        console.log('Item was correctly modified')
+        const res = await modItem.json();
+        console.log('Item was correctly modified');
+        console.log(res);
+        return res;
     }catch(error){
         console.log('failed item modifications')
     }
@@ -47,7 +52,9 @@ export async function getAllItems(userId){ //// This one gets you all the items 
         let allItems = await fetch(`http://localhost:3000/items/users/${userId}`,{      // No foreign implication
             method : 'GET',
         })
-        return await allItems.json();
+        const res = await allItems.json();
+        console.log(res);
+        return res;
     }catch(error){
         console.log('failed item modifications')
     }
@@ -58,7 +65,9 @@ export async function getSpecificItem(id){   //// Return an item with a given id
         let item = await fetch(`http://localhost:3000/items/${id}`,{        // No foreign implication
             method : 'GET'      
         })
-        return await item.json();
+        const res = await item.json();
+        console.log(res);
+        return res;
     }catch(error){
         console.log('Fail to load item')
     }

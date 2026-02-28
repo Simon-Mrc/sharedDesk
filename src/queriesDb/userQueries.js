@@ -1,13 +1,18 @@
+///////Note : json() can only be consumed once. convinient to make const res = ....
+///// then console log the res to see what is return for every call !
+
 
 ////////////// USERS FUNCTIONS ////////////////:
-export async function logging(userName,password){
+export async function logging(userName,password){ // two string expected as argument !
     try{
         let user = await fetch(`http://localhost:3000/logging/${userName}`,{
             method : 'POST',
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify({password})
         })
-        return await user.json();
+        const res = await user.json();
+        console.log(res);
+        return res; // This return an user object !
     }catch(error){
         console.log('wrong username or password')
     }
@@ -20,8 +25,10 @@ export async function createUser(user){ /// Create new user. All user object as 
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify(user)
         })
+        const res = await newUser.json();
         console.log('user created');
-        return await newUser.json();
+        console.log(res);
+        return res; // This return an user object !
     }catch(error){
         console.log('user not created')
     }
@@ -34,7 +41,10 @@ export async function createUser(user){ /// Create new user. All user object as 
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify(user),
         }) 
-        console.log('user fully uptodate')
+        const res = await updatedUser.json();
+        console.log('user fully uptodate');
+        console.log(res);
+        return res;
     }catch(error){
         console.log('somethin ovisously went wrong')
     }
@@ -56,22 +66,10 @@ export async function createUser(user){ /// Create new user. All user object as 
         let selectedUser = await fetch(`http://localhost:3000/users/${userId}`,{
             method : 'GET'
         })
-        console.log(selectedUser +'has been detected')
-        return await selectedUser.json();
+        const res = await selectedUser.json();
+        console.log(res);
+        return res;
     }catch(error){
         console.log('something went wrong')
     }
  }
-
-//  export async function selectAllUser(deskId){ // return an array of users no parameters    
-//     try{            // It returns an object of all users sharing the desk identified by deskId
-//         let allUser = await fetch(`http://localhost:3000/users/deskAccess/${deskId}`,{
-//             method : 'GET'
-//         })
-//         console.log('Success !');
-//         return await allUser.json();
-//     }catch(error){
-//         console.log('something went wrong');
-//     }
-//  }
-

@@ -138,31 +138,4 @@ export async function deleteNotif(){
     state.currentUser.notif.splice(0,1);
     await updateUser(state.currentUser);
 }
- ///////////////// NEED TO BE REDO !!! ///////////////
-// export function changeItemsColor(currentUser){ // this one is hard because you have to find every element created by currentuser
-//                     // then access the DOM element if it exist
-//     let allDesk = getAllDesks();// then change color
-//     let currentDesk = getCurrentDesk();
-//     allDesk.forEach(desk => {
-//         let allItems = getAllItemCurrentDesk(desk);
-//         if(desk.accessUserId.includes(currentUser.id)){
-
-//             console.log("test1");
-//             allItems.forEach(item => {
-//                 console.log("updateAll called") 
-//                 if(currentUser.id == item.createdBy){
-//                     if(document.getElementById(item.id)){
-//                         let targetContainer = document.getElementById(item.id);
-//                         targetContainer.style.boxShadow = `0 8px 20px ${currentUser.userColor}`
-//                         item.creatorColor = currentUser.userColor;
-//                     }
-//                 }            
-//             }); 
-//             localStorage.setItem('currentDesk',JSON.stringify(desk));
-//             console.log("testhere");
-//             updateAllItemsInCurrentAndAllDesk(allItems);    
-//             console.log("and there");
-//         }
-//     });
-//     localStorage.setItem('currentDesk',JSON.stringify(currentDesk));
-// }
+ 

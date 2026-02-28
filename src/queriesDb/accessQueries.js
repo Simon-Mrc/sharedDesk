@@ -8,7 +8,7 @@ export async function removeUserFromDesk(deskId,userId){ // delete user from des
         });
         console.log('Desk deleted');
     }catch(error){
-        console.log('Error during desk delete');
+        console.log('Error during desk delete',error);
     }
  }
 
@@ -17,10 +17,12 @@ export async function getAllUserFromDesk(deskId){ // Get all user from this shar
         let arrayOfDesk = await fetch(`http://localhost:3000/deskAccess/${deskId}`,{
             method : 'GET'
         })
+        const res = await arrayOfDesk.json();
         console.log('found your users');
-        return await arrayOfDesk.json();
+        console.log(res);
+        return res;
     }catch(error){
-        console.log('Probably an empty desk not bein taken care of');
+        console.log('Probably an empty desk not bein taken care of',error);
     }
 }
 
@@ -34,7 +36,7 @@ export async function addUserToDesk(userId,deskId){ // Add a user to specific de
         console.log('user added');
         return await userAdded.json();
     }catch(error){
-        console.log('User probably doesnt exist')
+        console.log('User probably doesnt exist',error)
     }
 }
 
@@ -47,7 +49,7 @@ export async function modifyAutorisation(deskId,userId,accessType){ // modify us
         })
         console.log('Modified users right done');
     }catch(error){
-        console.log('user probably doesn t exist')
+        console.log('user probably doesn t exist',error)
     }
 }
 
@@ -56,10 +58,12 @@ export async function getAllItemFromDesk(deskId){ // Get all items from a given 
         let allItems = await fetch(`http://localhost:3000/deskAccess/items/${deskId}`,{
             method : 'GET',
         })
+        const res = await allItems.json();
         console.log('all items !');
-        return await allItems.json();
+        console.log(res);
+        return res;
     }catch(error){
-        console.log('user probably doesn t exist')
+        console.log('user probably doesn t exist',error)
     }
 }
 
@@ -70,8 +74,10 @@ export async function checkAccess(userId,deskId){ // return the access type (mod
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify({userId,deskId})
         })
-        return await access.json();
+        const res = await access.json();
+        console.log(res);
+        return res;
     }catch(error){
-
+        console.log('user probably doesn t exist',error)
     }
 }
