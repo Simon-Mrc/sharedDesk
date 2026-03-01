@@ -7,9 +7,11 @@
     "backend": "nodemon --legacy-watch backend/index.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "better-sqlite3": "^9.4.3",
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "express-rate-limit": "^8.2.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.3",

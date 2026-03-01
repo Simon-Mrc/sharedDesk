@@ -34,21 +34,28 @@ export async function createUser(user){ /// Create new user. All user object as 
     }
  }
 
- export async function updateUser(user){    // Update user. All user object as a parameter
-    try{                    //// No foreign implication
+ export async function updateUser(user){
+    try{
         let updatedUser = await fetch(`http://localhost:3000/users/${encodeURIComponent(user.id)}`,{
             method : 'PUT',
             headers : {'content-type' : 'application/json'},
-            body : JSON.stringify(user),
+            body : JSON.stringify({
+                name: user.name,
+                userName: user.userName,
+                accountType: user.accountType,
+                mail: user.mail,
+                friendList: user.friendList,
+                notif: user.notif,
+                userColor: user.userColor
+                // ↑ no password here! ever!
+            }),
         }) 
         const res = await updatedUser.json();
-        console.log('user fully uptodate');
-        console.log(res);
         return res;
     }catch(error){
-        console.log('somethin ovisously went wrong')
+        console.log('something went wrong');
     }
- }
+}
 
  export async function deleteUser(userId){  /// This one delete a user. Only user.id as a parameter
     try{                    // Non specific route // foreign key with desks and items

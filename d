@@ -1,0 +1,1 @@
+{"log":"failed to add user","error":"data and salt arguments required"}
