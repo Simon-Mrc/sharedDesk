@@ -1,27 +1,19 @@
-1 - Build preset environment for each reset. easy testing purpose : ✅ :100%
-2 - Rework html and main.js to clean all useless testing purpose and build 
-clean environment for testing purpose : ✅ : 100% 3 - Full review of all scripts, clean useless parts, add commentaries : ✅:100%
-4 - Full test of all remaining features, datastorage, dom creation and cleaning : ✅: 100% 
-5 - fix all remaining bugs : ✅ : 100%
+today's todo : 
 
-SO i can start from a real fresh and clean state to add feature as i create them !
+first 2 hours of day : - training backend rewriting at least 15 routes + functions 
+in a training.js file : 
+- training recursive with 2 functions to write.✅ : 40%  ❌:60%
+
+
+Rest of day : - create container and prompt for unused btn to fill with functions ✅: 15% ❌ :85%
+              - then create all the functions !
+
+- fix friendList JSON.parse  ← tonight bug!✅ : 100%
+- fix loadState safety check ← tonight bug!✅ : 100%
+- build account settings UI ✅ : 0% ❌:100%
+- build social/friends UI✅ : 0% ❌:100%
+- duplicate feature✅ : 0% ❌ : 100%
+- color picker for user✅ : 0% ❌ :100%
+
 
 ❌  ✅ 
-
-plan for tomorrow : 
-first 2 hours of day : - training backend rewriting at least 15 routes + functions 
-in a training.js file
-- training recursive with 2 functions to write.
-
-then ask my claude friend to evaluate me ;)
-
-Rest of day : - create container and prompt for unused btn to fill with functions
-              - then create all the functions !
-              - with my claude friend backing me up !
-
-- fix friendList JSON.parse  ← tonight bug!
-- fix loadState safety check ← tonight bug!
-- build account settings UI
-- build social/friends UI
-- duplicate feature
-- color picker for user

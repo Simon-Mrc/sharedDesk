@@ -6,6 +6,7 @@ import { initiate} from './functions.js';
 import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
 import { clearStateInHtml, clearStateInStorage, createUserDb, savingDesk, loadState } from './manager.js';
 import { initiateDeskandUser } from './state.js';
+import { showUserSetting } from './settingSections.js';
 
 
 ////////////////// INITIALISATION ///////////////////
@@ -68,3 +69,7 @@ createUserBtn.addEventListener("click",()=>{
 //////////////////SHAMING TREE BTN ////////////////////
 const treeBtn = document.getElementById('shamingTree');
 treeBtn.addEventListener('click', displayTree);
+
+//////////////////ACCOUNT SETTING BTN ////////////////////
+const accountSettingBtn = document.getElementById('accountSetting');
+accountSettingBtn.addEventListener('click',()=>showUserSetting(globalHome));

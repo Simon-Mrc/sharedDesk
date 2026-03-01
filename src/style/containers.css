@@ -108,3 +108,27 @@
     animation: shake 0.3s;
   }
   
+  .container {
+    position: fixed;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 8px;
+    z-index: 1000;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    max-width: 90vw;   /* never wider than screen! */
+    max-height: 90vh;  /* never taller than screen! */
+    overflow-y: auto;
+    left : 30%;
+    top : 30%;
+    transform : translate(-50%, -50%);
+  }
+  .container:hover {
+    transform: translate(-50%, -50%) translateY(-5px); /* Keep centering + hover effect */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    background: #ffffff;
+  }
+  

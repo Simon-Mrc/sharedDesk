@@ -5,6 +5,8 @@ import { displayTree } from './tree.js';
 import { createUser, selectUser, updateUser } from './queriesDb/userQueries.js';
 import { getAllDesksUser, selecteDesk } from './queriesDb/deskQueries.js';
 import { state } from './main.js';
+import { createBtnWithFunction } from './button.js';
+import { showDeskMenu } from './settingSections.js';
 
 export function clearStateInStorage(){
     let wipe = document.getElementById('globalHome');
@@ -99,22 +101,17 @@ export function savingDesk(){
     }
     else{
         let deskbtn = document.createElement('button');
-        let deskbtnSettings = document.createElement('button');
         let fullDesk = {}; //same as before different pointer .....
         Object.assign(fullDesk,state.currentDesk);
         deskbtn.addEventListener("click",()=>{
             switchDesk(fullDesk); // ..... but same values
         });
-        deskbtnSettings.addEventListener('click',()=>{
-            ///////// Desk Setting here ///////////
-        });
         deskbtn.textContent = state.currentDesk.name;
         deskbtn.id = state.currentDesk.id; // to check later if already existing desk ! (ealier in code tho)
-        deskbtnSettings.innerText = "⚙️";
-        deskbtnSettings.classList.add('needEmpty');
         deskbtn.classList.add("needEmpty") // to be clean out when resetting
         document.getElementById(`myDesks`).appendChild(deskbtn);
-        document.getElementById("myDesks").appendChild(deskbtnSettings);
+        let deskbtnSettings = createBtnWithFunction(document.getElementById(`myDesks`),'⚙️',()=>showDeskMenu(state.currentDesk));
+        deskbtnSettings.classList.add('needEmpty');
     }
 }
 

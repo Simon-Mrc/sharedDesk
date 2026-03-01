@@ -300,3 +300,17 @@ export function passingInfo(question,section){  // Getting better at giving name
             }, 0);
         });
         }
+
+export function createContainer(section){
+    let container = document.createElement('div');
+    container.classList.add('container');
+    let blurEffect = document.createElement('div');
+    blurEffect.classList.add('modal-overlay');
+    document.querySelector('body').appendChild(blurEffect);
+    section.appendChild(container);
+    function cleanUp(){
+        container.remove();
+        blurEffect.remove();
+    }
+    return {container,blurEffect,cleanUp}
+}
