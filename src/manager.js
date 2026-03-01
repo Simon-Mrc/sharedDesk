@@ -18,7 +18,7 @@ export function clearStateInHtml(){
     allThatClear.forEach(element => {
         element.remove();// clearing all created DOM elements that needs it
     });
-}
+} /////// need to move those out manager.js
 export async function switchDesk(deskGiven){
     clearStateInStorage() ;    // BYE BYE
     await recreateDesk(deskGiven);  // HELLO
@@ -143,17 +143,18 @@ export async function sendFriendRequest(targetFriend){ // push own id in friends
     await updateUser(targetFriend);
 }
 
-export async function showNotif(){
+export async function showNotif(i){
     let globalHome = document.getElementById('globalHome');
         if(state.currentUser.notif[0] != undefined){
         await acceptOrDenied("will you take me as a friend ?", globalHome,
-            () => acceptFriend(state.currentUser.notif[0]), // in case of resolve()
-            () => deleteNotif())// in cas of denied() // need to think about no possibility to ask again ? prevents spam ?
+            () => acceptFriend(state.currentUser.notif[i]), // in case of resolve()
+            () => deleteNotif(i))// in cas of denied() // need to think about no possibility to ask again ? prevents spam ?
     }    
 }
 
-export async function deleteNotif(){ // just cut askerId from currentuser.notif
-    let notif = JSON.parse(state.currentUser.notif).splice(0,1);
+export async function deleteNotif(i){ // just cut askerId from currentuser.notif
+    let notif = JSON.parse(state.currentUser.notif);
+    notif.splice(i,1);
     state.currentUser.notif = JSON.stringify(notif);
     await updateUser(state.currentUser); // update in db
 }

@@ -82,6 +82,12 @@
     transform-origin: left;
   }
 }
+@keyframes fadeInOut {
+  0%   { opacity: 0; transform: translate(-50%, -55%); }
+  20%  { opacity: 1; transform: translate(-50%, -50%); }
+  70%  { opacity: 1; transform: translate(-50%, -50%); }
+  100% { opacity: 0; transform: translate(-50%, -45%); }
+}
 .exist{
   opacity: 0.5;
 }

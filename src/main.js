@@ -6,7 +6,7 @@ import { initiate} from './functions.js';
 import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
 import { clearStateInHtml, clearStateInStorage, createUserDb, savingDesk, loadState } from './manager.js';
 import { initiateDeskandUser } from './state.js';
-import { showUserSetting } from './settingSections.js';
+import { showFriendMenu, showUserSetting } from './settingSections.js';
 import { state } from './importConst.js';
 import { globalHome } from "./arrayNglobalHome";
 
@@ -67,3 +67,7 @@ treeBtn.addEventListener('click', displayTree);
 //////////////////ACCOUNT SETTING BTN ////////////////////
 const accountSettingBtn = document.getElementById('accountSetting');
 accountSettingBtn.addEventListener('click',()=>showUserSetting(globalHome));
+
+//////////////////SOCIAL PANEL  BTN ////////////////////
+const socialBtn = document.getElementById("socialBtn");
+socialBtn.addEventListener('click',()=>showFriendMenu(globalHome));

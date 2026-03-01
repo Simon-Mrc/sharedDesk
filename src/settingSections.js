@@ -1,10 +1,17 @@
-import { createBtn, createInput } from "./button";
-import { createContainer, passingInfo } from "./namePrompt";
+import { createBtn, createBtnWithFunction, createInput } from "./button";
+import { createContainer, passingInfo, quickMessage } from "./namePrompt";
 import { findUserByUserName, updateUser } from "./queriesDb/userQueries";
 import { state } from './importConst.js';
+import { createColorPicker } from "./helperFunctions.js";
+import { getAllItems, updateItem } from "./queriesDb/itemQueries.js";
+import { recreateDesk } from "./recreateDesk.js";
+import { clearStateInHtml, clearStateInStorage, showNotif } from "./manager.js";
+import { globalHome } from "./arrayNglobalHome.js";
 
-export function changeName(newName){
-    return new Promise(async(resolve, reject) => {
+
+/////////////////////CHANGE NAME CHECK FUNCTION ////////////////////
+export function changeName(newName){ 
+    return new Promise(async(resolve, reject) => { //promise for manual exit
         let existingUser = await findUserByUserName(newName);
         if (existingUser!=null){
             reject();
@@ -15,6 +22,37 @@ export function changeName(newName){
     })
 }
 
+///////////////////DISPLAY NOTIF FUNCTION//////////////////
+function displayNotif(){
+    return new Promise(async(resolve) => { // u set a new promise here because you want a manual exit !
+        
+        let allNotif = JSON.parse(state.currentUser.notif);
+        if(allNotif.length === 0){
+            await quickMessage("You have no friend request u lonely bastard");
+            resolve();
+            return;
+        }
+        else{
+            let {container , cleanUp} = createContainer(globalHome);
+            for(let i = 0 ; i<allNotif.length; i = i +1){
+                let notifBtn = createBtn(container,`Invite from ${allNotif[i]}`);
+                notifBtn.addEventListener('click',async()=>{
+                    await showNotif(i);
+                })
+            }
+            let closeBtn = createBtn(container,"Close");
+            closeBtn.addEventListener('click',()=>{
+                cleanUp();
+                resolve();
+            })
+        }
+    })
+}
+
+///////////////////////SEARCHFRIEND FUNCTION//////////////
+
+
+///////////////GLOBAL MANAGMENT DISPLAY////////////////
 export async function showUserSetting(section){
     ////////////////CREATE CONTAINER ///////////////////
     let {container,cleanUp} = createContainer(section);
@@ -41,8 +79,30 @@ export async function showUserSetting(section){
     })
 
 
-    //////////////////NAME SECTION /////////////////////////
-    createBtn(container,"Change Username");
+    //////////////////CHANGE COLOR SECTION /////////////////////////
+    let colorBtn = createBtn(container,"Choose a new color");
+    let colorContainer = createColorPicker(container,state.currentUser.color);
+    colorContainer.addEventListener('input', () => {
+        console.log("Live color:", colorContainer.value);
+    });
+    colorBtn.addEventListener('click',async ()=>{
+        let selectedColor = colorContainer.value;
+        state.currentUser.userColor = selectedColor;
+        await updateUser(state.currentUser); // always await queries
+        let allItemCurrentUser = await getAllItems(state.currentUser.id);
+        for (let item of allItemCurrentUser){ // await in loop need for
+            item.creatorColor = state.currentUser.userColor;
+            await updateItem(item);
+        }
+        cleanUp();
+        clearStateInStorage();// really need to clean those up
+        document.body.style.pointerEvents = 'none';
+        await recreateDesk(state.currentDesk);
+        setTimeout(() => { // time for user to actually see changes
+            showUserSetting(section);
+            document.body.style.pointerEvents = ''; // don t want stupid user start clicking everywhere while so
+        },1200);
+    });
 
 
     //////////////////NAME SECTION /////////////////////////
@@ -69,6 +129,56 @@ export async function showUserSetting(section){
 
 }
 
-export function showDeskMenu(desk){
+export async function showDeskMenu(desk){
+    ////////////////CREATE CONTAINER ///////////////////
+    let {container,cleanUp} = createContainer(globalHome);
+
+    ////////////////RENAME DESK ////////////////////
+
+    /////////////////QUIT/DELETE DESK ////////////////
+
+    /////////////////GIVE OWNERSHIP////////////////
+
+    ////////////INVITE FRIEND/////////////////////
+
+    //////////////SEARCH IN DESK ////////////////
+
+}
+
+export async function showFriendMenu(section){
+    ///////////////CONTAINER CREATION ///////////////////
+    let {container , cleanUp} = createContainer(section);
+    
+    ////////////////SHOW NOTIF ////////////////
+    let notifBtn = createBtnWithFunction(container,"Notifications",async ()=>{
+        cleanUp();
+        await displayNotif();
+        showFriendMenu(section);
+    });
+
+    ///////////////SEARCH FRIEND /////////////////
+    let searchFriendBtn = createBtnWithFunction(container,"Find Your Friends !",async ()=>{
+        cleanUp();
+        await displayFriendSearch();
+        showFriendMenu(section);
+    })
+
+    // friend container with displayed result and from there
+    // send friend request
+
+    ///////////////CURRENT FRIEND //////////////
+    // display all friend of user with little btn for setting
+    // from there : Delete friend / Invite to desk / Send message
+
+    ///////////// MAILBOX ////////////////
+    // recieved password for file mostly !!
+    // need to think about db usage for this
+    // new table with 3 columns ? senderId,recieverId,content?
+
+    ///////////////CANCEL BUTTON ////////////////
+    let closeBtn = createBtn(container,"Close Menu");
+    closeBtn.addEventListener('click',()=>{
+        cleanUp();
+    })
 
 }

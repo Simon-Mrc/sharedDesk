@@ -1,3 +1,4 @@
+import { globalHome } from "./arrayNglobalHome";
 
 
 export function showNamePrompt(x, y, section, type = "file") { // Ok lets go put comment on this !
@@ -313,4 +314,23 @@ export function createContainer(section){
         blurEffect.remove();
     }
     return {container,blurEffect,cleanUp}
+}
+
+export function quickMessage(text){
+    return new Promise((resolve) => {       
+        let wrapper = document.createElement('div');
+        wrapper.classList.add('quickMessageWrapper');
+        document.body.appendChild(wrapper);
+        let messageContainer = document.createElement('div');
+        messageContainer.classList.add('quickMessageContainer');
+        wrapper.appendChild(messageContainer);
+        let message = document.createElement('p');
+        message.classList.add('quickMessage');
+        message.innerText = text;
+        messageContainer.appendChild(message);
+        setTimeout(()=>{
+            wrapper.remove();
+            resolve();
+        },1500)
+    })
 }

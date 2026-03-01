@@ -1,4 +1,4 @@
-import { passingInfo, showNamePrompt, textNeeded } from './namePrompt.js';
+import { passingInfo, quickMessage, showNamePrompt, textNeeded } from './namePrompt.js';
 import { openOption} from './helperFunctions.js';
 import { quiteSlideLeft,slideRight } from './animations.js';
 import { createNew } from './functions.js';
@@ -81,7 +81,7 @@ export async function newFile(x,y,section){  // x,y is where you click, section 
             }
     }
     else{
-        passingInfo("You don t have permission boy", section); //DENIED : accessType from db must be 'read'
+        quickMessage("You don t have permission boy"); //DENIED : accessType from db must be 'read'
     }
 };
  //////////////////////////////////////////////////////////////////////:
@@ -147,7 +147,7 @@ export async function newFolder(x,y,section){
                             passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen still not solved tho
                         }                                        // to lazy to create a specific display function just for this
                         else{
-                            passingInfo('u re out buddy',section);
+                            quickMessage("You don t have permission boy");
                             securityCheck = 1; // security check is locked in 
                         }
                     }

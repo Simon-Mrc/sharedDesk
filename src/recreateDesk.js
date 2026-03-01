@@ -3,7 +3,7 @@ import { showContextMenu } from "./creationbundle";
 import { createNew } from "./functions";
 import { openOption } from "./helperFunctions";
 import { state } from './importConst.js';
-import { textNeeded, passingInfo } from "./namePrompt";
+import { textNeeded, passingInfo, quickMessage } from "./namePrompt";
 import { getAllItemFromDesk } from "./queriesDb/accessQueries";
 import { displayTree } from "./tree";
 import { array } from "./arrayNglobalHome";
@@ -100,7 +100,7 @@ export async function recreateByFolder(createdFolder,section){
                     passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen still not solved tho
                 }                                        // to lazy to create a specific display function just for this
                 else{
-                    passingInfo('u re out buddy',section);
+                    quickMessage("You don t have permission boy");
                     securityCheck = 1; // security check is locked in 
                 }
             }

@@ -112,7 +112,7 @@ button {
     cursor: pointer;
     border-radius: 4px;
     font-size: 14px;
-    color: #333;
+    color: #4f4949;
     transition: background 0.2s ease;
     white-space: nowrap; /* Prevents text wrapping */
     width: 100%; /* Fills container width */
@@ -125,3 +125,28 @@ button {
   .context-menu-btn:active {
     background: #e0e0e0;
   }
+
+  #myDesks button {
+    width: 95%;
+    color: #3b5f82;
+    padding: 8px 10px;
+    text-align: left;
+    background: #9bb3f0;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* ... if name too long */
+    min-height: 30px;
+    max-height: 40px;
+  }
+  
+  #myDesks button:hover {
+    background-color: #f0f3ff;
+    border-color: #5b7ae5;
+    color: #5b7ae5;
+  }
+  

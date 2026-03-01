@@ -184,31 +184,6 @@ body {
   max-width: 100%;
 }
 
-/* desk buttons injected by JS */
-#myDesks button {
-  width: 95%;
-  color: #3b5f82;
-  padding: 8px 10px;
-  text-align: left;
-  background: #abd6c7;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* ... if name too long */
-  min-height: 30px;
-  max-height: 40px;
-}
-
-#myDesks button:hover {
-  background-color: #f0f3ff;
-  border-color: #5b7ae5;
-  color: #5b7ae5;
-}
-
 /* section headers like MY DESKS */
 .section-header {
   display: flex;
