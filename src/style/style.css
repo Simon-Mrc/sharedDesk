@@ -246,6 +246,8 @@ body {
   flex-direction: column;
   background-color: #ecebeb;
   position: relative;
+  height: 106%;
+  width: 100%;
   margin: 12px;
   border-radius: 8px;
   border: 2px solid #e8e8e8;
@@ -278,7 +280,7 @@ body {
    ============================================ */
 .desk-column-large {
   flex: 0 0 90% !important;
-  width: 90% !important;
+  width: 98% !important;
   height: 100%;
   position: relative;
   overflow: hidden;

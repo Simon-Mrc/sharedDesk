@@ -5,10 +5,11 @@ import './style/containers.css';
 import { initiate } from './desksJS/desksAndSectionDOM.js';
 import { displayTree } from './ashamedAITree.js';
 import { clearStateInHtml, clearStateInStorage, createUserDb, loadState, initiateDeskandUser } from './manager.js';
-import { savingDesk, switchDesk } from './desksJS/desksAndSectionDOM.js';
-import { showFriendMenu, showUserSetting } from './settingSections.js';
+import { savingDesk } from './desksJS/desksAndSectionDOM.js';
+import { showUserSetting } from './settingSections.js';
 import { state } from './constJS/exportConst.js';
 import { globalHome } from './constJS/exportConst.js';
+import { showFriendMenu } from './socialJS/socialSettingAndFunctions.js';
 
 
 ////////////////// INITIALISATION ///////////////////

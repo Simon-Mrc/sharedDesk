@@ -1,19 +1,10 @@
-today's todo : 
-
-first 2 hours of day : - training backend rewriting at least 15 routes + functions 
-in a training.js file : 
-- training recursive with 2 functions to write.✅ : 40%  ❌:60%
-
-
-Rest of day : - create container and prompt for unused btn to fill with functions ✅: 15% ❌ :85%
+Rest of day : - create container and prompt for unused btn to fill with functions ✅: 70% ❌ :30%
               - then create all the functions !
 
-- fix friendList JSON.parse  ← tonight bug!✅ : 100%
-- fix loadState safety check ← tonight bug!✅ : 100%
-- build account settings UI ✅ : 0% ❌:100%
-- build social/friends UI✅ : 0% ❌:100%
+-- build account settings UI ✅ : 30% ❌:70%
+- build social/friends UI✅ : 20% ❌:80%
 - duplicate feature✅ : 0% ❌ : 100%
-- color picker for user✅ : 0% ❌ :100%
+- color picker for user✅ : 100% 
 
 
 ❌  ✅ 

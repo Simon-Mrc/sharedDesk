@@ -5,11 +5,11 @@ import { clearStateInStorage } from '../manager.js';
 import { createDesk, updateDesk } from '../queriesDb/deskQueries.js';
 import { updateUser } from '../queriesDb/userQueries.js';
 import { state } from '../constJS/exportConst.js';
-import { globalHome, array } from '../constJS/exportConst.js';
+import { globalHome} from '../constJS/exportConst.js';
 import { recreateDesk } from './recreateDesk.js';         // ← for switchDesk!
 import { displayTree } from '../ashamedAITree.js';        // ← for switchDesk!
 import { createBtnWithFunction } from '../DOMmanipJS/button.js'; // ← for savingDesk!
-import { showDeskMenu } from '../settingSections.js';     // ← for savingDesk!
+import { showDeskMenu } from './deskSetting.js';    // ← for savingDesk!
 
 
 export async function initiate(section){

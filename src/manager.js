@@ -1,10 +1,6 @@
 import { textNeeded } from './namePrompt.js';
-import { recreateDesk } from './desksJS/recreateDesk.js';
-import { displayTree } from './ashamedAITree.js';
 import { createUser, logging, selectUser, updateUser } from './queriesDb/userQueries.js';
 import { getAllDesksUser, selecteDesk } from './queriesDb/deskQueries.js';
-import { createBtnWithFunction } from './DOMmanipJS/button.js';
-import { showDeskMenu } from './settingSections.js';
 import { state, array } from './constJS/exportConst.js';
 import { switchDesk } from './desksJS/desksAndSectionDOM.js';
 
