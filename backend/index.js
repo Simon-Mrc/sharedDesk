@@ -93,7 +93,23 @@ app.get(`/items/:id`,(req,res)=>{ //// Return an item with a given id
 })
 
 ///////////// Part for users //////////////
-app.post(`/logging/:userName`,(req,res)=>{
+app.put(`/name/userName/:id`,(req,res)=>{
+  try{
+    const {name,userName} = req.body;
+    let allUserByIdNameUserName = db.prepare(`
+      SELECT * FROM users
+      WHERE id = ?
+      OR name LIKE  ?
+      OR userName LIKE ?
+      `).get(req.params.id,`%${name}%`,`%${userName}%`) // flexible search for UX !
+      return res.json(allUserByIdNameUserName);
+  }catch(error){
+    res.status(500).json({log: `failed to get item`, error: error.message})
+  }
+})
+
+
+app.post(`/logging/:userName`,(req,res)=>{ //////////LOGGING ///////////
   try{
     const {password} = req.body;
     let user = db.prepare(`

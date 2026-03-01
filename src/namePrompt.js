@@ -1,4 +1,5 @@
 import { globalHome } from "./arrayNglobalHome";
+import { createBtn } from "./button";
 
 
 export function showNamePrompt(x, y, section, type = "file") { // Ok lets go put comment on this !
@@ -175,7 +176,7 @@ return new Promise((resolve, reject) => {
 });
 }
 
-export function passingInfo(question,section){  // Getting better at giving name
+export function passingInfo(question,section){  // Need to replace this one with quick Message
     return new Promise((resolve, reject) => {
         const existingPrompt = section.querySelector('.name-prompt');
         if (existingPrompt) {
@@ -238,8 +239,8 @@ export function passingInfo(question,section){  // Getting better at giving name
     // End of copy/past hell and typos searching nightmare!
 
     export function acceptOrDenied(question,section,accept,denied){  // Getting better at giving name
-        return new Promise((resolve, reject) => {
-            const existingPrompt = section.querySelector('.name-prompt');
+        return new Promise((resolve, reject) => {// setting promise with callback so i can choose beetween 2 functions depending
+            const existingPrompt = section.querySelector('.name-prompt');// depending on result !
             if (existingPrompt) {
                 existingPrompt.remove();
             }
@@ -302,7 +303,7 @@ export function passingInfo(question,section){  // Getting better at giving name
         });
         }
 
-export function createContainer(section){
+export function createContainer(section){ // finally made a dom creator function 
     let container = document.createElement('div');
     container.classList.add('container');
     let blurEffect = document.createElement('div');
@@ -317,8 +318,8 @@ export function createContainer(section){
 }
 
 export function quickMessage(text){
-    return new Promise((resolve) => {       
-        let wrapper = document.createElement('div');
+    return new Promise((resolve) => { // promise here is crucial for letting await possible for caller   
+        let wrapper = document.createElement('div'); // either you wait for her or you let script flows
         wrapper.classList.add('quickMessageWrapper');
         document.body.appendChild(wrapper);
         let messageContainer = document.createElement('div');
@@ -330,7 +331,26 @@ export function quickMessage(text){
         messageContainer.appendChild(message);
         setTimeout(()=>{
             wrapper.remove();
-            resolve();
+            resolve(); //So satisfying !
         },1500)
+    })
+}
+
+export function yesOrNoPrompt(section,btn1text,btn2text,function1,function2){
+    return new Promise((resolve) => {
+        let {container,cleanUp} = createContainer(section);
+        container.style.zIndex = 1001;
+        let btn1 = createBtn(container,btn1text);
+        let btn2 = createBtn(container,btn2text);
+        btn1.addEventListener('click',()=>{
+            cleanUp();
+            function1();
+            resolve();
+        })
+        btn2.addEventListener('click',()=>{
+            cleanUp;
+            function2();
+            resolve();
+        })
     })
 }

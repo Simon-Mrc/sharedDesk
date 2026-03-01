@@ -87,3 +87,18 @@ export async function createUser(user){ /// Create new user. All user object as 
         return null;
     }
  }
+ export async function findUserByNameUserNameId(name,userName,id){ // search friend by id userName or name
+    try{ //specific route quite ealy in index
+        let arrayOfUser = await fetch(`http://localhost:3000/name/userName/${encodeURIComponent(id)}`,{
+            method : 'put',
+            headers : {'content-type' : 'application/json'},
+            body : JSON.stringify({name,userName})
+        })
+        const result = await arrayOfUser.json();
+        console.log(result);
+        return result;
+    }catch(error){
+        console.log('no user found');
+        return null;
+    }
+ }

@@ -1,11 +1,11 @@
 import { createBtn, createBtnWithFunction, createInput } from "./button";
-import { createContainer, passingInfo, quickMessage } from "./namePrompt";
-import { findUserByUserName, updateUser } from "./queriesDb/userQueries";
+import { createContainer, passingInfo, quickMessage, yesOrNoPrompt } from "./namePrompt";
+import { findUserByUserName, updateUser,findUserByNameUserNameId } from "./queriesDb/userQueries";
 import { state } from './importConst.js';
 import { createColorPicker } from "./helperFunctions.js";
 import { getAllItems, updateItem } from "./queriesDb/itemQueries.js";
 import { recreateDesk } from "./recreateDesk.js";
-import { clearStateInHtml, clearStateInStorage, showNotif } from "./manager.js";
+import { clearStateInHtml, clearStateInStorage, sendFriendRequest, showNotif } from "./manager.js";
 import { globalHome } from "./arrayNglobalHome.js";
 
 
@@ -24,8 +24,7 @@ export function changeName(newName){
 
 ///////////////////DISPLAY NOTIF FUNCTION//////////////////
 function displayNotif(){
-    return new Promise(async(resolve) => { // u set a new promise here because you want a manual exit !
-        
+    return new Promise(async(resolve) => { // u set a new promise here because you want a manual exit !    
         let allNotif = JSON.parse(state.currentUser.notif);
         if(allNotif.length === 0){
             await quickMessage("You have no friend request u lonely bastard");
@@ -49,11 +48,45 @@ function displayNotif(){
     })
 }
 
-///////////////////////SEARCHFRIEND FUNCTION//////////////
-
-
+///////////////////////SEARCHFRIEND FUNCTION//////////////////
+function displayFriendSearch(inputValue){
+    return new Promise(async(resolve) => {
+        try{
+            let allFriendFound = await findUserByNameUserNameId(inputValue);
+            if(allFriendFound === null){ // set null on fail request from dbquerie !
+                quickMessage("No user match you Search ! ... you lonely fck");
+                resolve();
+                return;
+            }
+            else{
+                let {container, cleanUp} = createContainer(globalHome);
+                if(!allFriendFound.length){allFriendFound=[allFriendFound]};
+                for(let i = 0 ; i<allFriendFound.length; i = i + 1){
+                    console.log('testloop');
+                    let friendIbtn = createBtnWithFunction(container,allFriendFound[i].userName,async()=>{
+                        await yesOrNoPrompt(container,'SendFriendRequest','Cancel',
+                            ()=> sendFriendRequest(allFriendFound[i]),
+                            ()=> null
+                        )
+                    })
+                }
+                let closeBtn = createBtn(container,"Close");
+                closeBtn.addEventListener('click',()=>{
+                    cleanUp();
+                    resolve();
+                })
+            }
+        }catch(error){
+            quickMessage("No user match you Search ! ... you lonely fck");
+            resolve();
+        }
+    })
+}
+/////////////////////////////////////////////////////////
 ///////////////GLOBAL MANAGMENT DISPLAY////////////////
+/////////////////////////////////////////////////////////
 export async function showUserSetting(section){
+    
     ////////////////CREATE CONTAINER ///////////////////
     let {container,cleanUp} = createContainer(section);
     
@@ -157,9 +190,10 @@ export async function showFriendMenu(section){
     });
 
     ///////////////SEARCH FRIEND /////////////////
+    let input = createInput(container,"Search Friend")
     let searchFriendBtn = createBtnWithFunction(container,"Find Your Friends !",async ()=>{
         cleanUp();
-        await displayFriendSearch();
+        await displayFriendSearch(input.value);
         showFriendMenu(section);
     })
 
