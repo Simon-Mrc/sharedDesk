@@ -1,13 +1,13 @@
-import { createBtn, createBtnWithFunction, createInput } from "./button";
-import { createContainer, passingInfo, quickMessage, yesOrNoPrompt } from "./namePrompt";
-import { findUserByUserName, updateUser,findUserByNameUserNameId } from "./queriesDb/userQueries";
-import { state } from './importConst.js';
-import { createColorPicker } from "./helperFunctions.js";
-import { getAllItems, updateItem } from "./queriesDb/itemQueries.js";
-import { recreateDesk } from "./recreateDesk.js";
-import { clearStateInHtml, clearStateInStorage, sendFriendRequest, showNotif } from "./manager.js";
-import { globalHome } from "./arrayNglobalHome.js";
-
+import { createBtn, createBtnWithFunction, createInput } from './DOMmanipJS/button.js';
+import { createContainer, quickMessage, yesOrNoPrompt } from './namePrompt.js';
+import { findUserByUserName, updateUser, findUserByNameUserNameId } from './queriesDb/userQueries.js';
+import { state } from './constJS/exportConst.js';
+import { createColorPicker } from './DOMmanipJS/createContainerNStuff.js';
+import { getAllItems, updateItem } from './queriesDb/itemQueries.js';
+import { recreateDesk } from './desksJS/recreateDesk.js';
+import { clearStateInStorage } from './manager.js';
+import { sendFriendRequest, showNotif } from './socialJS/socialLife.js';
+import { globalHome } from './constJS/exportConst.js';
 
 /////////////////////CHANGE NAME CHECK FUNCTION ////////////////////
 export function changeName(newName){ 

@@ -1,12 +1,12 @@
-import { quiteSlideLeft, slideRight } from "./animations";
-import { showContextMenu } from "./creationbundle";
-import { createNew } from "./functions";
-import { openOption } from "./helperFunctions";
-import { state } from './importConst.js';
-import { textNeeded, passingInfo, quickMessage } from "./namePrompt";
-import { getAllItemFromDesk } from "./queriesDb/accessQueries";
-import { displayTree } from "./tree";
-import { array } from "./arrayNglobalHome";
+import { quiteSlideLeft, slideRight } from '../DOMmanipJS/animations.js';
+import { showContextMenu } from '../itemsJS/fileFolderAndContextMenu.js';
+import { createNew } from './desksAndSectionDOM.js';
+import { openOption } from '../itemsJS/rightClickOnItem.js';
+import { state } from '../constJS/exportConst.js';
+import { textNeeded, quickMessage } from '../namePrompt.js';
+import { getAllItemFromDesk } from '../queriesDb/accessQueries.js';
+import { displayTree } from '../ashamedAITree.js';
+import { array } from '../constJS/exportConst.js';
 
 // Ok so to explain here. I basically copy/paste my previous code for setting files
 // when right clicking on screen BUT : I kept only what is data information
@@ -97,10 +97,10 @@ export async function recreateByFolder(createdFolder,section){
             if (folder.accessPassword){ 
                 let pswrd = await textNeeded('what is the password?','Try to guess mthfckr',section);//await really needed there
                 if(pswrd === folder.accessPassword){
-                    passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen still not solved tho
+                    await quickMessage('u re in my man'); // need to solve some issues with box stayin on screen still not solved tho
                 }                                        // to lazy to create a specific display function just for this
                 else{
-                    quickMessage("You don t have permission boy");
+                    await quickMessage("You don t have permission boy");
                     securityCheck = 1; // security check is locked in 
                 }
             }

@@ -1,11 +1,12 @@
-import { initiateDeskandUser } from "./state";
 ////////////////////////// EXPORT SECTION ///////////////////
 
 // let result = await initiateDeskandUser();
 export const state = {
-  currentUser:  {},
-  currentDesk:  {}
+    currentUser:  {},
+    currentDesk:  {}
 }
+export const globalHome = document.getElementById(`globalHome`);
+export let array = [];
 // This array is gonna fill up with section as DOM element 
 // it s used to search and find right section to display 
 // the dataset.id of the section = id of folder it s coming from

@@ -1,5 +1,4 @@
-import { globalHome } from "./arrayNglobalHome";
-import { createBtn } from "./button";
+import { createBtn } from "./DOMmanipJS/button.js";
 
 
 export function showNamePrompt(x, y, section, type = "file") { // Ok lets go put comment on this !
@@ -175,67 +174,6 @@ return new Promise((resolve, reject) => {
     }, 0);
 });
 }
-
-export function passingInfo(question,section){  // Need to replace this one with quick Message
-    return new Promise((resolve, reject) => {
-        const existingPrompt = section.querySelector('.name-prompt');
-        if (existingPrompt) {
-            existingPrompt.remove();
-        }
-    
-        let prompt = document.createElement('div');
-        prompt.classList.add('name-prompt');
-        prompt.style.left = '50%';
-        prompt.style.top = '50%';
-        prompt.style.transform = 'translate(-50%, -50%)';
-    
-        let title = document.createElement('div');
-        title.classList.add('prompt-title');
-        title.textContent = question;
-        
-        let buttonContainer = document.createElement('div');
-        buttonContainer.classList.add('prompt-buttons');
-        
-        let createBtn = document.createElement('button');
-        createBtn.classList.add('prompt-btn', 'prompt-btn-create');
-        createBtn.textContent = 'got it';
-        
-        let cancelBtn = document.createElement('button');
-        cancelBtn.classList.add('prompt-btn', 'prompt-btn-cancel');
-        cancelBtn.textContent = 'wanna get RickRolled?';
-        
-        buttonContainer.appendChild(createBtn);
-        buttonContainer.appendChild(cancelBtn);
-        
-        prompt.appendChild(title);
-        prompt.appendChild(buttonContainer);
-        
-        section.appendChild(prompt);
-
-        createBtn.addEventListener('click', () => {
-            prompt.remove();
-                resolve(); 
-            } );
-
-        document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                createBtn.click();
-                prompt.remove();
-            }
-        },{once : true});
-             
-        setTimeout(() => {
-            document.addEventListener('click', function closePrompt(e) {
-                if (!prompt.contains(e.target)) {
-                    prompt.remove();
-                    reject('cancelled'); 
-                    document.removeEventListener('click', closePrompt);
-                }
-            });
-        }, 0);
-    });
-    }
-
     // End of copy/past hell and typos searching nightmare!
 
     export function acceptOrDenied(question,section,accept,denied){  // Getting better at giving name

@@ -1,12 +1,12 @@
-import { passingInfo, quickMessage, showNamePrompt, textNeeded } from './namePrompt.js';
-import { openOption} from './helperFunctions.js';
-import { quiteSlideLeft,slideRight } from './animations.js';
-import { createNew } from './functions.js';
-import { displayTree } from './tree.js';
-import { checkAccess } from './queriesDb/accessQueries.js';
-import { createItem } from './queriesDb/itemQueries.js';
-import { state } from './importConst.js';
-import { array} from "./arrayNglobalHome";
+import { quickMessage, showNamePrompt, textNeeded } from '../namePrompt.js';
+import { openOption } from './rightClickOnItem.js';
+import { quiteSlideLeft, slideRight } from '../DOMmanipJS/animations.js';
+import { createNew } from '../desksJS/desksAndSectionDOM.js';
+import { displayTree } from '../ashamedAITree.js';
+import { checkAccess } from '../queriesDb/accessQueries.js';
+import { createItem } from '../queriesDb/itemQueries.js';
+import { state } from '../constJS/exportConst.js';
+import { array } from '../constJS/exportConst.js';
 
 ////////////////////////////////////////////////////////////////
 ////////////////////////// FILE CREATION HERE /////////////////
@@ -144,10 +144,10 @@ export async function newFolder(x,y,section){
                 if (folder.accessPassword){ 
                         let pswrd = await textNeeded('what is the password?','Try to guess buddy',section);
                         if(pswrd === folder.accessPassword){
-                            passingInfo('u re in my man',section); // need to solve some issues with box stayin on screen still not solved tho
+                            await quickMessage('u re in my man'); // need to solve some issues with box stayin on screen still not solved tho
                         }                                        // to lazy to create a specific display function just for this
                         else{
-                            quickMessage("You don t have permission boy");
+                            await quickMessage("You don t have permission boy");
                             securityCheck = 1; // security check is locked in 
                         }
                     }
@@ -178,7 +178,7 @@ export async function newFolder(x,y,section){
         console.log(error);
     }}
     else{
-        passingInfo("You don t have permission boy", section); //DENIED
+        await quickMessage("You don t have permission boy"); //DENIED
     }
 };
 

@@ -1,12 +1,13 @@
-import { acceptOrDenied,textNeeded } from './namePrompt.js';
-import { recreateDesk } from './recreateDesk.js';
-import { displayTree } from './tree.js';
-import { createUser, selectUser, updateUser } from './queriesDb/userQueries.js';
+import { textNeeded } from './namePrompt.js';
+import { recreateDesk } from './desksJS/recreateDesk.js';
+import { displayTree } from './ashamedAITree.js';
+import { createUser, logging, selectUser, updateUser } from './queriesDb/userQueries.js';
 import { getAllDesksUser, selecteDesk } from './queriesDb/deskQueries.js';
-import { createBtnWithFunction } from './button.js';
+import { createBtnWithFunction } from './DOMmanipJS/button.js';
 import { showDeskMenu } from './settingSections.js';
-import { state} from './importConst.js';
-import { array} from "./arrayNglobalHome";
+import { state, array } from './constJS/exportConst.js';
+import { switchDesk } from './desksJS/desksAndSectionDOM.js';
+
 
 export function clearStateInStorage(){
     let wipe = document.getElementById('globalHome');
@@ -19,13 +20,7 @@ export function clearStateInHtml(){
         element.remove();// clearing all created DOM elements that needs it
     });
 } /////// need to move those out manager.js
-export async function switchDesk(deskGiven){
-    clearStateInStorage() ;    // BYE BYE
-    await recreateDesk(deskGiven);  // HELLO
-    await displayTree();
-    state.currentDesk = deskGiven;
-    return state.currentDesk;
-}
+
 
 // This one create user, store in LS Set currentUser and load userState starting point
 export async function createUserDb(section){
@@ -86,76 +81,34 @@ export async function loadState(user){ // Here user.desks is actually ids ! not 
     }
 }
 
-export function savingDesk(){
-    if(document.getElementById(state.currentDesk.id)){ //If it is already a saved desk
-        let fullDesk = {};// create a different pointer to be putted in eventlistener btn
-        let cleanBtn = document.getElementById(state.currentDesk.id).cloneNode(true); // THIS ONE SO USEFULL copies domelement + nod
-        document.getElementById(state.currentDesk.id).replaceWith(cleanBtn);          // Replace with usefull to know to !
-        Object.assign(fullDesk,state.currentDesk); // exact copy of current desk
-        cleanBtn.addEventListener("click",()=>{
-            switchDesk(fullDesk);
-        });
-        // deskbtnSettings.addEventListener('click',()=>{
-        //     ///////// Desk Setting here ///////////
-        // }); /// need to think more about if needed to update with new content 
-    }
-    else{
-        let deskbtn = document.createElement('button');
-        let fullDesk = {}; //same as before different pointer .....
-        Object.assign(fullDesk,state.currentDesk);
-        deskbtn.addEventListener("click",()=>{
-            switchDesk(fullDesk); // ..... but same values
-        });
-        deskbtn.textContent = state.currentDesk.name;
-        deskbtn.id = state.currentDesk.id; // to check later if already existing desk ! (ealier in code tho)
-        deskbtn.classList.add("needEmpty") // to be clean out when resetting
-        document.getElementById(`myDesks`).appendChild(deskbtn);
-        let deskbtnSettings = createBtnWithFunction(document.getElementById(`myDesks`),'⚙️',()=>showDeskMenu(state.currentDesk));
-        deskbtnSettings.classList.add('needEmpty');
-    }
-}
-
 // Again we need full targetUser object for this function
 export async function changeUser(targetUser){ // Not sure if this function will find use
     await loadState(targetUser); // think about sharing account ?
     state.currentUser = targetUser;
 }
-
-export async function acceptFriend(targetFriendId){ // accepting ones invite stored in user.notif in usersDB !
-    let friendList = JSON.parse(state.currentUser.friendList); // In order to make the string an array
-    friendList.push(targetFriendId);
-    state.currentUser.friendList = JSON.stringify(friendList); // reconvert into string
-    let notif = JSON.parse(state.currentUser.notif); 
-    notif.splice(0,1);
-    state.currentUser.notif = JSON.stringify(notif);
-    let targetFriend = await selectUser(targetFriendId); // Only friends Id is needed
-    let targetFriendFriendList = JSON.parse(targetFriend.friendList);
-    targetFriendFriendList.push(state.currentUser.id);
-    targetFriend.friendList = JSON.stringify(targetFriendFriendList);
-    await updateUser(state.currentUser);
-    await updateUser(targetFriend); // don t forget to update both users
+export async function initiateDeskandUser(){
+  const section = document.getElementById('globalHome');
+  let currentUser0;
+  let currentDesk0;
+    try{
+      let userName = await textNeeded( "Whats your name already ?","I don t recall you",section);
+      let pswrd = await textNeeded( "What the password","don t remember ? what a shame",section);
+      currentUser0 = await logging(userName,pswrd); 
+      ////////////////////////////////////////////////////////////////
+    //////////////////Throw new error explained /////////////////////////////
+    ////////if password is wrong there is a return object {error:'message'}////
+    //////////so it won t go into catch section if currentUser?.error means ////////
+    /////////if currentUser0 And got an error property then ==> throw new ....///////
+    ////////////////////////////////////////////////////////////////////////
+      if(currentUser0?.error) throw new Error('bad login');
+      currentDesk0 = (await getAllDesksUser(currentUser0.id))[0];
+    }catch(error){
+      currentDesk0 = await selecteDesk('desk0');
+      currentUser0 = await selectUser('user0');
+    }
+    console.log(currentUser0);
+    // await loadState(currentUser0);
+    return([currentUser0,currentDesk0]);
 }
 
-export async function sendFriendRequest(targetFriend){ // push own id in friends notif
-    let notif = JSON.parse(targetFriend.notif);
-    notif.push(state.currentUser.id);
-    targetFriend.notif = JSON.stringify(notif);
-    await updateUser(targetFriend);
-}
 
-export async function showNotif(i){
-    let globalHome = document.getElementById('globalHome');
-        if(state.currentUser.notif[0] != undefined){
-        await acceptOrDenied("will you take me as a friend ?", globalHome,
-            () => acceptFriend(state.currentUser.notif[i]), // in case of resolve()
-            () => deleteNotif(i))// in cas of denied() // need to think about no possibility to ask again ? prevents spam ?
-    }    
-}
-
-export async function deleteNotif(i){ // just cut askerId from currentuser.notif
-    let notif = JSON.parse(state.currentUser.notif);
-    notif.splice(i,1);
-    state.currentUser.notif = JSON.stringify(notif);
-    await updateUser(state.currentUser); // update in db
-}
- 

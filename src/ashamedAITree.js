@@ -1,6 +1,6 @@
 import './style/style.css';
-import { state } from './importConst.js';
-import { getAllItemFromDesk } from './queriesDb/accessQueries';
+import { state } from './constJS/exportConst.js';
+import { getAllItemFromDesk } from './queriesDb/accessQueries.js';
 
 export async function displayTree() {
 

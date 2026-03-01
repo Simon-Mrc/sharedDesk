@@ -2,13 +2,13 @@ import './style/style.css';
 import './style/animations.css';
 import './style/buttons.css';
 import './style/containers.css';
-import { initiate} from './functions.js';
-import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI. Got lazy and very not fun building process function anyway
-import { clearStateInHtml, clearStateInStorage, createUserDb, savingDesk, loadState } from './manager.js';
-import { initiateDeskandUser } from './state.js';
+import { initiate } from './desksJS/desksAndSectionDOM.js';
+import { displayTree } from './ashamedAITree.js';
+import { clearStateInHtml, clearStateInStorage, createUserDb, loadState, initiateDeskandUser } from './manager.js';
+import { savingDesk, switchDesk } from './desksJS/desksAndSectionDOM.js';
 import { showFriendMenu, showUserSetting } from './settingSections.js';
-import { state } from './importConst.js';
-import { globalHome } from "./arrayNglobalHome";
+import { state } from './constJS/exportConst.js';
+import { globalHome } from './constJS/exportConst.js';
 
 
 ////////////////// INITIALISATION ///////////////////

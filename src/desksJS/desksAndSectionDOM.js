@@ -1,11 +1,16 @@
-import { textNeeded } from './namePrompt.js';
-import { quiteSlideLeft,slideRight } from './animations.js';
-import { showContextMenu } from './creationbundle.js';
-import { clearStateInStorage } from './manager.js';
-import { createDesk, updateDesk } from './queriesDb/deskQueries.js';
-import { updateUser } from './queriesDb/userQueries.js';
-import { state} from './importConst.js';
-import { globalHome } from "./arrayNglobalHome";
+import { textNeeded } from '../namePrompt.js';
+import { quiteSlideLeft, slideRight } from '../DOMmanipJS/animations.js';
+import { showContextMenu } from '../itemsJS/fileFolderAndContextMenu.js';
+import { clearStateInStorage } from '../manager.js';
+import { createDesk, updateDesk } from '../queriesDb/deskQueries.js';
+import { updateUser } from '../queriesDb/userQueries.js';
+import { state } from '../constJS/exportConst.js';
+import { globalHome, array } from '../constJS/exportConst.js';
+import { recreateDesk } from './recreateDesk.js';         // ← for switchDesk!
+import { displayTree } from '../ashamedAITree.js';        // ← for switchDesk!
+import { createBtnWithFunction } from '../DOMmanipJS/button.js'; // ← for savingDesk!
+import { showDeskMenu } from '../settingSections.js';     // ← for savingDesk!
+
 
 export async function initiate(section){
     clearStateInStorage();
@@ -92,3 +97,38 @@ export async function createNew(section){
     return desk; // In case i ll need it !  
 };
 
+export async function switchDesk(deskGiven){
+    clearStateInStorage() ;    // BYE BYE
+    await recreateDesk(deskGiven);  // HELLO
+    await displayTree();
+    state.currentDesk = deskGiven;
+    return state.currentDesk;
+}
+export function savingDesk(){
+    if(document.getElementById(state.currentDesk.id)){ //If it is already a saved desk
+        let fullDesk = {};// create a different pointer to be putted in eventlistener btn
+        let cleanBtn = document.getElementById(state.currentDesk.id).cloneNode(true); // THIS ONE SO USEFULL copies domelement + nod
+        document.getElementById(state.currentDesk.id).replaceWith(cleanBtn);          // Replace with usefull to know to !
+        Object.assign(fullDesk,state.currentDesk); // exact copy of current desk
+        cleanBtn.addEventListener("click",()=>{
+            switchDesk(fullDesk);
+        });
+        // deskbtnSettings.addEventListener('click',()=>{
+        //     ///////// Desk Setting here ///////////
+        // }); /// need to think more about if needed to update with new content 
+    }
+    else{
+        let deskbtn = document.createElement('button');
+        let fullDesk = {}; //same as before different pointer .....
+        Object.assign(fullDesk,state.currentDesk);
+        deskbtn.addEventListener("click",()=>{
+            switchDesk(fullDesk); // ..... but same values
+        });
+        deskbtn.textContent = state.currentDesk.name;
+        deskbtn.id = state.currentDesk.id; // to check later if already existing desk ! (ealier in code tho)
+        deskbtn.classList.add("needEmpty") // to be clean out when resetting
+        document.getElementById(`myDesks`).appendChild(deskbtn);
+        let deskbtnSettings = createBtnWithFunction(document.getElementById(`myDesks`),'⚙️',()=>showDeskMenu(state.currentDesk));
+        deskbtnSettings.classList.add('needEmpty');
+    }
+}
