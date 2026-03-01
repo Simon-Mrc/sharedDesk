@@ -1,5 +1,5 @@
 import './style/style.css';
-import { state } from './main';
+import { state } from './importConst.js';
 import { getAllItemFromDesk } from './queriesDb/accessQueries';
 
 export async function displayTree() {

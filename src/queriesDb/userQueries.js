@@ -73,3 +73,17 @@ export async function createUser(user){ /// Create new user. All user object as 
         console.log('something went wrong')
     }
  }
+
+ export async function findUserByUserName(userName){
+    try{
+        let userFound = await fetch(`http://localhost:3000/users/search/${encodeURIComponent(userName)}`,{
+            method : 'GET'
+        })
+    let result = await userFound.json();
+    console.log(result);
+    return result;
+    }catch(error){
+        console.log('there is no user with this userName');
+        return null;
+    }
+ }

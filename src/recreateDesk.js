@@ -1,11 +1,12 @@
 import { quiteSlideLeft, slideRight } from "./animations";
-import { array, showContextMenu } from "./creationbundle";
+import { showContextMenu } from "./creationbundle";
 import { createNew } from "./functions";
 import { openOption } from "./helperFunctions";
-import { state } from "./main";
+import { state } from './importConst.js';
 import { textNeeded, passingInfo } from "./namePrompt";
 import { getAllItemFromDesk } from "./queriesDb/accessQueries";
 import { displayTree } from "./tree";
+import { array } from "./arrayNglobalHome";
 
 // Ok so to explain here. I basically copy/paste my previous code for setting files
 // when right clicking on screen BUT : I kept only what is data information

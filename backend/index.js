@@ -169,6 +169,18 @@ app.delete('/users/:userId',(req,res)=>{ /// This one delete a user. Only user.i
   }
 })
 
+app.get(`/users/search/:userName`,(req,res)=>{ // search user by userName return full object
+  try{
+    let userFound = db.prepare(`
+      SELECT * FROM users
+      WHERE userName = ?
+      `).get(req.params.userName);
+      return res.json(userFound)
+  }catch(error){
+    res.status(500).json({log: `failed to get item`, error: error.message});
+  }
+})
+
 app.get('/users/:userId',(req,res)=>{ // This one return the all user object using only it s id as a parameter .
   try{    // not very specific route
     let selectedUser = db.prepare(`

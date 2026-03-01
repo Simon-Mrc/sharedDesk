@@ -1,12 +1,12 @@
 import { acceptOrDenied,textNeeded } from './namePrompt.js';
-import { array } from './creationbundle.js';
 import { recreateDesk } from './recreateDesk.js';
 import { displayTree } from './tree.js';
 import { createUser, selectUser, updateUser } from './queriesDb/userQueries.js';
 import { getAllDesksUser, selecteDesk } from './queriesDb/deskQueries.js';
-import { state } from './main.js';
 import { createBtnWithFunction } from './button.js';
 import { showDeskMenu } from './settingSections.js';
+import { state} from './importConst.js';
+import { array} from "./arrayNglobalHome";
 
 export function clearStateInStorage(){
     let wipe = document.getElementById('globalHome');
@@ -153,7 +153,8 @@ export async function showNotif(){
 }
 
 export async function deleteNotif(){ // just cut askerId from currentuser.notif
-    state.currentUser.notif.splice(0,1);
+    let notif = JSON.parse(state.currentUser.notif).splice(0,1);
+    state.currentUser.notif = JSON.stringify(notif);
     await updateUser(state.currentUser); // update in db
 }
  

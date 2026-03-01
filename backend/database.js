@@ -18,7 +18,7 @@ db.exec(`
       name              TEXT NOT NULL,
       userName          TEXT UNIQUE NOT NULL,
       id                TEXT PRIMARY KEY,
-      accountType       TEXT CHECK(accountType IN ('admin','user')) DEFAULT 'user',
+      accountType       TEXT CHECK(accountType IN ('admin','user','premium')) DEFAULT 'user',
       mail              TEXT UNIQUE NOT NULL,
       password          TEXT NOT NULL,  
       friendList        TEXT DEFAULT '[]',  

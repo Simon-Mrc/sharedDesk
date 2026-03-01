@@ -16,3 +16,11 @@ export function createBtn(section,text){
     section.appendChild(btn);
     return btn;
 }
+
+export function createInput(section,placeHolder){
+    let input = document.createElement('input');
+    input.classList.add('container-input');
+    input.placeholder = placeHolder;
+    section.appendChild(input);
+    return input;
+}

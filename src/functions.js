@@ -2,10 +2,11 @@ import { textNeeded } from './namePrompt.js';
 import { quiteSlideLeft,slideRight } from './animations.js';
 import { showContextMenu } from './creationbundle.js';
 import { clearStateInStorage } from './manager.js';
-import { globalHome,state } from './main.js';
 import { createDesk, updateDesk } from './queriesDb/deskQueries.js';
 import { updateUser } from './queriesDb/userQueries.js';
-//
+import { state} from './importConst.js';
+import { globalHome } from "./arrayNglobalHome";
+
 export async function initiate(section){
     clearStateInStorage();
     try{  // Obvioulsy need the data so we await lazy user to choose name

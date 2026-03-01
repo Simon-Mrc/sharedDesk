@@ -7,19 +7,13 @@ import { displayTree } from './tree.js'; // bit ashamed .... this one is full AI
 import { clearStateInHtml, clearStateInStorage, createUserDb, savingDesk, loadState } from './manager.js';
 import { initiateDeskandUser } from './state.js';
 import { showUserSetting } from './settingSections.js';
+import { state } from './importConst.js';
+import { globalHome } from "./arrayNglobalHome";
 
 
 ////////////////// INITIALISATION ///////////////////
 clearStateInHtml();
 clearStateInStorage();
-
-////////////////////////// EXPORT SECTION ///////////////////
-export const globalHome = document.getElementById(`globalHome`);
-let result = await initiateDeskandUser();
-export const state = {
-  currentUser: result[0],
-  currentDesk: result[1] || {}
-}
 
 /////////////////////////////////////////////////////////
 ///////////////BTN ATTRIBUTION SECTION //////////////////

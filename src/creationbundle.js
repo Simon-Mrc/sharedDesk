@@ -5,15 +5,8 @@ import { createNew } from './functions.js';
 import { displayTree } from './tree.js';
 import { checkAccess } from './queriesDb/accessQueries.js';
 import { createItem } from './queriesDb/itemQueries.js';
-import { state } from './main.js';
-
-// This array is gonna fill up with section as DOM element 
-// it s used to search and find right section to display 
-// the dataset.id of the section = id of folder it s coming from
-// the container(DOM object representing folder object) s'id = folders'id
-// and container.dataset.index = place in array 
-// so when you double click on a folder, it checks its datasetindex, and load DOM element in the right position of array. 
-export let array = [];
+import { state } from './importConst.js';
+import { array} from "./arrayNglobalHome";
 
 ////////////////////////////////////////////////////////////////
 ////////////////////////// FILE CREATION HERE /////////////////

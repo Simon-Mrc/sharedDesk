@@ -1,7 +1,8 @@
-import { loadState } from "./manager";
+
 import { textNeeded } from "./namePrompt";
 import { getAllDesksUser, selecteDesk } from "./queriesDb/deskQueries";
 import { selectUser, logging  } from "./queriesDb/userQueries";
+
 
 ///////////// Logging section /////// BACK END WORK ? /////////////
 export async function initiateDeskandUser(){
@@ -25,7 +26,7 @@ export async function initiateDeskandUser(){
       currentUser0 = await selectUser('user0');
     }
     console.log(currentUser0);
-    await loadState(currentUser0);
+    // await loadState(currentUser0);
     return([currentUser0,currentDesk0]);
 }
 
