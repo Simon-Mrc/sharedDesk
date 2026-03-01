@@ -180,7 +180,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #1e1e1e;
+  background: #6b5858;
   border: 1px solid #5b7ae5;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(91, 122, 229, 0.25);
@@ -199,3 +199,18 @@
   white-space: nowrap;
 }
 
+.divYesOrNo {
+  grid-column: 1 / -1;  /* ← spans BOTH columns! */
+  width: 100%;
+  text-align: center;
+  padding: 8px 4px 12px 4px;
+  border-bottom: 1px solid #eee; /* ← nice separator from buttons! */
+}
+
+.divYesOrNo p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  line-height: 1.4;
+}

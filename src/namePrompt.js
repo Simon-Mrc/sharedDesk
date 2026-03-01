@@ -270,7 +270,7 @@ export function quickMessage(text){
         setTimeout(()=>{
             wrapper.remove();
             resolve(); //So satisfying !
-        },1500)
+        },2000)
     })
 }
 
@@ -286,7 +286,33 @@ export function yesOrNoPrompt(section,btn1text,btn2text,function1,function2){
             resolve();
         })
         btn2.addEventListener('click',()=>{
-            cleanUp;
+            cleanUp();
+            function2();
+            resolve();
+        })
+    })
+}
+
+
+export function yesOrNoPromptWithText(section,text,btn1text,btn2text,function1,function2){
+    return new Promise((resolve) => {
+        let {container,cleanUp} = createContainer(section);
+        container.style.zIndex = 1001;
+        let divContainer = document.createElement('div');
+        divContainer.classList.add('divYesOrNo');
+        let p = document.createElement('p');
+        p.innerText = text;
+        divContainer.appendChild(p);
+        container.appendChild(divContainer);
+        let btn1 = createBtn(container,btn1text);
+        let btn2 = createBtn(container,btn2text);
+        btn1.addEventListener('click',()=>{
+            cleanUp();
+            function1();
+            resolve();
+        })
+        btn2.addEventListener('click',()=>{
+            cleanUp();
             function2();
             resolve();
         })

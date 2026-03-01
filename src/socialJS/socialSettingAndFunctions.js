@@ -5,6 +5,12 @@ import { state } from '../constJS/exportConst.js';
 import { sendFriendRequest, showNotif } from '../socialJS/socialLife.js';
 import { globalHome } from '../constJS/exportConst.js';
 
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////FUNCTIONS SECTION ///////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+
+
 ///////////////////DISPLAY NOTIF FUNCTION//////////////////
 export function displayNotif(){
     return new Promise(async(resolve) => { // u set a new promise here because you want a manual exit !    
@@ -43,14 +49,16 @@ export function displayFriendSearch(inputValue){
             }
             else{
                 let {container, cleanUp} = createContainer(globalHome);
-                if(!allFriendFound.length){allFriendFound=[allFriendFound]};
+                if(!allFriendFound.length){allFriendFound=[allFriendFound]}; // !allfriend.length only 1 friendid in search
                 for(let i = 0 ; i<allFriendFound.length; i = i + 1){
                     console.log('testloop');
                     let friendIbtn = createBtnWithFunction(container,allFriendFound[i].userName,async()=>{
-                        await yesOrNoPrompt(container,'SendFriendRequest','Cancel',
-                            ()=> sendFriendRequest(allFriendFound[i]),
-                            ()=> null
+                        container.style.display = 'none';
+                        await yesOrNoPrompt(globalHome,'SendFriendRequest','Cancel',
+                            ()=> {sendFriendRequest(allFriendFound[i])},
+                            ()=> {null}
                         )
+                        container.style.display = '';
                     })
                 }
                 let closeBtn = createBtn(container,"Close");
@@ -67,9 +75,10 @@ export function displayFriendSearch(inputValue){
 }
 
 
-/////////////////////////////////////////////////////////
-///////////////SOCIAL MANAGMENT DISPLAY////////////////
-/////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////SOCIAL MANAGMENT DISPLAY/////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+
 export async function showFriendMenu(section){
     ///////////////CONTAINER CREATION ///////////////////
     let {container , cleanUp} = createContainer(section);
@@ -88,9 +97,6 @@ export async function showFriendMenu(section){
         await displayFriendSearch(input.value);
         showFriendMenu(section);
     })
-
-    // friend container with displayed result and from there
-    // send friend request
 
     ///////////////CURRENT FRIEND //////////////
     // display all friend of user with little btn for setting
