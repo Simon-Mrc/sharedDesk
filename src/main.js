@@ -10,7 +10,6 @@ import { showUserSetting } from './settingSections.js';
 import { state } from './constJS/exportConst.js';
 import { globalHome } from './constJS/exportConst.js';
 import { showFriendMenu } from './socialJS/socialSettingAndFunctions.js';
-import { yesOrNoPromptWithText } from './namePrompt.js';
 
 
 ////////////////// INITIALISATION ///////////////////

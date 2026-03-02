@@ -228,6 +228,17 @@ app.get('/users/:userId',(req,res)=>{
 })
 
 ////////////// DESK SIDE ////////////
+app.delete(`/desks/kill/:deskId`,(req,res)=>{
+  try{
+    db.prepare(`
+      DELETE FROM desks
+      WHERE id = ?
+      `).run(req.params.deskId)
+      res.json({log: 'User deleted'});
+    }catch(error){
+      res.status(500).json({log: `failed to delete user`, error: error.message});
+    }
+})
 
 app.get(`/desks/user/:userId`,(req,res)=>{
   try{
@@ -318,6 +329,31 @@ app.get(`/desks/:id`,(req,res)=>{
 })
 
 ////////////// ACCESS QUERIES SIDE ////////////////
+app.post(`/deskAccess/accessType`,(req,res)=>{
+  try{
+    const {userId, deskId} = req.body;
+    let access = db.prepare(`
+      SELECT accessType FROM deskAccess
+      WHERE userId = ? AND deskId = ?
+      `).get(userId, deskId);
+    return res.json(access);
+  }catch(error){
+    res.status(500).json({log: `failed to get access`, error: error.message});
+  }
+})
+app.put(`/deskAccess/deskId/accessType/:userId`,(req,res)=>{
+  try{
+    const {accessType, deskId} = req.body;
+    db.prepare(`
+      UPDATE deskAccess
+      SET accessType = ?
+      WHERE userId = ? AND deskId = ?
+      `).run(accessType, req.params.userId, deskId);
+    res.json({log: 'Modify done'});
+  }catch(error){
+    res.status(500).json({log: `failed to update access type`, error: error.message});
+  }
+})
 
 app.get(`/deskAccess/items/:deskId`,(req,res)=>{
   try{
@@ -331,18 +367,6 @@ app.get(`/deskAccess/items/:deskId`,(req,res)=>{
   }
 })
 
-app.post(`/deskAccess/accessType`,(req,res)=>{
-  try{
-    const {userId, deskId} = req.body;
-    let access = db.prepare(`
-      SELECT accessType FROM deskAccess
-      WHERE userId = ? AND deskId = ?
-      `).get(userId, deskId);
-    return res.json(access);
-  }catch(error){
-    res.status(500).json({log: `failed to get access`, error: error.message});
-  }
-})
 
 app.delete('/deskAccess/:deskId',(req,res)=>{
   try{
@@ -385,19 +409,6 @@ app.post(`/deskAccess/:userId`,(req,res)=>{
   }
 })
 
-app.put(`/deskAccess/accessType/:userId`,(req,res)=>{
-  try{
-    const {accessType, deskId} = req.body;
-    db.prepare(`
-      UPDATE deskAccess
-      SET accessType = ?
-      WHERE userId = ? AND deskId = ?
-      `).run(accessType, req.params.userId, deskId);
-    res.json({log: 'Modify done'});
-  }catch(error){
-    res.status(500).json({log: `failed to update access type`, error: error.message});
-  }
-})
 
 app.get(`/deskAccess/user/:userId`,(req,res)=>{ // get all desk that user can access !
   try{

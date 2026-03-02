@@ -49,6 +49,7 @@ export async function createUserDb(section){
 
 // Carefull there you need full user object for function // not just id
 export async function loadState(user){ // Here user.desks is actually ids ! not the full desk
+    state.currentUser = user;
     console.log("Starting loading state");
     clearStateInStorage(); // thought it would be better for storage managment.
     clearStateInHtml();
@@ -60,7 +61,8 @@ export async function loadState(user){ // Here user.desks is actually ids ! not 
     }
     else{
         for(let desk of allUserDesks) { // This assign all buttons to desks of certain user
-            let fullDesk = await selecteDesk(desk.deskId)
+            let fullDesk = await selecteDesk(desk.deskId);
+            state.currentDesk = fullDesk;
             let deskbtn = document.createElement('button');
             let deskbtnSettings = document.createElement('button');
             ////////////////RECREATEDESK//////////////////
@@ -135,7 +137,7 @@ export async function initiateDeskandUser(){
     /////////if currentUser0 And got an error property then ==> throw new ....///////
     ////////////////////////////////////////////////////////////////////////
       if(currentUser0?.error) throw new Error('bad login');
-      currentDesk0 = (await getAllDeskSharedUser(currentUser0.id))[0];
+      currentDesk0 = await selecteDesk((await getAllDeskSharedUser(currentUser0.id))[0].deskId); //lazyasfckmenotproudofthis
     }catch(error){
       currentDesk0 = await selecteDesk('desk0');
       currentUser0 = await selectUser('user0');

@@ -1,0 +1,19 @@
+javascript deeper:
+- error handling patterns!
+- array methods!        ← .map .filter .reduce!
+- promises deeper!      ← Promise.all !
+- modules pattern!      
+- closures!             
+
+backend deeper:
+- database migrations!  ← mailbox will teach this!
+- transactions!         ← multiple queries at once!
+- proper MVC structure! ← routes/controllers/models!
+- .env properly!        ← before deploy!
+- JWT tokens!           ← replace login system!
+
+CSS deeper:
+- flexbox properly!
+- grid!
+- responsive design!    
+- CSS variables!

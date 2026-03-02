@@ -97,7 +97,7 @@ export async function getAllDeskSharedUser(userId){
 
 export async function changePermission(accessType,userId,deskId){
     try{
-        let result = await fetch(`http://localhost:3000/deskAccess/accessType/${userId}`,{
+        let result = await fetch(`http://localhost:3000/deskAccess/deskId/accessType/${userId}`,{
             method : 'PUT',
             headers : {'content-type' : 'application/json'},
             body : JSON.stringify({accessType,deskId})
@@ -107,3 +107,4 @@ export async function changePermission(accessType,userId,deskId){
         console.log('Not given permission');
     }
 }
+

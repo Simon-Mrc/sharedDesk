@@ -74,3 +74,15 @@ export async function createDesk(desk){ // Return nothing // Create a desk with
         console.log('something went awefully wrong ..look behind you !!')
     }
  }
+
+ export async function killDeskDb(deskId){
+    try{console.log('test2');
+        let result = await fetch(`http://localhost:3000/desks/kill/${encodeURIComponent(deskId)}`,{
+            method : 'DELETE'
+        })
+        console.log('test1');
+        return
+    }catch(error){
+        console.log('not current desk with this id')
+    }
+ }
