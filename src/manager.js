@@ -3,6 +3,8 @@ import { createUser, logging, selectUser, updateUser } from './queriesDb/userQue
 import { getAllDesksUser, selecteDesk } from './queriesDb/deskQueries.js';
 import { state, array } from './constJS/exportConst.js';
 import { switchDesk } from './desksJS/desksAndSectionDOM.js';
+import { showDeskMenu } from './desksJS/deskSetting.js';
+import { getAllDeskSharedUser } from './queriesDb/accessQueries.js';
 
 
 export function clearStateInStorage(){
@@ -49,7 +51,7 @@ export async function loadState(user){ // Here user.desks is actually ids ! not 
     console.log("Starting loading state");
     clearStateInStorage(); // thought it would be better for storage managment.
     clearStateInHtml();
-    let allUserDesks = await getAllDesksUser(user.id);
+    let allUserDesks = await getAllDeskSharedUser(user.id);
     console.log(user);
     if(allUserDesks == undefined){
         console.log("User has no current desk");
@@ -57,23 +59,28 @@ export async function loadState(user){ // Here user.desks is actually ids ! not 
     }
     else{
         for(let desk of allUserDesks) { // This assign all buttons to desks of certain user
+            let fullDesk = await selecteDesk(desk.deskId)
             let deskbtn = document.createElement('button');
             let deskbtnSettings = document.createElement('button');
-            let fullDesk = await selecteDesk(desk.id);
-            console.log(fullDesk);
+            ////////////////RECREATEDESK//////////////////
             deskbtn.addEventListener("click",()=>{
                 switchDesk(fullDesk);
             })
+            //////////// Desk Setting here ////////////////
             deskbtnSettings.addEventListener('click',()=>{
-                ///////// Desk Setting here ///////////
-            })
+                showDeskMenu(fullDesk);
+            });
+            ///////////////////////////////////////////////
             deskbtn.innerText = fullDesk.name;
             deskbtn.id = fullDesk.id;
             deskbtnSettings.innerText = "⚙️";
             deskbtnSettings.classList.add('needEmpty');
             deskbtn.classList.add("needEmpty"); // for reset when switching users
-            deskbtn.style.backgroundColor=state.currentUser.userColor;
-            deskbtnSettings.style.backgroundColor=state.currentUser.userColor;
+            /////////////GIVING BTN CREATOR COLOR///////////////
+            let creatorUser = await selectUser(fullDesk.ownerId);
+            deskbtn.style.backgroundColor=creatorUser.userColor;
+            deskbtnSettings.style.backgroundColor=creatorUser.userColor;
+            ////////////////////////////////////////////////////////////
             document.getElementById("myDesks").appendChild(deskbtn);
             document.getElementById("myDesks").appendChild(deskbtnSettings);
         };
@@ -100,7 +107,7 @@ export async function initiateDeskandUser(){
     /////////if currentUser0 And got an error property then ==> throw new ....///////
     ////////////////////////////////////////////////////////////////////////
       if(currentUser0?.error) throw new Error('bad login');
-      currentDesk0 = (await getAllDesksUser(currentUser0.id))[0];
+      currentDesk0 = (await getAllDeskSharedUser(currentUser0.id))[0];
     }catch(error){
       currentDesk0 = await selecteDesk('desk0');
       currentUser0 = await selectUser('user0');

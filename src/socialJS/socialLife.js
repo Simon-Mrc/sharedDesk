@@ -1,4 +1,4 @@
-import { acceptOrDenied, quickMessage, yesOrNoPromptWithText } from '../namePrompt.js';
+import {  quickMessage, yesOrNoPromptWithText } from '../namePrompt.js';
 import { selectUser, updateUser } from '../queriesDb/userQueries.js';
 import { state } from '../constJS/exportConst.js';
 import { globalHome } from '../constJS/exportConst.js';
@@ -65,3 +65,4 @@ export async function deleteNotif(i){ // just cut askerId from currentuser.notif
     await updateUser(state.currentUser); // update in db
 }
  
+

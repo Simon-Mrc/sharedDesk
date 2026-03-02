@@ -34,7 +34,7 @@ export async function createUser(user){ /// Create new user. All user object as 
     }
  }
 
- export async function updateUser(user){
+ export async function updateUser(user){ //Update user
     try{
         let updatedUser = await fetch(`http://localhost:3000/users/${encodeURIComponent(user.id)}`,{
             method : 'PUT',
@@ -81,7 +81,7 @@ export async function createUser(user){ /// Create new user. All user object as 
     }
  }
 
- export async function findUserByUserName(userName){
+ export async function findUserByUserName(userName){ // Return user object by userName
     try{
         let userFound = await fetch(`http://localhost:3000/users/search/${encodeURIComponent(userName)}`,{
             method : 'GET'
@@ -109,3 +109,11 @@ export async function createUser(user){ /// Create new user. All user object as 
         return null;
     }
  }
+
+//  export async function getAllFriend(currentUser){
+//     try{
+//         let allFriend = await fetch(`http://localhost:3000/friends/users/${currentUser.id}`,{
+//             method : ''
+//         })
+//     }
+//  } stupid as fck me writing routes when it s not needed

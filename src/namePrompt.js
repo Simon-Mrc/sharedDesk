@@ -267,10 +267,12 @@ export function quickMessage(text){
         message.classList.add('quickMessage');
         message.innerText = text;
         messageContainer.appendChild(message);
+        document.body.style.pointerEvents = 'none';
         setTimeout(()=>{
+            document.body.style.pointerEvents = '';
             wrapper.remove();
             resolve(); //So satisfying !
-        },2000)
+        },3000)
     })
 }
 

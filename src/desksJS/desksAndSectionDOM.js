@@ -104,7 +104,7 @@ export async function switchDesk(deskGiven){
     state.currentDesk = deskGiven;
     return state.currentDesk;
 }
-export function savingDesk(){
+export async function savingDesk(){
     if(document.getElementById(state.currentDesk.id)){ //If it is already a saved desk
         let fullDesk = {};// create a different pointer to be putted in eventlistener btn
         let cleanBtn = document.getElementById(state.currentDesk.id).cloneNode(true); // THIS ONE SO USEFULL copies domelement + nod
@@ -113,7 +113,7 @@ export function savingDesk(){
         cleanBtn.addEventListener("click",()=>{
             switchDesk(fullDesk);
         });
-        cleanBtn.style.backgroundColor = state.currentUser.userColor; 
+        
         // deskbtnSettings.addEventListener('click',()=>{
         //     ///////// Desk Setting here ///////////
         // }); /// need to think more about if needed to update with new content 
@@ -122,16 +122,24 @@ export function savingDesk(){
         let deskbtn = document.createElement('button');
         let fullDesk = {}; //same as before different pointer .....
         Object.assign(fullDesk,state.currentDesk);
+        ////////////////RECREATEDESK//////////////////
         deskbtn.addEventListener("click",()=>{
             switchDesk(fullDesk); // ..... but same values
         });
+        ///////////////// Desk Setting here //////////////////
+        deskbtnSettings.addEventListener('click',()=>{
+            showDeskMenu(fullDesk);
+        })
+        ////////////////////////////////////////////////////////
         deskbtn.textContent = state.currentDesk.name;
         deskbtn.id = state.currentDesk.id; // to check later if already existing desk ! (ealier in code tho)
         deskbtn.classList.add("needEmpty") // to be clean out when resetting
         document.getElementById(`myDesks`).appendChild(deskbtn);
         let deskbtnSettings = createBtnWithFunction(document.getElementById(`myDesks`),'⚙️',()=>showDeskMenu(state.currentDesk));
         deskbtnSettings.classList.add('needEmpty');
-        deskbtn.style.backgroundColor=state.currentUser.userColor;
-        deskbtnSettings.style.backgroundColor=state.currentUser.userColor;
+        let creatorUser = await selectUser(fullDesk.ownerId)
+        
+        deskbtn.style.backgroundColor=creatorUser.userColor;
+        deskbtnSettings.style.backgroundColor=creatorUser.userColor;
     }
 }

@@ -83,7 +83,7 @@ export async function showUserSetting(section){
 
 
     //////////////////CHANGE MAIL /////////////////////////
-    createBtn(container,"Change change password");
+    createBtn(container,"Change password");
 
 
     //////////////////SUBSCRIBE TO PREMIUM/////////////////////////

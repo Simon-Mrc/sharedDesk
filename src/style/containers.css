@@ -186,7 +186,7 @@
   box-shadow: 0 8px 24px rgba(91, 122, 229, 0.25);
   padding: 20px 32px;
   z-index: 2000;
-  animation: fadeInOut 1.5s ease forwards;
+  animation: fadeInOut 2.5s ease forwards;
 }
 
 .quickMessage {

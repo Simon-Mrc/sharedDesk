@@ -357,12 +357,14 @@ app.delete('/deskAccess/:deskId',(req,res)=>{
   }
 })
 
+
 app.get(`/deskAccess/:deskId`,(req,res)=>{
   try{
     let allUserFromDesk = db.prepare(`
       SELECT * FROM deskAccess
       WHERE deskId = ?
       `).all(req.params.deskId);
+    console.log(allUserFromDesk);
     return res.json(allUserFromDesk);
   }catch(error){
     res.status(500).json({log: `failed to get desk access`, error: error.message});
@@ -383,7 +385,7 @@ app.post(`/deskAccess/:userId`,(req,res)=>{
   }
 })
 
-app.put(`/deskAccess/type/:userId`,(req,res)=>{
+app.put(`/deskAccess/accessType/:userId`,(req,res)=>{
   try{
     const {accessType, deskId} = req.body;
     db.prepare(`
@@ -392,6 +394,33 @@ app.put(`/deskAccess/type/:userId`,(req,res)=>{
       WHERE userId = ? AND deskId = ?
       `).run(accessType, req.params.userId, deskId);
     res.json({log: 'Modify done'});
+  }catch(error){
+    res.status(500).json({log: `failed to update access type`, error: error.message});
+  }
+})
+
+app.get(`/deskAccess/user/:userId`,(req,res)=>{ // get all desk that user can access !
+  try{
+    let arrayOfDesk = db.prepare(`
+      SELECT deskId FROM deskAccess
+      WHERE userId = ?
+      `).all(req.params.userId);
+      console.log(arrayOfDesk);
+      return res.json(arrayOfDesk);
+  }catch(error){
+    res.status(500).json({log: `failed to update access type`, error: error.message});
+  }
+})
+
+app.put(`/deskAccess/accessType`,(req,res)=>{
+  try{
+    const {accessType,userId} = req.body;
+    db.prepare(`
+      UPDATE deskAccess SET
+      accessType = ?
+      WHERE userId = ?
+      `).run(accessType,userId);
+      console.log('permission changed')
   }catch(error){
     res.status(500).json({log: `failed to update access type`, error: error.message});
   }

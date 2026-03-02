@@ -81,3 +81,29 @@ export async function checkAccess(userId,deskId){ // return the access type (mod
         console.log('user probably doesn t exist',error)
     }
 }
+
+export async function getAllDeskSharedUser(userId){
+    try{
+        let arrayOfDesks = await fetch(`http://localhost:3000/deskAccess/user/${encodeURIComponent(userId)}`,{
+            method : 'GET'
+        });
+        let result = await arrayOfDesks.json();
+        console.log(result);
+        return result;
+    }catch(error){
+        console.log(error);
+    }
+}
+
+export async function changePermission(accessType,userId,deskId){
+    try{
+        let result = await fetch(`http://localhost:3000/deskAccess/accessType/${userId}`,{
+            method : 'PUT',
+            headers : {'content-type' : 'application/json'},
+            body : JSON.stringify({accessType,deskId})
+        })
+        console.log('permissionchanged');
+    }catch(error){
+        console.log('Not given permission');
+    }
+}
