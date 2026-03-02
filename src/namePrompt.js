@@ -1,3 +1,4 @@
+import { globalHome } from "./constJS/exportConst.js";
 import { createBtn } from "./DOMmanipJS/button.js";
 
 
@@ -272,7 +273,7 @@ export function quickMessage(text){
             document.body.style.pointerEvents = '';
             wrapper.remove();
             resolve(); //So satisfying !
-        },3000)
+        },3500)
     })
 }
 
@@ -317,6 +318,44 @@ export function yesOrNoPromptWithText(section,text,btn1text,btn2text,function1,f
             cleanUp();
             function2();
             resolve();
+        })
+    })
+}
+
+export function chooseBetween(text,options){
+    return new Promise((resolve) => {
+        let {container,cleanUp} = createContainer(globalHome);
+        container.style.zIndex = 1001;
+        for(let i =0 ; i < options.length ; i = i + 1){
+            let btn = createBtn(container,text[i]);
+            btn.addEventListener('click',()=>{
+                cleanUp();
+                options[i]();
+                resolve(text[i]);
+            })
+        }
+        let closeBtn = createBtn(container,"Close Menu");
+        closeBtn.addEventListener('click',()=>{
+            cleanUp();
+        })
+    })
+}
+
+export function initiatePrompt(text,options){
+    return new Promise((resolve) => {
+        let {container,cleanUp} = createContainer(globalHome);
+        container.style.zIndex = 1001;
+        for(let i =0 ; i < options.length ; i = i + 1){
+            let btn = createBtn(container,text[i]);
+            btn.addEventListener('click',()=>{
+                cleanUp();
+                options[i]();
+                resolve(text[i]);
+            })
+        }
+        let closeBtn = createBtn(container,"Close Menu");
+        closeBtn.addEventListener('click',()=>{
+            cleanUp();
         })
     })
 }

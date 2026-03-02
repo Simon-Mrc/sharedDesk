@@ -1,10 +1,11 @@
-import { textNeeded } from './namePrompt.js';
+import { createContainer, quickMessage, textNeeded } from './namePrompt.js';
 import { createUser, logging, selectUser, updateUser } from './queriesDb/userQueries.js';
-import { getAllDesksUser, selecteDesk } from './queriesDb/deskQueries.js';
-import { state, array } from './constJS/exportConst.js';
+import { selecteDesk } from './queriesDb/deskQueries.js';
+import { state, array, globalHome } from './constJS/exportConst.js';
 import { switchDesk } from './desksJS/desksAndSectionDOM.js';
 import { showDeskMenu } from './desksJS/deskSetting.js';
 import { getAllDeskSharedUser } from './queriesDb/accessQueries.js';
+import { createBtnWithFunction } from './DOMmanipJS/button.js';
 
 
 export function clearStateInStorage(){
@@ -78,14 +79,41 @@ export async function loadState(user){ // Here user.desks is actually ids ! not 
             deskbtn.classList.add("needEmpty"); // for reset when switching users
             /////////////GIVING BTN CREATOR COLOR///////////////
             let creatorUser = await selectUser(fullDesk.ownerId);
-            deskbtn.style.backgroundColor=creatorUser.userColor;
-            deskbtnSettings.style.backgroundColor=creatorUser.userColor;
+            deskbtn.style.boxShadow = `0 4px 10px ${creatorUser.userColor}`;
+            deskbtnSettings.style.boxShadow = `0 4px 10px ${creatorUser.userColor}`;
             ////////////////////////////////////////////////////////////
             document.getElementById("myDesks").appendChild(deskbtn);
             document.getElementById("myDesks").appendChild(deskbtnSettings);
         };
     }
 }
+
+export async function firstTime(section){
+    return new Promise((resolve, reject) => {
+        let {container , cleanUp} = createContainer(section);
+        container.classList.add("containerInit");
+        let loggingbtn = createBtnWithFunction(container,'Log IN if you dare',
+            async()=>{let userName = await textNeeded('Give your userName','UserName',section);
+                let password = await textNeeded('Enter password, not too loud tho','password i m not looking',section);
+                let user = await logging(userName,password);
+                console.log(user);
+                if(user?.id){
+                    cleanUp();
+                    loadState(user);
+                    return;
+                }
+                else{
+                    quickMessage('Try again but not too much');
+                }
+    
+            }
+        )
+        let createNewUserBtn = createBtnWithFunction(container,'Create new user',
+            ()=>createUserDb(globalHome))
+            loggingbtn.classList.add('buttonInit');
+            createNewUserBtn.classList.add('buttonInit');
+    }
+)}
 
 // Again we need full targetUser object for this function
 export async function changeUser(targetUser){ // Not sure if this function will find use

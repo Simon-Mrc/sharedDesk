@@ -25,7 +25,7 @@ export function displayNotif(){
             for(let i = 0 ; i<allNotif.length; i = i +1){
                 let targetFriend = (await selectUser(allNotif[i]));
                 let notifBtn = createBtn(container,`Invite from ${targetFriend.userName}`);
-                notifBtn.style.backgroundColor = targetFriend.userColor;
+                notifBtn.style.boxShadow = `0 4px 10px ${targetFriend.userColor}`;
                 notifBtn.addEventListener('click',async()=>{
                     await showNotif(i);
                 })
@@ -53,8 +53,6 @@ export function displayFriendSearch(inputValue){
                 let {container, cleanUp} = createContainer(globalHome);
                 if(!allFriendFound.length){allFriendFound=[allFriendFound]}; // !allfriend.length only 1 friendid in search
                 for(let i = 0 ; i<allFriendFound.length; i = i + 1){
-                    console.log('testloop');
-                    console.log(allFriendFound[i]);
                     let friendIbtn = createBtnWithFunction(container,allFriendFound[i].userName,async()=>{
                         container.style.display = 'none';
                         await yesOrNoPrompt(globalHome,'SendFriendRequest','Cancel',
@@ -63,8 +61,7 @@ export function displayFriendSearch(inputValue){
                         )
                         container.style.display = '';
                     })
-                    friendIbtn.style.backgroundColor = allFriendFound[i].userColor;
-                    console.log('test passage');
+                    friendIbtn.style.boxShadow = `0 4px 10px ${allFriendFound[i].userColor}`;
                 }
                 let closeBtn = createBtn(container,"Close");
                 closeBtn.addEventListener('click',()=>{

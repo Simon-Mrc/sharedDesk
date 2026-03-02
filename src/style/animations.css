@@ -84,8 +84,8 @@
 }
 @keyframes fadeInOut {
   0%   { opacity: 0; transform: translate(-50%, -55%); }
-  20%  { opacity: 1; transform: translate(-50%, -50%); }
-  70%  { opacity: 1; transform: translate(-50%, -50%); }
+  10%  { opacity: 1; transform: translate(-50%, -50%); }
+  90%  { opacity: 1; transform: translate(-50%, -50%); }
   100% { opacity: 0; transform: translate(-50%, -45%); }
 }
 .exist{
@@ -128,7 +128,7 @@
 
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
 }
 

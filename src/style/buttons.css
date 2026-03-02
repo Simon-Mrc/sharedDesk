@@ -128,11 +128,11 @@ button {
 
   #myDesks button {
     width: 95%;
-    color: #3b5f82;
+    color: #00182f;
     padding: 8px 10px;
     text-align: left;
-    background: #9bb3f0;
-    border: 1px solid #e0e0e0;
+    background: #becef4;
+    border: 3px solid #dcc4c4;
     border-radius: 6px;
     cursor: pointer;
     font-size: 13px;
@@ -150,3 +150,18 @@ button {
     color: #5b7ae5;
   }
   
+  .buttonInit {
+    background-color: #697bbc;
+    color: rgb(228, 194, 194);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: 1px solid #ff6f6f;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(91, 122, 229, 0.2);
+    margin: 4px;
+  }

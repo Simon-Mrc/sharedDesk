@@ -4,17 +4,19 @@ import './style/buttons.css';
 import './style/containers.css';
 import { initiate } from './desksJS/desksAndSectionDOM.js';
 import { displayTree } from './ashamedAITree.js';
-import { clearStateInHtml, clearStateInStorage, createUserDb, loadState, initiateDeskandUser } from './manager.js';
+import { clearStateInHtml, clearStateInStorage, createUserDb, loadState, initiateDeskandUser, firstTime } from './manager.js';
 import { savingDesk } from './desksJS/desksAndSectionDOM.js';
 import { showUserSetting } from './settingSections.js';
 import { state } from './constJS/exportConst.js';
 import { globalHome } from './constJS/exportConst.js';
 import { showFriendMenu } from './socialJS/socialSettingAndFunctions.js';
+import { yesOrNoPromptWithText } from './namePrompt.js';
 
 
 ////////////////// INITIALISATION ///////////////////
 clearStateInHtml();
 clearStateInStorage();
+firstTime(globalHome);
 
 /////////////////////////////////////////////////////////
 ///////////////BTN ATTRIBUTION SECTION //////////////////

@@ -64,7 +64,7 @@ body {
 }
 
 #sideBar.expanded {
-  width: 330px;           /* fixed px better than vw for sidebar */
+  width: 360px;           /* fixed px better than vw for sidebar */
   overflow-y: auto;       /* allow scroll only when expanded */
 }
 
