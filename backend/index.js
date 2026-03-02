@@ -13,19 +13,13 @@ const rateLimit = require('express-rate-limit');
 
 // ← add this right after your app.use(express.json()) line!
 
-const globalLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // ← 15 minutes window!
-    max: 100,                  // ← 100 requests per window!
-    message: {error: 'Too many requests, slow down!'}
-});
-
 const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // ← 15 minutes window!
     max: 10,                   // ← only 10 login attempts!
     message: {error: 'Too many login attempts, try later!'}
 });
 
-app.use(globalLimiter);  // ← applies to ALL routes!
+  // ← applies to ALL routes!
 
 
 ///// METHOD FOR ITEMS /////

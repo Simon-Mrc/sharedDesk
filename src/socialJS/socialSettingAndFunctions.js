@@ -1,6 +1,6 @@
 import { createBtn, createBtnWithFunction, createInput } from '../DOMmanipJS/button.js';
 import { createContainer, quickMessage, yesOrNoPrompt } from '../namePrompt.js';
-import { findUserByNameUserNameId } from '../queriesDb/userQueries.js';
+import { findUserByNameUserNameId, selectUser } from '../queriesDb/userQueries.js';
 import { state } from '../constJS/exportConst.js';
 import { sendFriendRequest, showNotif } from '../socialJS/socialLife.js';
 import { globalHome } from '../constJS/exportConst.js';
@@ -23,7 +23,9 @@ export function displayNotif(){
         else{
             let {container , cleanUp} = createContainer(globalHome);
             for(let i = 0 ; i<allNotif.length; i = i +1){
-                let notifBtn = createBtn(container,`Invite from ${allNotif[i]}`);
+                let targetFriend = (await selectUser(allNotif[i]));
+                let notifBtn = createBtn(container,`Invite from ${targetFriend.userName}`);
+                notifBtn.style.backgroundColor = targetFriend.userColor;
                 notifBtn.addEventListener('click',async()=>{
                     await showNotif(i);
                 })
@@ -52,6 +54,7 @@ export function displayFriendSearch(inputValue){
                 if(!allFriendFound.length){allFriendFound=[allFriendFound]}; // !allfriend.length only 1 friendid in search
                 for(let i = 0 ; i<allFriendFound.length; i = i + 1){
                     console.log('testloop');
+                    console.log(allFriendFound[i]);
                     let friendIbtn = createBtnWithFunction(container,allFriendFound[i].userName,async()=>{
                         container.style.display = 'none';
                         await yesOrNoPrompt(globalHome,'SendFriendRequest','Cancel',
@@ -60,6 +63,8 @@ export function displayFriendSearch(inputValue){
                         )
                         container.style.display = '';
                     })
+                    friendIbtn.style.backgroundColor = allFriendFound[i].userColor;
+                    console.log('test passage');
                 }
                 let closeBtn = createBtn(container,"Close");
                 closeBtn.addEventListener('click',()=>{

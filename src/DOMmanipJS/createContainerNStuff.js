@@ -1,4 +1,6 @@
-export function createColorPicker(container, defaultColor = "#5caf7c") {
+import { state } from "../constJS/exportConst";
+
+export function createColorPicker(container, defaultColor = "#d654a4") {
     let input = document.createElement("input");
     input.type = "color";
     input.value = defaultColor;

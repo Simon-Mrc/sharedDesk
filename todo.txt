@@ -1,10 +1,3 @@
-Rest of day : - create container and prompt for unused btn to fill with functions ✅: 70% ❌ :30%
-              - then create all the functions !
-
--- build account settings UI ✅ : 30% ❌:70%
-- build social/friends UI✅ : 20% ❌:80%
-- duplicate feature✅ : 0% ❌ : 100%
-- color picker for user✅ : 100% 
-
+#1 : Work all the sharedDesk system !! I mean it the name of the project  ✅:0%      ❌:100%
 
 ❌  ✅ 

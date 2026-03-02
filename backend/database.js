@@ -6,12 +6,12 @@ db.pragma('foreign_keys = ON');
 //////////////////////////RESET TABLES //////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 
-db.exec(`
-  DROP TABLE IF EXISTS items;
-  DROP TABLE IF EXISTS deskAccess;
-  DROP TABLE IF EXISTS desks;
-  DROP TABLE IF EXISTS users
-  `);
+// db.exec(`
+//   DROP TABLE IF EXISTS items;
+//   DROP TABLE IF EXISTS deskAccess;
+//   DROP TABLE IF EXISTS desks;
+//   DROP TABLE IF EXISTS users
+//   `);
 
 db.exec(`
       CREATE TABLE IF NOT EXISTS users(

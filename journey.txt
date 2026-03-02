@@ -1,4 +1,18 @@
-//////////////////////////////////DAY 11 ///////////////////////////////////
+//////////////////////////////////DAY 9 & 10 ///////////////////////////////
+Spent all weekend working on css / Environment / reviewing script and reordering files.
+quite a long and not so interesting process but damned it feels good to have all things in place.
+Next time i ll have to it from start ! Put some security for the password too and have thing set up
+for further protection (maximum operation // verifications at creation // ..) that i ll implement
+later on. Started the work on all setting section and social functionnalities too ! also did 
+countless minor fixes for users to have a nice experience and for the entire project to be rock
+solide (case of reject from db return null taken into considerations in front js).
+still got a lot to learn about code writing and optimisation. 
+I feel like my code is more  structured and it feels good ! still plenty of good habits i have to 
+learn tho !
+Starting week with main feature ! SharedDesk ! everything in place for it to be implemented and nice to 
+test !
+
+//////////////////////////////////DAY 8 ///////////////////////////////////
 Environment starts to look great . Fixed many many minor but important issues imported with 
 database back switch . Learned a freaking lot with this project this is amazing. 
 Gotta be carefull with url path and id attribution. make those clean because it s hard to track
@@ -9,7 +23,7 @@ But today was really a good day so far // i was a bit afraid to make the switch 
 20 more or so hours just fixing and finding all bugs and at a point i felt like i wasn t gonna make it
 let ' s go on !
 
-//////////////////////////////////////DAY 10 ///////////////////////////////////////////
+//////////////////////////////////////DAY 7 ///////////////////////////////////////////
 Finally managed it !! 60hours in 3 days but i m there ! back and front connected and (almost) working.
 Desks, users, item, deskAccess currently getting stored as they re supposed to
 not tested the recreation process rn.

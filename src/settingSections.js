@@ -5,7 +5,7 @@ import { state } from './constJS/exportConst.js';
 import { createColorPicker } from './DOMmanipJS/createContainerNStuff.js';
 import { getAllItems, updateItem } from './queriesDb/itemQueries.js';
 import { recreateDesk } from './desksJS/recreateDesk.js';
-import { clearStateInStorage } from './manager.js';
+import { clearStateInStorage, loadState } from './manager.js';
 
 /////////////////////CHANGE NAME CHECK FUNCTION ////////////////////
 export function changeName(newName){ 
@@ -52,10 +52,7 @@ export async function showUserSetting(section){
 
     //////////////////CHANGE COLOR SECTION /////////////////////////
     let colorBtn = createBtn(container,"Choose a new color");
-    let colorContainer = createColorPicker(container,state.currentUser.color);
-    colorContainer.addEventListener('input', () => {
-        console.log("Live color:", colorContainer.value);
-    });
+    let colorContainer = createColorPicker(container,state.currentUser.userColor);
     colorBtn.addEventListener('click',async ()=>{
         let selectedColor = colorContainer.value;
         state.currentUser.userColor = selectedColor;
@@ -68,6 +65,7 @@ export async function showUserSetting(section){
         cleanUp();
         clearStateInStorage();// really need to clean those up
         document.body.style.pointerEvents = 'none';
+        await loadState(state.currentUser);
         await recreateDesk(state.currentDesk);
         setTimeout(() => { // time for user to actually see changes
             showUserSetting(section);

@@ -113,6 +113,7 @@ export function savingDesk(){
         cleanBtn.addEventListener("click",()=>{
             switchDesk(fullDesk);
         });
+        cleanBtn.style.backgroundColor = state.currentUser.userColor; 
         // deskbtnSettings.addEventListener('click',()=>{
         //     ///////// Desk Setting here ///////////
         // }); /// need to think more about if needed to update with new content 
@@ -130,5 +131,7 @@ export function savingDesk(){
         document.getElementById(`myDesks`).appendChild(deskbtn);
         let deskbtnSettings = createBtnWithFunction(document.getElementById(`myDesks`),'⚙️',()=>showDeskMenu(state.currentDesk));
         deskbtnSettings.classList.add('needEmpty');
+        deskbtn.style.backgroundColor=state.currentUser.userColor;
+        deskbtnSettings.style.backgroundColor=state.currentUser.userColor;
     }
 }

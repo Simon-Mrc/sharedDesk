@@ -68,9 +68,12 @@ export async function loadState(user){ // Here user.desks is actually ids ! not 
                 ///////// Desk Setting here ///////////
             })
             deskbtn.innerText = fullDesk.name;
+            deskbtn.id = fullDesk.id;
             deskbtnSettings.innerText = "⚙️";
             deskbtnSettings.classList.add('needEmpty');
             deskbtn.classList.add("needEmpty"); // for reset when switching users
+            deskbtn.style.backgroundColor=state.currentUser.userColor;
+            deskbtnSettings.style.backgroundColor=state.currentUser.userColor;
             document.getElementById("myDesks").appendChild(deskbtn);
             document.getElementById("myDesks").appendChild(deskbtnSettings);
         };
